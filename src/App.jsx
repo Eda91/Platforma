@@ -1,14 +1,15 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MapView from "./Map";
+import Lista from "./Lista";
 
 export default function App() {
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      <header style={{ padding: "10px", background: "#1e293b", color: "#fff" }}>
-        <h2>Harta Kadastrale Online</h2>
-      </header>
-
-      <MapView />
-    </div>
+    <Router basename="/Platforma">
+      <Routes>
+        <Route path="/" element={<MapView />} />
+        <Route path="/lista" element={<Lista />} />
+      </Routes>
+    </Router>
   );
 }
