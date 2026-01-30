@@ -3,6 +3,13 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
 
+// Fix marker icons for GitHub Pages
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: import.meta.env.BASE_URL + "images/marker-icon-2x.png",
+  iconUrl: import.meta.env.BASE_URL + "images/marker-icon.png",
+  shadowUrl: import.meta.env.BASE_URL + "images/marker-shadow.png",
+});
 // Helper to check valid polygons
 function isValidPolygonGeometry(g) {
   return (
@@ -23,6 +30,7 @@ function extractOwnersFromPronaret(text = "") {
     })
     .filter(Boolean);
 }
+
 
 // Table styles
 const thStyle = { border: "1px solid #ccc", padding: "6px", textAlign: "left" };
@@ -66,7 +74,11 @@ export default function MapView() {
     labelLayerRef.current = L.layerGroup().addTo(map);
 
     const baseStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.2 };
-    const files = ["/geojson/loti5.geojson", "/geojson/loti6.geojson"];
+  const files = [
+  import.meta.env.BASE_URL + "geojson/loti5.geojson",
+  import.meta.env.BASE_URL + "geojson/loti6.geojson",
+];
+
 
     Promise.all(files.map((f) => fetch(f).then((r) => r.json())))
       .then((datasets) => {
@@ -227,11 +239,8 @@ export default function MapView() {
           className="sidebar"
           style={{ width: "350px", overflowY: "auto", padding: "10px" }}
         >
-          <img
-            src="/images/logo.jpg"
-            alt="Logo"
-            style={{ width: "320px", marginBottom: "20px" }}
-          />
+          <img src={import.meta.env.BASE_URL + "images/logo.jpg"} style={{width:"320px"}}alt="Logo" />
+
           <p>
             Faza e Afishimit Publik për procesin e Regjistrimit Fillestar zgjat
             për 45 ditë nga momenti i publikimit.

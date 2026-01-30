@@ -1,10 +1,12 @@
-/* Siguron full screen për harta dhe root container */
+/* -------------------
+   Root & map
+-------------------- */
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* shmang scrollbar */
+  overflow: hidden; /* hide scrollbar */
 }
 
 body {
@@ -14,85 +16,14 @@ body {
   min-height: 100vh;
 }
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-}
-
 #map {
-  flex: 1;       /* take remaining width in flex layout */
-  height: 100%;  /* fill container height */
-  z-index: 0;    /* behind sidebar */
+  flex: 1;
+  z-index: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-.parcel-tooltip {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: #ffcc00 !important;
-  text-align: center;
-  font-weight: bold;
-  font-size: 13px;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-  pointer-events: none;
-  line-height: 1.2;
-}
-
-.hidden-tooltip {
-  display: none !important;
-}
-
-.parcel-area {
-  font-weight: normal;
-  font-size: 11px;
-}
+/* -------------------
+   Sidebar
+-------------------- */
 .sidebar {
   width: 320px;
   padding: 15px;
@@ -100,9 +31,8 @@ button:focus-visible {
   font-family: Arial, sans-serif;
   box-shadow: 2px 0 5px rgba(0,0,0,0.15);
   overflow-y: auto;
-
-  position: relative;  /* ✅ make sure it’s above the map */
-  z-index: 1000;       /* ✅ ensures inputs are clickable */
+  position: relative;
+  z-index: 1000;
 }
 
 .sidebar h3 {
@@ -114,19 +44,19 @@ button:focus-visible {
 
 .sidebar input {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   background: #fcfcfc;
-   color: black;
+  color: black;
 }
 
 .sidebar button {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
   font-size: 14px;
   margin-bottom: 10px;
   border: none;
@@ -134,142 +64,142 @@ button:focus-visible {
   color: white;
   border-radius: 4px;
   cursor: pointer;
+  transition: background 0.2s;
 }
-
 .sidebar button:hover {
   background-color: #0056b3;
 }
 
-.search-results {
-  list-style: none;
-  padding: 0;
+
+.leaflet-control-attribution { display: none; }
+/* -------------------
+   Footer
+-------------------- */
+footer {
+  background-color: #1e293b;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+footer p {
   margin: 0;
-  max-height: 250px;
-  overflow-y: auto;
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: white;
 }
 
-.search-results li {
-  padding: 6px 8px;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-  font-size: 14px;
-  color: #333;
-}
-
-.search-results li:hover {
-  background-color: #e9ecef;
-}
-
-/* Simple loading spinner */
-.loading-spinner {
-  margin-top: 10px;
-  font-size: 18px;
-  color: #333;
-  font-weight: bold;
-}
-
-.loading-spinner::after {
-  content: "…";
-  animation: loadingAnimation 1s infinite steps(3);
-}
-
-p{
-  color: #000;
-}
-
-.leaflet-control-attribution {
-  display: none;
-}
-
-
-/* Nr_Pasurie label inside polygon */
+/* -------------------
+   Parcel labels / Leaflet
+-------------------- */
+.parcel-tooltip,
 .leaflet-tooltip.parcel-label {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   font-weight: bold;
-  color: black;
+  color: black !important;
   font-size: 12px;
   pointer-events: none;
   text-align: center;
+  line-height: 1.2;
 }
 
-.parcel-label {
-  font-size: 11px;
-  font-weight: bold;
-  color: black;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+/* -------------------
+   Loading animation
+-------------------- */
+.loading-spinner::after {
+  content: "…";
+  animation: loadingAnimation 1s infinite steps(3);
 }
-
-.parcel-tooltip {
-  font-size: 12px;
-  line-height: 1.3;
-}
-/* FOOTER CONTAINER */
-footer {
-  background-color: #1e293b;
-  color: white;
-  text-align: center;
-  padding: 1rem 0;       /* responsive padding */
-  font-size: 0.9rem;     /* base font size */
-  width: 100%;
-  flex-shrink: 0;        /* stay at bottom if using flex layout */
-  box-sizing: border-box;
-}
-
-/* FOOTER TEXT */
-footer p {
-  margin: 0;
-  font-size: 0.8rem;      /* smaller text */
-  font-style: italic;
-  line-height: 1.4;       /* better readability */
-  color: white;
-}
-
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 768px) {
-  footer {
-    padding: 0.8rem 0;     /* smaller padding on tablets */
-  }
-  footer p {
-    font-size: 0.75rem;    /* smaller text on mobile */
-  }
-}
-
-@media (max-width: 480px) {
-  footer {
-    padding: 0.6rem 0;     /* very small padding for small screens */
-  }
-  footer p {
-    font-size: 0.7rem;     /* small mobile font */
-  }
-}
-
-
 @keyframes loadingAnimation {
   0% { content: "…"; }
   33% { content: ".."; }
   66% { content: "."; }
   100% { content: "…"; }
 }
-/* Responsive for phone screens */
+
+/* -------------------
+   Modal table
+-------------------- */
+.modal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.modal table th,
+.modal table td {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+.modal table th {
+  background-color: #f1f5f9;
+}
+.modal table td {
+  vertical-align: top;
+}
+/* horizontal scroll for mobile */
+.modal table-wrapper {
+  overflow-x: auto;
+}
+
+/* -------------------
+   Responsive
+-------------------- */
+/* -------------------
+   Modal adjustments for mobile only
+-------------------- */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: 200px;
-    box-shadow: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+  .modal {
+    width: 90%;          /* modal width fits mobile screen */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px;
+    max-height: 70vh;    /* vertical scroll if content too tall */
   }
- #map {
-    flex: 1;
-    height: calc(100% - 200px); /* sidebar height */
+
+  .modal .table-wrapper {
+    overflow-x: auto;    /* horizontal scroll */
   }
-  .sidebar input, .sidebar button {
-    font-size: 16px;
+
+  .modal table {
+    font-size: 12px;
+    min-width: 500px;    /* allows horizontal scroll */
+  }
+
+  .modal table th,
+  .modal table td {
+    padding: 5px;
+  }
+
+  .modal button {
+    font-size: 16px;     /* easier to tap close button */
   }
 }
+
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;          /* almost full screen */
+    padding: 8px;
+    max-height: 65vh;
+  }
+
+  .modal table {
+    font-size: 11px;
+    min-width: 450px;    /* horizontal scroll */
+  }
+
+  .modal table th,
+  .modal table td {
+    padding: 4px 5px;
+  }
+
+  .modal button {
+    font-size: 18px;     /* bigger tap area */
+  }
+}
+

@@ -92,7 +92,11 @@ export default function Lista() {
 
   /* -------- Load GeoJSON -------- */
   useEffect(() => {
-    const files = ["/geojson/loti5.geojson", "/geojson/loti6.geojson"];
+const files = [
+  import.meta.env.BASE_URL + "geojson/loti5.geojson",
+  import.meta.env.BASE_URL + "geojson/loti6.geojson",
+];
+
 
     Promise.all(files.map((f) => fetch(f).then((r) => r.json())))
       .then((datasets) => {
