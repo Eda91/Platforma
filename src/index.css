@@ -6,7 +6,7 @@ html, body, #root {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* hide scrollbar */
+  overflow-y: auto; 
 }
 
 body {
@@ -164,8 +164,6 @@ footer p {
    MOBILE STYLES
 -------------------- */
 @media (max-width: 768px) {
-
-@media (max-width: 768px) {
   #app-container {
     flex-direction: column; /* Sidebar lart, map poshtë */
   }
@@ -176,17 +174,21 @@ footer p {
     margin-bottom: 10px;
   }
 
-  #map {
+  
+     #map {
     width: 100%;
-    height: 300px; /* lartësi e përshtatur për mobile */
+    height: 520px;           /* më e madhe */
     margin-top: 10px;
+    overflow-y: auto;        /* ASHENSOR */
+    border-radius: 12px;
   }
+  
 
   /* Për input & button */
   .sidebar input, .sidebar button {
     width: 100%;
   }
-}
+
 
 
   /* SEARCH CARD FULL WIDTH */
@@ -211,8 +213,11 @@ footer p {
 
   /* MODAL TABLE */
   .modal table-wrapper {
-    overflow-x: auto;    /* scroll horizontal */
+    width: 85%;
+    margin: 0 auto;          /* QENDËR */
+    overflow-x: auto;        /* scroll horizontal nëse duhet */
   }
+  
 
   .modal table {
     font-size: 12px;
