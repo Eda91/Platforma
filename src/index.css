@@ -174,7 +174,7 @@ footer p {
   /* ---------- MAP ---------- */
   #map {
     width: 100%;
-    height: 60vh;
+    height: 75vh;
     border-radius: 12px;
     overflow: hidden;
   }
@@ -226,7 +226,7 @@ footer p {
 @media (max-width: 480px) {
 
   #map {
-    height: 55vh;
+    height: 75vh;
   }
 
   .modal {
