@@ -3,42 +3,61 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
 
-// Fix marker icons for GitHub Pages
+/* FIX MARKER ICONS */
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: import.meta.env.BASE_URL + "images/marker-icon-2x.png",
   iconUrl: import.meta.env.BASE_URL + "images/marker-icon.png",
   shadowUrl: import.meta.env.BASE_URL + "images/marker-shadow.png",
 });
-// Helper to check valid polygons
+
+/* HELPERS */
 function isValidPolygonGeometry(g) {
-  return (
-    g &&
-    ((g.type === "Polygon" && g.coordinates?.[0]?.length >= 4) ||
-      (g.type === "MultiPolygon" && g.coordinates?.[0]?.[0]?.length >= 4))
-  );
+  return g && (g.type === "Polygon" || g.type === "MultiPolygon");
 }
 
-// Extract owners from text
 function extractOwnersFromPronaret(text = "") {
   return text
     .split(",")
     .map((o) => {
-      const parts = o.trim().split(" ");
-      if (parts.length >= 2) return (parts[0] + " " + parts[1]).toLowerCase();
-      return null;
+      const p = o.trim().split(" ");
+      return p.length >= 2 ? (p[0] + " " + p[1]).toLowerCase() : null;
     })
     .filter(Boolean);
 }
 
-
-// Table styles
+/* TABLE STYLES */
 const thStyle = { border: "1px solid #ccc", padding: "6px", textAlign: "left" };
 const tdStyle = {
   border: "1px solid #ddd",
   padding: "6px",
   verticalAlign: "top",
 };
+
+/* FIELD MAP - fleksibël për JSON të ndryshme */
+const fieldMap = {
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER"],
+  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas"],
+  Vol: ["Vol", "VOL", "vol"],
+  Faqe: ["Faqe", "FAQE", "faqe"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA"],
+  Kufizimet: ["Kufizimet", "KUFIZIMET", "kufizimet", "KUFIZIM_E", "KUFIZIM_D"],
+  Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA"],
+};
+
+/* HELPER TO GET FIELD VALUE */
+function getFieldValue(obj, keys) {
+  if (!obj) return undefined;
+  if (!Array.isArray(keys)) keys = [keys];
+
+  for (let key of keys) {
+    if (obj[key] !== undefined && obj[key] !== null) {
+      return obj[key];
+    }
+  }
+  return undefined;
+}
 
 export default function MapView() {
   const mapRef = useRef(null);
@@ -53,17 +72,18 @@ export default function MapView() {
   const modalRef = useRef(null);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
-  const [allData, setAllData] = useState([]);
 
-  // Load GeoJSONs
+  /* ================= MAP INIT ================= */
   useEffect(() => {
+    if (mapRef.current) return;
+
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
 
-    const map = L.map(mapContainer, { preferCanvas: true }).setView(
-      [41.0, 20.0],
-      7.5,
-    );
+    const map = L.map(mapContainer, {
+      preferCanvas: false,
+    }).setView([41.0, 20.0], 7.5);
+
     mapRef.current = map;
 
     L.tileLayer(
@@ -73,88 +93,163 @@ export default function MapView() {
 
     labelLayerRef.current = L.layerGroup().addTo(map);
 
-    const baseStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.2 };
-  const files = [
-  import.meta.env.BASE_URL + "geojson/loti5.geojson",
-  import.meta.env.BASE_URL + "geojson/loti6.geojson",
-];
+    const parcelStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.25 };
+    const buildingStyle = { color: "green", weight: 1, fillOpacity: 0.5 };
 
+    const files = [
+      {
+        url: import.meta.env.BASE_URL + "geojson/loti5.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/loti6.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PARCELA_MLIZ_.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/NDERTESA_MLIZ_.geojson",
+        type: "building",
+      },
+    ];
 
-    Promise.all(files.map((f) => fetch(f).then((r) => r.json())))
-      .then((datasets) => {
-        const allFeatures = datasets.flatMap((d) => d.features || []);
-        const validFeatures = allFeatures.filter((f) =>
+    Promise.all(
+      files.map((f) =>
+        fetch(f.url)
+          .then((r) => r.json())
+          .then((data) => ({ ...f, data })),
+      ),
+    ).then((layers) => {
+      const allFeatures = [];
+
+      layers.forEach(({ data, type }) => {
+        const validFeatures = (data.features || []).filter((f) =>
           isValidPolygonGeometry(f.geometry),
         );
 
-        validFeatures.forEach((f) => {
-          const p = f.properties || {};
-          f.zk = (p.Zk_Numer ?? "").trim();
-          f.owners = extractOwnersFromPronaret(p.Pronaret ?? "");
-          f._layer = null;
+        L.geoJSON(validFeatures, {
+          style: type === "building" ? buildingStyle : parcelStyle,
 
-          const bounds = L.geoJSON(f).getBounds();
-          f._label = L.marker(bounds.getCenter(), {
-            interactive: true,
-            icon: L.divIcon({
-              className: "parcel-label",
-              html: p.Nr_Pas ?? "-",
-            }),
-          });
+          onEachFeature: (feature, layer) => {
+            feature._layer = layer;
+            feature.type = type;
 
-          f._label.on("click", () => {
-            L.popup()
-              .setLatLng(bounds.getCenter())
-              .setContent(
-                `
-                <div>
-                  <div><strong>ZK:</strong> ${p.Zk_Numer ?? "-"}</div>
-                  <div><strong>Nr. Pasurie:</strong> ${p.Nr_Pas ?? "-"}</div>
-                  <div><strong>Pronarët:</strong> ${p.Pronaret ?? "-"}</div>
-                  <div><strong>Sipërfaqe:</strong> ${p.Siperfaqe ?? "-"}</div>
-                </div>
-              `,
-              )
-              .openOn(map);
-          });
-        });
+            const props = feature.properties || {};
 
-        featuresRef.current = validFeatures;
-        setAllData(validFeatures.map((f) => f.properties));
+            // Normalized properties me fallback për Zk_Emer
+            feature.normalized = {
+              Zk_Numer: getFieldValue(props, fieldMap.Zk_Numer),
+              Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer) || "MLIZ", // fallback këtu
+              Nr_Pas: getFieldValue(props, fieldMap.Nr_Pas),
+              Vol: getFieldValue(props, fieldMap.Vol),
+              Faqe: getFieldValue(props, fieldMap.Faqe),
+              Pronaret: getFieldValue(props, fieldMap.Pronaret),
+              Kufizimet: [
+                getFieldValue(props, ["KUFIZIM_E"]),
+                getFieldValue(props, ["KUFIZIM_D"]),
+                getFieldValue(props, fieldMap.Kufizimet),
+              ]
+                .filter((v) => v && v !== "-")
+                .join(" | "),
+              Siperfaqe: getFieldValue(props, fieldMap.Siperfaqe),
+            };
 
-        if (validFeatures.length > 0) {
-          L.geoJSON(validFeatures, {
-            style: baseStyle,
-            smoothFactor: 1.5,
-            onEachFeature: (feature, layer) => (feature._layer = layer),
-          }).addTo(map);
-        }
-      })
-      .catch(console.error);
+            // Unified property extraction me fallback
+            feature.zk =
+              getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim() || "-";
+            feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
+            feature.owners = extractOwnersFromPronaret(
+              getFieldValue(props, fieldMap.Pronaret) || "-",
+            );
 
-    // Label update
+            // Fallback për Zk_Emer në debug
+            const zkEmerValue =
+              getFieldValue(props, fieldMap.Zk_Emer) || "MLIZ";
+            console.log("ZK EMER:", zkEmerValue);
+
+            // LABELS
+            if (
+              (type === "parcel" || type === "building") &&
+              feature.nrPas !== "-" &&
+              layer.getBounds
+            ) {
+              try {
+                const bounds = layer.getBounds();
+                if (bounds && bounds.isValid()) {
+                  const center = bounds.getCenter();
+                  let offsetY = type === "building" ? 12 : 0;
+
+                  feature._label = L.marker(center, {
+                    interactive: false,
+                    icon: L.divIcon({
+                      className: "parcel-label",
+                      html: `<div style="font-size:12px;font-weight:bold;white-space:nowrap;color:black;">${feature.nrPas}</div>`,
+                      iconSize: [0, 0],
+                      iconAnchor: [0, 0],
+                    }),
+                  });
+                }
+              } catch (e) {}
+            }
+
+            // CLICK POPUP
+            layer.on("click", () => {
+              let popupHtml = "";
+              for (const key in feature.normalized) {
+                popupHtml += `<b>${key.replace("_", " ")}:</b> ${feature.normalized[key]}<br/>`;
+              }
+              layer.bindPopup(popupHtml || "Nuk ka të dhëna").openPopup();
+            });
+
+            allFeatures.push(feature);
+          },
+        }).addTo(map);
+      });
+
+      featuresRef.current = allFeatures;
+      updateLabels();
+    });
+
+    /* ===== LABEL UPDATE ==== */
     let timeout = null;
-    const updateLabels = () => {
+
+    function updateLabels() {
+      if (!labelLayerRef.current) return;
+
       if (timeout) return;
       timeout = setTimeout(() => {
         labelLayerRef.current.clearLayers();
-        if (map.getZoom() >= 9) {
+
+        if (map.getZoom() >= 14) {
           const bounds = map.getBounds();
+
           featuresRef.current.forEach((f) => {
-            if (f._layer && bounds.contains(f._layer.getBounds().getCenter())) {
+            if (
+              f._layer &&
+              f._label &&
+              bounds.contains(f._layer.getBounds().getCenter())
+            ) {
               labelLayerRef.current.addLayer(f._label);
             }
           });
         }
+
         timeout = null;
       }, 50);
-    };
+    }
+
     map.on("zoomend moveend", updateLabels);
 
-    return () => map.remove();
+    return () => {
+      map.off();
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
 
-  // Handle search
+  /* ================= SEARCH ================= */
   const handleSearch = () => {
     const zkVal = zk.trim().toLowerCase();
     const ownerVal = owner.trim().toLowerCase();
@@ -175,7 +270,7 @@ export default function MapView() {
       if (!f._layer) return false;
       const zkMatch = zkVal ? f.zk.toLowerCase().includes(zkVal) : true;
       const ownerMatch = ownerVal
-        ? f.owners.some((o) => o.toLowerCase().includes(ownerVal))
+        ? f.owners.some((o) => o.includes(ownerVal))
         : true;
       return zkMatch && ownerMatch;
     });
@@ -188,7 +283,7 @@ export default function MapView() {
     }
 
     setMessage("");
-    setResults(matches.map((f) => f.properties));
+    setResults(matches.map((f) => f.normalized));
     setShowResultsModal(true);
 
     matches.forEach(
@@ -203,7 +298,7 @@ export default function MapView() {
     );
   };
 
-  // Drag modal
+  /* ================= MODAL DRAG ================= */
   const onMouseDown = (e) => {
     dragging.current = true;
     const rect = modalRef.current.getBoundingClientRect();
@@ -225,38 +320,39 @@ export default function MapView() {
     };
   }, []);
 
+  /* ================= RENDER ================= */
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* MAP AND SIDEBAR */}
-      <div style={{ display: "flex", flex: 1 }}>
+      <div id="app-container" style={{ display: "flex", flex: 1 }}>
+        {/* SIDEBAR */}
         <div
           className="sidebar"
           style={{ width: "350px", overflowY: "auto", padding: "10px" }}
         >
-          <img src={import.meta.env.BASE_URL + "images/logo.jpg"} style={{width:"320px"}}alt="Logo" />
+          <img
+            src={import.meta.env.BASE_URL + "images/logo.jpg"}
+            style={{ width: "320px" }}
+            alt="Logo"
+          />
 
           <p>
             Faza e Afishimit Publik për procesin e Regjistrimit Fillestar zgjat
             për 45 ditë nga momenti i publikimit.
           </p>
+
           <p style={{ fontSize: "12px" }}>
             Ju mund të konsultoni afishimet fizikisht edhe pranë Njësisë
-            Administrative përkatëse. Për çdo paqartësi, pretendim apo kërkesë
-            për saktësim, mund të paraqisni një kërkesë me shkrim pranë zyrave
-            ku është kryer afishimi publik brenda afatit 45 ditor.
+            Administrative përkatëse...
           </p>
+
+          {/* SEARCH CARD */}
           <div
             style={{
               maxWidth: "380px",
               margin: "20px auto",
               padding: "20px",
-              backgroundColor: "#ffffff",
+              backgroundColor: "#fff",
               borderRadius: "12px",
               boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
             }}
@@ -268,18 +364,16 @@ export default function MapView() {
             <input
               placeholder="Zona Kadastrale *"
               value={zk}
-              required
               onChange={(e) => setZk(e.target.value)}
               style={{
                 width: "100%",
                 padding: "10px",
-                marginBottom: "4px", // smaller gap before message
+                marginBottom: "4px",
                 borderRadius: "6px",
                 border: "1px solid #ccc",
                 fontSize: "14px",
               }}
             />
-            {/* Message for Zona Kadastrale */}
             {!zk && (
               <div
                 style={{ color: "red", fontSize: "13px", marginBottom: "12px" }}
@@ -291,7 +385,6 @@ export default function MapView() {
             <input
               placeholder="Emri dhe Mbiemri i Pronarit *"
               value={owner}
-              required
               onChange={(e) => setOwner(e.target.value)}
               style={{
                 width: "100%",
@@ -302,7 +395,6 @@ export default function MapView() {
                 fontSize: "14px",
               }}
             />
-            {/* Message for Emri dhe Mbiemri */}
             {!owner && (
               <div
                 style={{ color: "red", fontSize: "13px", marginBottom: "18px" }}
@@ -334,7 +426,7 @@ export default function MapView() {
 
           {/* OPEN NEW PAGE */}
           <button
-            onClick={() => window.open("/lista", "_blank")}
+            onClick={() => window.open("/Platforma/#/lista", "_blank")}
             style={{
               marginTop: "14px",
               display: "inline-flex",
@@ -363,6 +455,7 @@ export default function MapView() {
           </button>
         </div>
 
+        {/* MAP */}
         <div id="map" style={{ flex: 1 }} />
       </div>
 
@@ -386,7 +479,7 @@ export default function MapView() {
             color: "white",
           }}
         >
-          Të gjitha të drejtat e rezervuara për &#169; Agjencinë Shtetërore të
+          Të gjitha të drejtat e rezervuara për © Agjencinë Shtetërore të
           Kadastrës
         </p>
       </footer>
@@ -439,47 +532,65 @@ export default function MapView() {
             >
               ✕
             </button>
-
             <h3 style={{ marginBottom: "10px" }}>Rezultatet e Kërkimit</h3>
-
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                fontSize: "13px",
-              }}
-            >
-              <thead>
-                <tr style={{ background: "#f1f5f9" }}>
-                  <th style={thStyle}>ZK</th>
-                  <th style={thStyle}>Zona</th>
-                  <th style={thStyle}>Nr. Pasurie</th>
-                  <th style={thStyle}>Vol</th>
-                  <th style={thStyle}>Faqe</th>
-                  <th style={thStyle}>Pronarët</th>
-                  <th style={thStyle}>Kufizimet</th>
-                  <th style={thStyle}>Sipërfaqe</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {results.map((r, idx) => (
-                  <tr
-                    key={idx}
-                    style={{ background: idx % 2 ? "#fafafa" : "#fff" }}
-                  >
-                    <td style={tdStyle}>{r.Zk_Numer}</td>
-                    <td style={tdStyle}>{r.Zk_Emer}</td>
-                    <td style={tdStyle}>{r.Nr_Pas}</td>
-                    <td style={tdStyle}>{r.Vol}</td>
-                    <td style={tdStyle}>{r.Faqe}</td>
-                    <td style={tdStyle}>{r.Pronaret}</td>
-                    <td style={tdStyle}>{r.Kufizimet}</td>
-                    <td style={tdStyle}>{r.Siperfaqe}</td>
+            <div className="table-wrapper">
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  fontSize: "13px",
+                }}
+              >
+                <thead>
+                  <tr style={{ background: "#f1f5f9" }}>
+                    <th style={thStyle}>ZK</th>
+                    <th style={thStyle}>Zona</th>
+                    <th style={thStyle}>Nr. Pasurie</th>
+                    <th style={thStyle}>Vol</th>
+                    <th style={thStyle}>Faqe</th>
+                    <th style={thStyle}>Pronarët</th>
+                    <th style={thStyle}>Kufizimet</th>
+                    <th style={thStyle}>Sipërfaqe</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {results.map((r, idx) => (
+                    <tr
+                      key={idx}
+                      style={{
+                        background: idx % 2 ? "#fafafa" : "#fff",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <td style={tdStyle} data-label="ZK">
+                        {r.Zk_Numer}
+                      </td>
+                      <td style={tdStyle} data-label="Zona">
+                        {r.Zk_Emer}
+                      </td>
+                      <td style={tdStyle} data-label="Nr. Pasurie">
+                        {r.Nr_Pas}
+                      </td>
+                      <td style={tdStyle} data-label="Vol">
+                        {r.Vol}
+                      </td>
+                      <td style={tdStyle} data-label="Faqe">
+                        {r.Faqe}
+                      </td>
+                      <td style={tdStyle} data-label="Pronarët">
+                        {r.Pronaret}
+                      </td>
+                      <td style={tdStyle} data-label="Kufizimet">
+                        {r.Kufizimet}
+                      </td>
+                      <td style={tdStyle} data-label="Sipërfaqe">
+                        {r.Siperfaqe}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

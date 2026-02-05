@@ -3,7 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://username.github.io/Platforma",
+ "homepage": "https://Eda91.github.io/Platforma",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",

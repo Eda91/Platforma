@@ -22,6 +22,14 @@ body {
 }
 
 /* -------------------
+   Container for sidebar + map
+-------------------- */
+#app-container {
+  display: flex;
+  flex: 1;
+}
+
+/* -------------------
    Sidebar
 -------------------- */
 .sidebar {
@@ -152,23 +160,63 @@ footer p {
 -------------------- */
 /* -------------------
    Modal adjustments for mobile only
+/* -------------------
+   MOBILE STYLES
 -------------------- */
 @media (max-width: 768px) {
-  .modal {
-    width: 90%;          /* modal width fits mobile screen */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px;
-    max-height: 70vh;    /* vertical scroll if content too tall */
+
+@media (max-width: 768px) {
+  #app-container {
+    flex-direction: column; /* Sidebar lart, map poshtë */
   }
 
-  .modal .table-wrapper {
-    overflow-x: auto;    /* horizontal scroll */
+  .sidebar {
+    width: 100%;
+    box-shadow: none;
+    margin-bottom: 10px;
+  }
+
+  #map {
+    width: 100%;
+    height: 300px; /* lartësi e përshtatur për mobile */
+    margin-top: 10px;
+  }
+
+  /* Për input & button */
+  .sidebar input, .sidebar button {
+    width: 100%;
+  }
+}
+
+
+  /* SEARCH CARD FULL WIDTH */
+  .sidebar > div {
+    width: 95%;
+    margin: 0 auto 20px auto;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    border-radius: 12px;
+  }
+
+  /* INPUTS & BUTTONS BIGGER TAP AREA */
+  .sidebar input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .sidebar button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  /* MODAL TABLE */
+  .modal table-wrapper {
+    overflow-x: auto;    /* scroll horizontal */
   }
 
   .modal table {
     font-size: 12px;
-    min-width: 500px;    /* allows horizontal scroll */
+    min-width: 500px;    /* horizontal scroll */
   }
 
   .modal table th,
@@ -176,21 +224,73 @@ footer p {
     padding: 5px;
   }
 
-  .modal button {
-    font-size: 16px;     /* easier to tap close button */
+  .modal {
+    width: 90%;
+    max-height: 70%;
+    padding: 12px;
   }
+
+.table-wrapper table,
+  .table-wrapper thead,
+  .table-wrapper tbody,
+  .table-wrapper th,
+  .table-wrapper td,
+  .table-wrapper tr {
+    display: block;
+    width: 70%;
+  }
+
+  .table-wrapper thead {
+    display: none; /* fsheh headerin */
+  }
+
+  .table-wrapper tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+  }
+
+  .table-wrapper tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+  }
+
+  .table-wrapper tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-wrapper tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #555;
+  }
+
 }
 
 @media (max-width: 480px) {
-  .modal {
-    width: 95%;          /* almost full screen */
-    padding: 8px;
-    max-height: 65vh;
+  #map {
+    height: 250px; /* map më e vogël */
+  }
+
+  .sidebar > div {
+    width: 95%;
+    padding: 12px;
+  }
+
+  .sidebar button {
+    font-size: 18px;
+    padding: 12px;
   }
 
   .modal table {
     font-size: 11px;
-    min-width: 450px;    /* horizontal scroll */
+    min-width: 450px;
   }
 
   .modal table th,
@@ -198,8 +298,59 @@ footer p {
     padding: 4px 5px;
   }
 
-  .modal button {
-    font-size: 18px;     /* bigger tap area */
+  .modal {
+    width: 95%;
+    max-height: 65%;
+    padding: 8px;
   }
-}
 
+  .modal button.close-btn {
+    font-size: 16px;
+  }
+
+.table-wrapper table,
+  .table-wrapper thead,
+  .table-wrapper tbody,
+  .table-wrapper th,
+  .table-wrapper td,
+  .table-wrapper tr {
+    display: block;
+    width: 100%;
+  }
+
+  /* Fsheh header horizontal në mobile */
+  .table-wrapper thead tr {
+    display: none;
+  }
+
+  /* Rreshtet bëhen "cards" vertikale */
+  .table-wrapper tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+  }
+
+  /* Td me label për secilën vlerë */
+  .table-wrapper tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+  }
+
+  .table-wrapper tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-wrapper tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #555;
+  }
+
+
+}
