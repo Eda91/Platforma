@@ -202,39 +202,37 @@ footer p {
 }
 
 /* ============================
-   MOBILE RESPONSIVE (<=768px & <=480px)
-============================ */
-/* ============================
-   MOBILE REDESIGN (<=768px)
+   MOBILE RESPONSIVE IMPROVED (<=768px)
 ============================ */
 @media (max-width: 768px) {
 
-  /* ---------- ROOT ---------- */
+  /* ---------- BODY ---------- */
   body {
     overflow-y: auto;
   }
 
   #app-container {
-    flex-direction: column;
+    flex-direction: column; /* Sidebar on top, map below */
   }
 
   /* ---------- SIDEBAR ---------- */
   .sidebar {
-    width: 100%;
+    width: 95%;
+    margin: 0 auto 16px auto;
     padding: 16px;
-    margin-bottom: 12px;
     background: #ffffff;
+    border-radius: 16px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    border-radius: 0 0 16px 16px;
+    font-size: 16px;
   }
 
-  /* LOGO / HEADER FIX */
+  /* LOGO / HEADER */
   .sidebar img,
   .sidebar .logo {
-    max-width: 100%;
-    height: auto;
     display: block;
-    margin: 0 auto 12px auto;
+    margin: 0 auto 16px auto;
+    max-width: 80%;
+    height: auto;
   }
 
   /* INPUTS & BUTTONS */
@@ -243,69 +241,97 @@ footer p {
     width: 100%;
     font-size: 16px;
     padding: 14px;
-    border-radius: 10px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-sizing: border-box;
   }
 
-  /* ---------- MAP (BIG & CLEAN) ---------- */
+  .sidebar button {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  .sidebar button:hover {
+    background-color: #0056b3;
+  }
+
+  /* ---------- MAP ---------- */
   #map {
-    width: 100%;
-    height: calc(100vh - 260px); /* REAL fix */
+    width: 95%;
+    height: calc(100vh - 280px); /* enough for sidebar + map */
     min-height: 420px;
+    margin: 0 auto 16px auto;
     border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     overflow: hidden;
   }
 
   /* ---------- MODAL ---------- */
-
-/* Modal container */
-.modal {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* prevent body scroll */
-}
-
-/* ---------- FIXED HEADER (title + X button) ---------- */
-.modal-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: #ffffff;
-  padding: 10px 12px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* CLOSE (X) BUTTON */
-.modal .close-btn,
-.modal button.close-btn {
-  position: sticky;
-  top: 10px;
-  right: 10px;
-  z-index: 20;
-  background: #f1f5f9;
-  border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-  /* ---------- TABLE WRAPPER ---------- */
-  .modal table-wrapper {
-    width: 100%;
-    max-height: 65vh;
-    overflow-x: auto;
-    overflow-y: auto;
+  .modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-height: 85vh;
+    margin: auto;
+    padding: 16px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    overflow: hidden;
   }
 
-  /* ---------- TABLE ---------- */
+  /* MODAL HEADER + CLOSE BUTTON */
+  .modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .modal .close-btn,
+  .modal button.close-btn {
+    position: sticky;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f1f5f9;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* TABLE WRAPPER SCROLLABLE */
+  .modal table-wrapper {
+    flex: 1;
+    max-height: 65vh;
+    overflow-y: auto;  /* vertical scroll */
+    overflow-x: auto;  /* horizontal scroll */
+    padding: 8px;
+    border-radius: 12px;
+    background: #f9fafb;
+  }
+
+  /* TABLE STYLING */
   .modal table {
     width: 100%;
     min-width: 520px;
+    border-collapse: collapse;
     font-size: 13px;
   }
 
@@ -313,37 +339,88 @@ footer p {
   .modal table td {
     padding: 8px;
     white-space: nowrap;
+    text-align: left;
+    border: 1px solid #e0e0e0;
   }
-}
 
+  .modal table th {
+    background: #f1f5f9;
+    font-weight: bold;
+  }
 
-/* ============================
-   SMALL MOBILE (<=480px)
-============================ */
-/* ============================
-   SMALL MOBILE (<=480px)
-============================ */
-@media (max-width: 480px) {
+  /* NICER SCROLLBAR */
+  .modal table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .modal table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 6px;
+  }
 
-  /* MAP EVEN BIGGER */
-  #map {
-    height: calc(100vh - 220px);
-    min-height: 400px;
+    .menu-btn {
+    display: block; /* show button on mobile */
   }
 
   .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #ffffff;
+    z-index: 2000;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+    border-radius: 0 12px 12px 0;
+  }
+}
+
+/* ============================
+   SMALL MOBILE IMPROVED (<=480px)
+============================ */
+@media (max-width: 480px) {
+
+  .sidebar {
+    width: 95%;
     padding: 14px;
+    font-size: 15px;
   }
 
   .sidebar input,
   .sidebar button {
     font-size: 15px;
-    padding: 13px;
+    padding: 12px;
+  }
+
+  #map {
+    height: calc(100vh - 240px);
+    min-height: 380px;
+  }
+
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    padding: 12px;
   }
 
   .modal table {
     min-width: 480px;
     font-size: 12px;
   }
+
+    .menu-btn {
+    display: block; /* show button on mobile */
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #ffffff;
+    z-index: 2000;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+    border-radius: 0 12px 12px 0;
+  }
 }
+
 

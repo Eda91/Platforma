@@ -106,6 +106,8 @@ export default function MapView() {
   const modalRef = useRef(null);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true); // true for desktop
+
 
   /* ================= MAP INIT ================= */
   useEffect(() => {
@@ -363,13 +365,41 @@ export default function MapView() {
   /* ================= RENDER ================= */
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <button
+  id="menu-toggle"
+  className="menu-btn"
+  onClick={() => setSidebarVisible((prev) => !prev)}
+  style={{
+    position: "fixed",
+    top: "16px",
+    left: "16px",
+    zIndex: 2100,
+    background: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    padding: "10px 14px",
+    fontSize: "20px",
+    cursor: "pointer",
+    display: "none", // initially hidden, will show on mobile via media query
+  }}
+>
+  ☰
+</button>
       {/* MAP AND SIDEBAR */}
       <div id="app-container" style={{ display: "flex", flex: 1 }}>
         {/* SIDEBAR */}
-        <div
-          className="sidebar"
-          style={{ width: "350px", overflowY: "auto", padding: "10px" }}
-        >
+      {sidebarVisible && (
+  <div
+    className="sidebar"
+    style={{
+      width: "350px",
+      overflowY: "auto",
+      padding: "10px",
+      transition: "transform 0.3s ease",
+      transform: sidebarVisible ? "translateX(0)" : "translateX(-100%)",
+    }}
+  >
           <img
             src={import.meta.env.BASE_URL + "images/logo.jpg"}
             style={{ width: "320px" }}
@@ -505,8 +535,9 @@ export default function MapView() {
           >
             🔍 Kërko emrin tënd në listë
           </button>
-        </div>
-
+        
+  </div>
+)}
         {/* MAP */}
         <div id="map" style={{ flex: 1 }} />
       </div>
