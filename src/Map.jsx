@@ -59,6 +59,40 @@ function getFieldValue(obj, keys) {
   return undefined;
 }
 
+const afatetZK = {
+  1349: { start: "2026-01-19", end: "2026-03-06" },
+  3085: { start: "2026-01-19", end: "2026-03-06" },
+  2950: { start: "2026-01-05", end: "2026-02-20" },
+  3911: { start: "2026-01-05", end: "2026-02-20" },
+  2983: { start: "2026-01-05", end: "2026-02-20" },
+  2910: { start: "2026-01-19", end: "2026-03-06" },
+  2674: { start: "2026-01-19", end: "2026-03-06" },
+  2463: { start: "2026-01-05", end: "2026-02-20" },
+  1278: { start: "2026-01-05", end: "2026-02-20" },
+  2290: { start: "2026-01-19", end: "2026-03-06" },
+  3080: { start: "2026-01-15", end: "2026-02-28" },
+  2774: { start: "2026-01-15", end: "2026-02-28" },
+  1973: { start: "2026-01-15", end: "2026-02-28" },
+  1889: { start: "2026-01-15", end: "2026-02-28" },
+  1662: { start: "2026-01-15", end: "2026-02-28" },
+  1111: { start: "2026-01-15", end: "2026-02-28" },
+  4002: { start: "2026-01-09", end: "2026-02-22" },
+  2501: { start: "2026-01-09", end: "2026-02-22" },
+  1743: { start: "2026-01-09", end: "2026-02-22" },
+  2706: { start: "2026-01-15", end: "2026-03-01" },
+};
+
+function isWithinDateRange(zkNumer) {
+  const rule = afatetZK[zkNumer];
+  if (!rule) return false;
+
+  const today = new Date();
+  const start = new Date(rule.start);
+  const end = new Date(rule.end);
+
+  return today >= start && today <= end;
+}
+
 export default function MapView() {
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
@@ -159,6 +193,10 @@ export default function MapView() {
             // Unified property extraction me fallback
             feature.zk =
               getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim() || "-";
+            // 🔒 RESTRICTION NGA DATA
+            if (!isWithinDateRange(feature.zk)) {
+              return;
+            }
             feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
             feature.owners = extractOwnersFromPronaret(
               getFieldValue(props, fieldMap.Pronaret) || "-",
@@ -276,7 +314,9 @@ export default function MapView() {
     });
 
     if (!matches.length) {
-      setMessage("Nuk u gjet asnjë pasuri");
+      setMessage(
+        "Nuk u gjet asnjë pasuri ose afati i afishimit ka përfunduar.",
+      );
       setResults([]);
       setShowResultsModal(false);
       return;
@@ -423,6 +463,18 @@ export default function MapView() {
               </button>
             </div>
           </div>
+          {message && (
+            <div
+              style={{
+                color: "darkred",
+                marginBottom: "12px",
+                fontSize: "14px",
+                fontWeight: "bold",
+              }}
+            >
+              {message}
+            </div>
+          )}
 
           {/* OPEN NEW PAGE */}
           <button

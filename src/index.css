@@ -134,10 +134,32 @@ footer p {
 /* -------------------
    Modal table
 -------------------- */
-.modal table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+.modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* CLOSE (X) BUTTON */
+.modal .close-btn,
+.modal button.close-btn {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+  cursor: pointer;
 }
 .modal table th,
 .modal table td {
@@ -151,8 +173,32 @@ footer p {
   vertical-align: top;
 }
 /* horizontal scroll for mobile */
+
+/* ---------- TABLE WRAPPER (REAL SCROLL AREA) ---------- */
 .modal table-wrapper {
-  overflow-x: auto;
+  flex: 1;
+  overflow-y: auto;   /* ✅ vertical elevator */
+  overflow-x: auto;   /* ✅ horizontal elevator */
+  max-height: 65vh;
+  padding: 8px;
+}
+
+/* ---------- TABLE ---------- */
+.modal table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+}
+
+/* Optional: nicer scrollbars */
+.modal table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
 }
 
 /* ============================
@@ -210,14 +256,43 @@ footer p {
   }
 
   /* ---------- MODAL ---------- */
-  .modal {
-    width: 95%;
-    max-height: 85vh;
-    margin: auto;
-    padding: 14px;
-    border-radius: 16px;
-    overflow: hidden;
-  }
+
+/* Modal container */
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* prevent body scroll */
+}
+
+/* ---------- FIXED HEADER (title + X button) ---------- */
+.modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* CLOSE (X) BUTTON */
+.modal .close-btn,
+.modal button.close-btn {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+  cursor: pointer;
+}
 
   /* ---------- TABLE WRAPPER ---------- */
   .modal table-wrapper {

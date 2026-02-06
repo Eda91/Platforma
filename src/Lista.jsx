@@ -34,7 +34,39 @@ const tdStyle = {
   padding: "6px",
   color: "black",
 };
+const afatetZK = {
+  1349: { start: "2026-01-19", end: "2026-03-06" },
+  3085: { start: "2026-01-19", end: "2026-03-06" },
+  2950: { start: "2026-01-05", end: "2026-02-20" },
+  3911: { start: "2026-01-05", end: "2026-02-20" },
+  2983: { start: "2026-01-05", end: "2026-02-20" },
+  2910: { start: "2026-01-19", end: "2026-03-06" },
+  2674: { start: "2026-01-19", end: "2026-03-06" },
+  2463: { start: "2026-01-05", end: "2026-02-20" },
+  1278: { start: "2026-01-05", end: "2026-02-20" },
+  2290: { start: "2026-01-19", end: "2026-03-06" },
+  3080: { start: "2026-01-15", end: "2026-02-28" },
+  2774: { start: "2026-01-15", end: "2026-02-28" },
+  1973: { start: "2026-01-15", end: "2026-02-28" },
+  1889: { start: "2026-01-15", end: "2026-02-28" },
+  1662: { start: "2026-01-15", end: "2026-02-28" },
+  1111: { start: "2026-01-15", end: "2026-02-28" },
+  4002: { start: "2026-01-09", end: "2026-02-22" },
+  2501: { start: "2026-01-09", end: "2026-02-22" },
+  1743: { start: "2026-01-09", end: "2026-02-22" },
+  2706: { start: "2026-01-15", end: "2026-03-01" },
+};
 
+function isWithinDateRange(zkNumer) {
+  const rule = afatetZK[zkNumer];
+  if (!rule) return false;
+
+  const today = new Date();
+  const start = new Date(rule.start);
+  const end = new Date(rule.end);
+
+  return today >= start && today <= end;
+}
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
   Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK"],
@@ -171,10 +203,20 @@ export default function Lista() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filteredResults = useMemo(() => {
-    if (!searchValue) return allData;
-    return allData.filter((row) => row._searchText.includes(searchValue));
-  }, [allData, searchValue]);
+ const filteredResults = useMemo(() => {
+  return allData.filter((row) => {
+    // 1️⃣ kontrollo afatin
+    const allowedByDate = isWithinDateRange(row.Zk_Numer);
+
+    if (!allowedByDate) return false;
+
+    // 2️⃣ kontrollo search (nëse ekziston)
+    if (!searchValue) return true;
+
+    return row._searchText.includes(searchValue);
+  });
+}, [allData, searchValue]);
+
 
   const handleSearch = () => {
     setSearchValue(searchInput.trim().toLowerCase());
@@ -228,7 +270,7 @@ export default function Lista() {
 
       {!loading && searchValue && filteredResults.length === 0 && (
         <p style={{ color: "red", marginTop: "10px" }}>
-          Nuk u gjet asnjë rezultat
+          Nuk u gjet asnjë rezultat ose afati i afishimit ka përfunduar!
         </p>
       )}
     </div>
