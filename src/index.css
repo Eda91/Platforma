@@ -216,15 +216,7 @@ footer p {
   }
 
   /* ---------- SIDEBAR ---------- */
-  .sidebar {
-    width: 95%;
-    margin: 0 auto 16px auto;
-    padding: 16px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    font-size: 16px;
-  }
+
 
   /* LOGO / HEADER */
   .sidebar img,
@@ -255,17 +247,21 @@ footer p {
   .sidebar button:hover {
     background-color: #0056b3;
   }
-
-  /* ---------- MAP ---------- */
-  #map {
-    width: 95%;
-    height: calc(100vh - 280px); /* enough for sidebar + map */
-    min-height: 420px;
-    margin: 0 auto 16px auto;
-    border-radius: 16px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
-  }
+/* Button sidebar - default hidden (desktop) */
+.menu-btn {
+  display: none; /* desktop: fshehur */
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2100;
+  background: #4b4c4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 20px;
+  cursor: pointer;
+}
 
   /* ---------- MODAL ---------- */
   .modal {
@@ -362,15 +358,35 @@ footer p {
     display: block; /* show button on mobile */
   }
 
+  #app-container {
+    flex-direction: column;
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    width: 80%;
+    max-width: 300px;
     height: 100%;
-    background: #ffffff;
     z-index: 2000;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
-    border-radius: 0 12px 12px 0;
+    background: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  #map {
+    flex: 1;
+    height: 100vh;
+    width: 100%;
+  }
+
+  #menu-toggle {
+    display: block; /* show button on mobile */
   }
 }
 
@@ -379,11 +395,6 @@ footer p {
 ============================ */
 @media (max-width: 480px) {
 
-  .sidebar {
-    width: 95%;
-    padding: 14px;
-    font-size: 15px;
-  }
 
   .sidebar input,
   .sidebar button {
@@ -391,10 +402,7 @@ footer p {
     padding: 12px;
   }
 
-  #map {
-    height: calc(100vh - 240px);
-    min-height: 380px;
-  }
+ 
 
   .modal {
     width: 95%;
@@ -411,15 +419,35 @@ footer p {
     display: block; /* show button on mobile */
   }
 
+   #app-container {
+    flex-direction: column;
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    width: 80%;
+    max-width: 300px;
     height: 100%;
-    background: #ffffff;
     z-index: 2000;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
-    border-radius: 0 12px 12px 0;
+    background: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  #map {
+    flex: 1;
+    height: 100vh;
+    width: 100%;
+  }
+
+  #menu-toggle {
+    display: block; /* show button on mobile */
   }
 }
 

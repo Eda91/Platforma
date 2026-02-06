@@ -106,11 +106,15 @@ export default function MapView() {
   const modalRef = useRef(null);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
-  const [sidebarVisible, setSidebarVisible] = useState(true); // true for desktop
-
+  // At the top of your component
+const [sidebarVisible, setSidebarVisible] = useState(() => {
+  return window.innerWidth >= 768; // ✅ true për desktop, false për mobile
+});
 
   /* ================= MAP INIT ================= */
   useEffect(() => {
+
+    
     if (mapRef.current) return;
 
     const mapContainer = document.getElementById("map");
@@ -366,7 +370,7 @@ export default function MapView() {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
     <button
-  id="menu-toggle"
+    id="menu-toggle"
   className="menu-btn"
   onClick={() => setSidebarVisible((prev) => !prev)}
   style={{
@@ -381,7 +385,7 @@ export default function MapView() {
     padding: "10px 14px",
     fontSize: "20px",
     cursor: "pointer",
-    display: "none", // initially hidden, will show on mobile via media query
+
   }}
 >
   ☰
@@ -391,13 +395,13 @@ export default function MapView() {
         {/* SIDEBAR */}
       {sidebarVisible && (
   <div
-    className="sidebar"
+    className={`sidebar ${sidebarVisible ? "open" : ""}`}
     style={{
       width: "350px",
       overflowY: "auto",
       padding: "10px",
       transition: "transform 0.3s ease",
-      transform: sidebarVisible ? "translateX(0)" : "translateX(-100%)",
+       zIndex: 2000,
     }}
   >
           <img
@@ -539,7 +543,8 @@ export default function MapView() {
   </div>
 )}
         {/* MAP */}
-        <div id="map" style={{ flex: 1 }} />
+     <div id="map" style={{ flex: 1, height: "100vh"}} />
+
       </div>
 
       {/* FOOTER */}
