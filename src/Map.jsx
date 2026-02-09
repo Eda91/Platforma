@@ -107,14 +107,18 @@ export default function MapView() {
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
   // At the top of your component
-const [sidebarVisible, setSidebarVisible] = useState(() => {
-  return window.innerWidth >= 768; // ✅ true për desktop, false për mobile
-});
+  const [sidebarVisible, setSidebarVisible] = useState(() => {
+    return window.innerWidth >= 768; // ✅ true për desktop, false për mobile
+  });
+  const isMobile = window.innerWidth < 768;
+
+  const ALBANIA_BOUNDS = L.latLngBounds(
+    [39.6, 19.1], // SW
+    [42.7, 21.1], // NE
+  );
 
   /* ================= MAP INIT ================= */
   useEffect(() => {
-
-    
     if (mapRef.current) return;
 
     const mapContainer = document.getElementById("map");
@@ -122,7 +126,13 @@ const [sidebarVisible, setSidebarVisible] = useState(() => {
 
     const map = L.map(mapContainer, {
       preferCanvas: false,
-    }).setView([41.0, 20.0], 7.5);
+      maxBounds: ALBANIA_BOUNDS,
+      maxBoundsViscosity: 1.0,
+      minZoom: 7,
+      maxZoom: 19,
+      zoomSnap: 0.15,
+      zoomDelta: 0.15,
+    }).setView([41.1, 20.1], 7.7);
 
     mapRef.current = map;
 
@@ -338,10 +348,32 @@ const [sidebarVisible, setSidebarVisible] = useState(() => {
         f._layer.setStyle({ color: "red", weight: 3, fillOpacity: 0.5 }),
     );
 
-    mapRef.current.fitBounds(
-      L.featureGroup(matches.map((f) => f._layer)).getBounds(),
-      { maxZoom: 18 },
-    );
+    const group = L.featureGroup(matches.map((f) => f._layer));
+
+    mapRef.current.flyToBounds(group.getBounds(), {
+      maxZoom: 18,
+      duration: 1.2,
+      easeLinearity: 0.25,
+      padding: [30, 30],
+    });
+
+    if (isMobile) setSidebarVisible(false);
+    matches.forEach((f) => {
+      f._layer.setStyle({ color: "red", weight: 3, fillOpacity: 0.5 });
+
+      if (isMobile) {
+        let html = "";
+        for (const k in f.normalized) {
+          html += `<b>${k}:</b> ${f.normalized[k]}<br/>`;
+        }
+        f._layer.bindPopup(html).openPopup();
+      }
+    });
+
+    if (!isMobile) {
+      setResults(matches.map((f) => f.normalized));
+      setShowResultsModal(true);
+    }
   };
 
   /* ================= MODAL DRAG ================= */
@@ -369,182 +401,174 @@ const [sidebarVisible, setSidebarVisible] = useState(() => {
   /* ================= RENDER ================= */
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-    <button
-    id="menu-toggle"
-  className="menu-btn"
-  onClick={() => setSidebarVisible((prev) => !prev)}
-  style={{
-    position: "fixed",
-    top: "16px",
-    left: "16px",
-    zIndex: 2100,
-    background: "#007bff",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    padding: "10px 14px",
-    fontSize: "20px",
-    cursor: "pointer",
-
-  }}
->
-  ☰
-</button>
+      <button
+        id="menu-toggle"
+        className="menu-btn"
+        onClick={() => setSidebarVisible((prev) => !prev)}
+      >
+        ☰
+      </button>
       {/* MAP AND SIDEBAR */}
       <div id="app-container" style={{ display: "flex", flex: 1 }}>
         {/* SIDEBAR */}
-      {sidebarVisible && (
-  <div
-    className={`sidebar ${sidebarVisible ? "open" : ""}`}
-    style={{
-      width: "350px",
-      overflowY: "auto",
-      padding: "10px",
-      transition: "transform 0.3s ease",
-       zIndex: 2000,
-    }}
-  >
-          <img
-            src={import.meta.env.BASE_URL + "images/logo.jpg"}
-            style={{ width: "320px" }}
-            alt="Logo"
-          />
-
-          <p>
-            Faza e Afishimit Publik për procesin e Regjistrimit Fillestar zgjat
-            për 45 ditë nga momenti i publikimit.
-          </p>
-
-          <p style={{ fontSize: "12px" }}>
-            Ju mund të konsultoni afishimet fizikisht edhe pranë Njësisë
-            Administrative përkatëse...
-          </p>
-
-          {/* SEARCH CARD */}
+        {sidebarVisible && (
           <div
+            className={`sidebar ${sidebarVisible ? "open" : ""}`}
             style={{
-              maxWidth: "380px",
-              margin: "20px auto",
-              padding: "20px",
-              backgroundColor: "#fff",
-              borderRadius: "12px",
-              boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+              width: "350px",
+              overflowY: "auto",
+              padding: "10px",
+              transition: "transform 0.3s ease",
+              zIndex: 2000,
             }}
           >
-            <h3 style={{ textAlign: "center", marginBottom: "16px" }}>
-              Kërko Pasuri
-            </h3>
-
-            <input
-              placeholder="Zona Kadastrale *"
-              value={zk}
-              onChange={(e) => setZk(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "4px",
-                borderRadius: "6px",
-                border: "1px solid #ccc",
-                fontSize: "14px",
-              }}
+            <img
+              src={import.meta.env.BASE_URL + "images/logo.jpg"}
+              style={{ width: "320px" }}
+              alt="Logo"
             />
-            {!zk && (
-              <div
-                style={{ color: "red", fontSize: "13px", marginBottom: "12px" }}
-              >
-                Ju lutem vendosni Zonen Kadastrale
-              </div>
-            )}
 
-            <input
-              placeholder="Emri dhe Mbiemri i Pronarit *"
-              value={owner}
-              onChange={(e) => setOwner(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "4px",
-                borderRadius: "6px",
-                border: "1px solid #ccc",
-                fontSize: "14px",
-              }}
-            />
-            {!owner && (
-              <div
-                style={{ color: "red", fontSize: "13px", marginBottom: "18px" }}
-              >
-                Ju lutem vendosni Emrin dhe Mbiemrin e Pronarit
-              </div>
-            )}
+            <p>
+              Faza e Afishimit Publik për procesin e Regjistrimit Fillestar
+              zgjat për 45 ditë nga momenti i publikimit.
+            </p>
 
-            <div style={{ textAlign: "center" }}>
-              <button
-                onClick={handleSearch}
-                disabled={!zk || !owner}
-                style={{
-                  width: "140px",
-                  padding: "10px",
-                  backgroundColor: !zk || !owner ? "#b5c7e6" : "#004aad",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  cursor: !zk || !owner ? "not-allowed" : "pointer",
-                }}
-              >
-                🔍 Kërko
-              </button>
-            </div>
-          </div>
-          {message && (
+            <p style={{ fontSize: "12px" }}>
+              Ju mund të konsultoni afishimet fizikisht edhe pranë Njësisë
+              Administrative përkatëse...
+            </p>
+
+            {/* SEARCH CARD */}
             <div
               style={{
-                color: "darkred",
-                marginBottom: "12px",
-                fontSize: "14px",
-                fontWeight: "bold",
+                maxWidth: "380px",
+                margin: "20px auto",
+                padding: "20px",
+                backgroundColor: "#fff",
+                borderRadius: "12px",
+                boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
               }}
             >
-              {message}
+              <h3 style={{ textAlign: "center", marginBottom: "16px" }}>
+                Kërko Pasuri
+              </h3>
+
+              <input
+                placeholder="Zona Kadastrale *"
+                value={zk}
+                onChange={(e) => setZk(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "4px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
+              />
+              {!zk && (
+                <div
+                  style={{
+                    color: "red",
+                    fontSize: "13px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Ju lutem vendosni Zonen Kadastrale
+                </div>
+              )}
+
+              <input
+                placeholder="Emri dhe Mbiemri i Pronarit *"
+                value={owner}
+                onChange={(e) => setOwner(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "4px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
+              />
+              {!owner && (
+                <div
+                  style={{
+                    color: "red",
+                    fontSize: "13px",
+                    marginBottom: "18px",
+                  }}
+                >
+                  Ju lutem vendosni Emrin dhe Mbiemrin e Pronarit
+                </div>
+              )}
+
+              <div style={{ textAlign: "center" }}>
+                <button
+                  onClick={handleSearch}
+                  disabled={!zk || !owner}
+                  style={{
+                    width: "140px",
+                    padding: "10px",
+                    backgroundColor: !zk || !owner ? "#b5c7e6" : "#004aad",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    cursor: !zk || !owner ? "not-allowed" : "pointer",
+                  }}
+                >
+                  🔍 Kërko
+                </button>
+              </div>
             </div>
-          )}
+            {message && (
+              <div
+                style={{
+                  color: "darkred",
+                  marginBottom: "12px",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                }}
+              >
+                {message}
+              </div>
+            )}
 
-          {/* OPEN NEW PAGE */}
-          <button
-            onClick={() => window.open("/Platforma/#/lista", "_blank")}
-            style={{
-              marginTop: "14px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: "#f0f6ff",
-              color: "#004aad",
-              border: "1px solid #cfe0ff",
-              borderRadius: "8px",
-              padding: "10px 14px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: 600,
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#e3eeff";
-              e.currentTarget.style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#f0f6ff";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
-          >
-            🔍 Kërko emrin tënd në listë
-          </button>
-        
-  </div>
-)}
+            {/* OPEN NEW PAGE */}
+            <button
+              onClick={() => window.open("/Platforma/#/lista", "_blank")}
+              style={{
+                marginTop: "14px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "#f0f6ff",
+                color: "#004aad",
+                border: "1px solid #cfe0ff",
+                borderRadius: "8px",
+                padding: "10px 14px",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontWeight: 600,
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#e3eeff";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#f0f6ff";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              🔍 Kërko emrin tënd në listë
+            </button>
+          </div>
+        )}
         {/* MAP */}
-     <div id="map" style={{ flex: 1, height: "100vh"}} />
-
+        <div id="map" style={{ flex: 1, height: "100vh" }} />
       </div>
 
       {/* FOOTER */}
@@ -573,7 +597,7 @@ const [sidebarVisible, setSidebarVisible] = useState(() => {
       </footer>
 
       {/* SEARCH RESULTS MODAL */}
-      {showResultsModal && (
+      {showResultsModal && !isMobile && (
         <div
           style={{
             position: "fixed",

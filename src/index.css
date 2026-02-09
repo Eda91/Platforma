@@ -387,6 +387,8 @@ footer p {
 
   #menu-toggle {
     display: block; /* show button on mobile */
+    right: 14px;   /* ✅ RIGHT SIDE */
+    left: auto;    /* 🔒 force right */
   }
 }
 
