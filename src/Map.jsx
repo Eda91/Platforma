@@ -436,7 +436,7 @@ export default function MapView() {
 
             <p style={{ fontSize: "12px" }}>
               Ju mund të konsultoni afishimet fizikisht edhe pranë Njësisë
-              Administrative përkatëse...
+              Administrative përkatëse.
             </p>
 
             {/* SEARCH CARD */}
