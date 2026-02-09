@@ -429,7 +429,8 @@ export default function MapView() {
             />
 
             <p>
-              Faza e Afishimit Publik për procesin e Regjistrimit Fillestar
+              Afishimit Publik kryhet sipas ligjit 111/2018  "Për Kadastrën".
+              Faza e  për procesin e Regjistrimit Fillestar
               zgjat për 45 ditë nga momenti i publikimit.
             </p>
 
