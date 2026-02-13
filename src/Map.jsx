@@ -80,6 +80,9 @@ const afatetZK = {
   2501: { start: "2026-01-09", end: "2026-02-22" },
   1743: { start: "2026-01-09", end: "2026-02-22" },
   2706: { start: "2026-01-15", end: "2026-03-01" },
+  3366: { start: "2026-01-23", end: "2026-03-09" },
+  3311: { start: "2026-01-23", end: "2026-03-09" },
+  1968: { start: "2026-01-19", end: "2026-03-05" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -162,6 +165,18 @@ export default function MapView() {
       {
         url: import.meta.env.BASE_URL + "geojson/NDERTESA_MLIZ_.geojson",
         type: "building",
+      },
+       {
+        url: import.meta.env.BASE_URL + "geojson/SHAHINAJ_PARCELA.geojson",
+        type: "parcel",
+      },
+        {
+        url: import.meta.env.BASE_URL + "geojson/SHETEL_PARCELA.geojson",
+        type: "parcel",
+      },
+        {
+        url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
+        type: "parcel",
       },
     ];
 

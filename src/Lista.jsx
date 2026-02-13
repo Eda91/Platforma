@@ -56,6 +56,9 @@ const afatetZK = {
   2501: { start: "2026-01-09", end: "2026-02-22" },
   1743: { start: "2026-01-09", end: "2026-02-22" },
   2706: { start: "2026-01-15", end: "2026-03-01" },
+  3366: { start: "2026-01-23", end: "2026-03-09" },
+  3311: { start: "2026-01-23", end: "2026-03-09" },
+  1968: { start: "2026-01-19", end: "2026-03-05" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -156,6 +159,19 @@ export default function Lista() {
         url: import.meta.env.BASE_URL + "geojson/NDERTESA_MLIZ_.geojson",
         type: "building",
       },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/SHAHINAJ_PARCELA.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SHETEL_PARCELA.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
+        type: "parcel",
+      },
     ];
 
     Promise.all(
@@ -174,26 +190,24 @@ export default function Lista() {
             const p = f.properties || {};
             const rawZkEmer = getFieldValue(p, fieldMap.Zk_Emer);
             const zkEmer = rawZkEmer && rawZkEmer !== "-" ? rawZkEmer : "MLIZ";
-            console.log(zkEmer);
+            const pronaret = getFieldValue(p, fieldMap.Pronaret);
+            const kufizimetCombined = [
+              getFieldValue(p, ["KUFIZIM_E"]),
+              getFieldValue(p, ["KUFIZIM_D"]),
+              getFieldValue(p, fieldMap.Kufizimet),
+            ]
+              .filter((v) => v && v !== "-")
+              .join(" | ");
             return {
               Zk_Numer: getFieldValue(p, fieldMap.Zk_Numer),
               Zk_Emer: zkEmer,
               Nr_Pas: getFieldValue(p, fieldMap.Nr_Pas),
               Vol: getFieldValue(p, fieldMap.Vol),
               Faqe: getFieldValue(p, fieldMap.Faqe),
-              Pronaret: getFieldValue(p, fieldMap.Pronaret),
-              Kufizimet: [
-                getFieldValue(p, ["KUFIZIM_E"]),
-                getFieldValue(p, ["KUFIZIM_D"]),
-                getFieldValue(p, fieldMap.Kufizimet),
-              ]
-                .filter((v) => v && v !== "-")
-                .join(" | "),
+              Pronaret: pronaret,
+              Kufizimet: kufizimetCombined,
               Siperfaqe: getFieldValue(p, fieldMap.Siperfaqe),
-              _searchText: `${zkEmer} ${getFieldValue(
-                p,
-                fieldMap.Pronaret,
-              )}`.toLowerCase(),
+              _searchText: `${zkEmer} ${pronaret} ${kufizimetCombined}`.toLowerCase(),
             };
           }),
         );
