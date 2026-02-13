@@ -539,7 +539,7 @@ export default function MapView() {
 
             {/* OPEN NEW PAGE */}
             <button
-              onClick={() => window.open("/Platforma/#/lista", "_blank")}
+              onClick={() => window.location.hash="#/lista"}
               style={{
                 marginTop: "14px",
                 display: "inline-flex",

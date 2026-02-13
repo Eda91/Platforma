@@ -200,7 +200,24 @@ footer p {
   background: #cbd5e1;
   border-radius: 6px;
 }
+.back-button {
+  padding: 8px 10px;
+  background: #f58220;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
 
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hover optional */
+.back-button:hover {
+  opacity: 0.9;
+}
 /* ============================
    MOBILE RESPONSIVE IMPROVED (<=768px)
 ============================ */
@@ -216,8 +233,14 @@ footer p {
   }
 
   /* ---------- SIDEBAR ---------- */
+  .back-button {
+    padding: 8px;          /* button më kompakt */
+    border-radius: 50%;    /* rreth i bukur */
+  }
 
-
+  .btn-text {
+    display: none;         /* fshi tekstin */
+  }
   /* LOGO / HEADER */
   .sidebar img,
   .sidebar .logo {
@@ -356,6 +379,8 @@ footer p {
 
     .menu-btn {
     display: block; /* show button on mobile */
+     position: fixed;
+     z-index: 99999;
   }
 
   #app-container {
@@ -392,6 +417,9 @@ footer p {
   }
 }
 
+
+
+
 /* ============================
    SMALL MOBILE IMPROVED (<=480px)
 ============================ */
@@ -404,7 +432,14 @@ footer p {
     padding: 12px;
   }
 
- 
+   .back-button {
+    padding: 8px;          /* button më kompakt */
+    border-radius: 50%;    /* rreth i bukur */
+  }
+
+  .btn-text {
+    display: none;         /* fshi tekstin */
+  }
 
   .modal {
     width: 95%;

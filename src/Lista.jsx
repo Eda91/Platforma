@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 
 /* ===================== STYLES ===================== */
 const containerStyle = {
@@ -203,20 +204,19 @@ export default function Lista() {
       .finally(() => setLoading(false));
   }, []);
 
- const filteredResults = useMemo(() => {
-  return allData.filter((row) => {
-    // 1️⃣ kontrollo afatin
-    const allowedByDate = isWithinDateRange(row.Zk_Numer);
+  const filteredResults = useMemo(() => {
+    return allData.filter((row) => {
+      // 1️⃣ kontrollo afatin
+      const allowedByDate = isWithinDateRange(row.Zk_Numer);
 
-    if (!allowedByDate) return false;
+      if (!allowedByDate) return false;
 
-    // 2️⃣ kontrollo search (nëse ekziston)
-    if (!searchValue) return true;
+      // 2️⃣ kontrollo search (nëse ekziston)
+      if (!searchValue) return true;
 
-    return row._searchText.includes(searchValue);
-  });
-}, [allData, searchValue]);
-
+      return row._searchText.includes(searchValue);
+    });
+  }, [allData, searchValue]);
 
   const handleSearch = () => {
     setSearchValue(searchInput.trim().toLowerCase());
@@ -224,9 +224,25 @@ export default function Lista() {
 
   return (
     <div style={containerStyle}>
-      <h2 style={{ marginBottom: "15px", color: "black" }}>
-        Kërko pasuri sipas listës
-      </h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2 style={{ marginBottom: "15px", color: "black" }}>
+          Kërko pasuri sipas listës
+        </h2>
+
+        <button
+          onClick={() => (window.location.hash = "#/")}
+          className="back-button"
+        >
+          <ArrowLeft size={18} />
+          <span className="btn-text">Kthehu</span>
+        </button>
+      </div>
 
       <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
         <input
