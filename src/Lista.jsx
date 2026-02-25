@@ -59,6 +59,14 @@ const afatetZK = {
   3366: { start: "2026-01-23", end: "2026-03-09" },
   3311: { start: "2026-01-23", end: "2026-03-09" },
   1968: { start: "2026-01-19", end: "2026-03-05" },
+  1338: { start: "2026-02-20", end: "2026-04-06" },
+  1350: { start: "2026-02-20", end: "2026-04-06" },
+  2731: { start: "2026-02-20", end: "2026-04-06" },
+  1599: { start: "2026-02-17", end: "2026-04-03" },
+  3634: { start: "2026-02-17", end: "2026-04-03" },
+  3012: { start: "2026-02-17", end: "2026-04-03" },
+  3406: { start: "2026-02-17", end: "2026-04-03" },
+  1011: { start: "2026-02-17", end: "2026-04-03" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -170,6 +178,14 @@ export default function Lista() {
       },
       {
         url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
+        type: "parcel",
+      },
+           {
+        url: import.meta.env.BASE_URL + "geojson/parcela1.geojson",
+        type: "parcel",
+      },
+          {
+        url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
         type: "parcel",
       },
     ];
