@@ -95,13 +95,10 @@ const afatetZK = {
 
 function isWithinDateRange(zkNumer) {
   const rule = afatetZK[zkNumer];
-  if (!rule) return false;
+  if (!rule) return true;
 
   const today = new Date();
-  const start = new Date(rule.start);
-  const end = new Date(rule.end);
-
-  return today >= start && today <= end;
+  return today >= new Date(rule.start) && today <= new Date(rule.end);
 }
 
 export default function MapView() {
@@ -174,23 +171,23 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/NDERTESA_MLIZ_.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/SHAHINAJ_PARCELA.geojson",
         type: "parcel",
       },
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/SHETEL_PARCELA.geojson",
         type: "parcel",
       },
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
         type: "parcel",
       },
-          {
+      {
         url: import.meta.env.BASE_URL + "geojson/parcela1.geojson",
         type: "parcel",
       },
-          {
+      {
         url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
         type: "parcel",
       },
@@ -206,9 +203,15 @@ export default function MapView() {
       const allFeatures = [];
 
       layers.forEach(({ data, type }) => {
-        const validFeatures = (data.features || []).filter((f) =>
-          isValidPolygonGeometry(f.geometry),
-        );
+        const validFeatures = (data.features || []).filter((f) => {
+          if (!isValidPolygonGeometry(f.geometry)) return false;
+
+          const props = f.properties || {};
+
+          const zk = getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim();
+
+          return isWithinDateRange(zk); // 🔥 inactive disappears completely
+        });
 
         L.geoJSON(validFeatures, {
           style: type === "building" ? buildingStyle : parcelStyle,
@@ -241,9 +244,7 @@ export default function MapView() {
             feature.zk =
               getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim() || "-";
             // 🔒 RESTRICTION NGA DATA
-            if (!isWithinDateRange(feature.zk)) {
-              return;
-            }
+            feature.isActive = isWithinDateRange(feature.zk);
             feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
             feature.owners = extractOwnersFromPronaret(
               getFieldValue(props, fieldMap.Pronaret) || "-",
@@ -461,8 +462,8 @@ export default function MapView() {
 
             <p>
               Afishimit Publik kryhet sipas ligjit 111/2018  "Për Kadastrën".
-              Faza e  për procesin e Regjistrimit Fillestar
-              zgjat për 45 ditë nga momenti i publikimit.
+              Faza e për procesin e Regjistrimit Fillestar zgjat për 45 ditë nga
+              momenti i publikimit.
             </p>
 
             <p style={{ fontSize: "12px" }}>
@@ -570,7 +571,7 @@ export default function MapView() {
 
             {/* OPEN NEW PAGE */}
             <button
-              onClick={() => window.location.hash="#/lista"}
+              onClick={() => (window.location.hash = "#/lista")}
               style={{
                 marginTop: "14px",
                 display: "inline-flex",

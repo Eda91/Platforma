@@ -148,6 +148,7 @@ export default function Lista() {
   const [searchInput, setSearchInput] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [debouncedInput, setDebouncedInput] = useState("");
 
   useEffect(() => {
     const files = [
@@ -180,11 +181,11 @@ export default function Lista() {
         url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
         type: "parcel",
       },
-           {
+      {
         url: import.meta.env.BASE_URL + "geojson/parcela1.geojson",
         type: "parcel",
       },
-          {
+      {
         url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
         type: "parcel",
       },
@@ -223,7 +224,8 @@ export default function Lista() {
               Pronaret: pronaret,
               Kufizimet: kufizimetCombined,
               Siperfaqe: getFieldValue(p, fieldMap.Siperfaqe),
-              _searchText: `${zkEmer} ${pronaret} ${kufizimetCombined}`.toLowerCase(),
+              _searchText:
+                `${zkEmer} ${pronaret} ${kufizimetCombined}`.toLowerCase(),
             };
           }),
         );
@@ -234,19 +236,25 @@ export default function Lista() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setDebouncedInput(searchInput);
+    }, 180); // ✅ small delay prevents freeze
+    return () => clearTimeout(t);
+  }, [searchInput]);
+
   const filteredResults = useMemo(() => {
     return allData.filter((row) => {
       // 1️⃣ kontrollo afatin
       const allowedByDate = isWithinDateRange(row.Zk_Numer);
 
       if (!allowedByDate) return false;
+       const query = searchValue || debouncedInput.trim().toLowerCase();
+      if (!query) return true;
 
-      // 2️⃣ kontrollo search (nëse ekziston)
-      if (!searchValue) return true;
-
-      return row._searchText.includes(searchValue);
+      return row._searchText.includes(query);
     });
-  }, [allData, searchValue]);
+  }, [allData, searchValue,debouncedInput]);
 
   const handleSearch = () => {
     setSearchValue(searchInput.trim().toLowerCase());
@@ -279,7 +287,19 @@ export default function Lista() {
           type="text"
           placeholder="Kërko sipas Pronarit :"
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+            setSearchInput(val);
+
+            if (val.trim() === "") {
+              setSearchValue("");
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
           style={{
             flex: 1,
             padding: "10px",
