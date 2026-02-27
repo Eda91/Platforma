@@ -624,7 +624,7 @@ export default function MapView() {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              🔍 Kërko emrin tënd në listë
+              🔍 Kërko në listë
             </button>
           </div>
         )}
