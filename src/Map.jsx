@@ -598,34 +598,7 @@ export default function MapView() {
             >
               🔍 Kërko emrin tënd në listë
             </button>
-        <button
-              onClick={() => (window.location.hash = "#/listarf")}
-              style={{
-                marginTop: "10px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "2px",
-                background: "#f0f6ff",
-                color: "#004aad",
-                border: "1px solid #cfe0ff",
-                borderRadius: "8px",
-                padding: "8px 10px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: 600,
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#e3eeff";
-                e.currentTarget.style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#f0f6ff";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
-            >
-              🔍 Kërko në listë
-            </button>
+      
           </div>
         )}
         {/* MAP */}
