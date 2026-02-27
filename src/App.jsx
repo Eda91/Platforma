@@ -10,7 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<MapView />} />
         <Route path="/lista" element={<Lista />} />
-         <Route path="/referenca" element={<ZonaDashboard />} />
+         <Route path="/listarf" element={<ZonaDashboard />} />
       </Routes>
     </Router>
   );
