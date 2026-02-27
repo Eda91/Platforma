@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+
 
 /* ===================== STYLES ===================== */
 const containerStyle = {
@@ -21,7 +21,7 @@ const tableContainerStyle = {
 const thStyle = {
   border: "1px solid #ddd",
   padding: "8px",
-  textAlign: "left",
+  textAlign: "center",
   background: "#fff",
   color: "#000",
   fontWeight: "bold",
@@ -34,6 +34,7 @@ const tdStyle = {
   border: "1px solid #ddd",
   padding: "6px",
   color: "black",
+   textAlign: "center",
 };
 const afatetZK = {
   1349: { start: "2026-01-19", end: "2026-03-06" },

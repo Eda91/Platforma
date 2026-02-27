@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
@@ -210,7 +211,7 @@ export default function MapView() {
 
           const zk = getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim();
 
-          return isWithinDateRange(zk); // 🔥 inactive disappears completely
+          return isWithinDateRange(zk); 
         });
 
         L.geoJSON(validFeatures, {
@@ -440,6 +441,7 @@ export default function MapView() {
       >
         ☰
       </button>
+      
       {/* MAP AND SIDEBAR */}
       <div id="app-container" style={{ display: "flex", flex: 1 }}>
         {/* SIDEBAR */}
@@ -454,21 +456,19 @@ export default function MapView() {
               zIndex: 2000,
             }}
           >
-            <img
-              src={import.meta.env.BASE_URL + "images/logo.jpg"}
-              style={{ width: "320px" }}
-              alt="Logo"
-            />
+            <h2> Platforma e Afishimit Publik për Regjistrimin Fillestar</h2>
 
             <p>
-              Afishimit Publik kryhet sipas ligjit 111/2018  "Për Kadastrën".
-              Faza e për procesin e Regjistrimit Fillestar zgjat për 45 ditë nga
-              momenti i publikimit.
+              Afishimi Publik kryhet sipas ligjit 111/2018 “Për Kadastrën”, kjo
+              fazë zgjat për 45 ditë nga momenti i afishimit. Njëkohësisht
+              afishimet publikohen edhe pranë ambienteve të Njësive
+              Administrative përkatëse.
             </p>
 
-            <p style={{ fontSize: "12px" }}>
-              Ju mund të konsultoni afishimet fizikisht edhe pranë Njësisë
-              Administrative përkatëse.
+            <p style={{ fontSize: "13px" }}>
+              Për çdo nevojë për saktësim të të dhënave të afishuara, të
+              interesuarit mund të paraqesin kërkesë me shkrim pranë zyrave ku
+              është kryer afishimi publik.
             </p>
 
             {/* SEARCH CARD */}
@@ -507,7 +507,7 @@ export default function MapView() {
                     marginBottom: "12px",
                   }}
                 >
-                  Ju lutem vendosni Zonen Kadastrale
+                  Ju lutem vendosni Zonën Kadastrale
                 </div>
               )}
 
@@ -573,15 +573,15 @@ export default function MapView() {
             <button
               onClick={() => (window.location.hash = "#/lista")}
               style={{
-                marginTop: "14px",
+                marginTop: "10px",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "2px",
                 background: "#f0f6ff",
                 color: "#004aad",
                 border: "1px solid #cfe0ff",
                 borderRadius: "8px",
-                padding: "10px 14px",
+                padding: "8px 10px",
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: 600,
@@ -598,6 +598,7 @@ export default function MapView() {
             >
               🔍 Kërko emrin tënd në listë
             </button>
+       
           </div>
         )}
         {/* MAP */}
