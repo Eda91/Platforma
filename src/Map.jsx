@@ -20,30 +20,26 @@ function isValidPolygonGeometry(g) {
 function extractOwnersFromPronaret(text = "") {
   return text
     .split(",")
-    .map((o) => {
-      const p = o.trim().split(" ");
-      return p.length >= 2 ? (p[0] + " " + p[1]).toLowerCase() : null;
-    })
+    .map((o) => o.trim().toLowerCase())
     .filter(Boolean);
 }
 
-/* TABLE STYLES */
-const thStyle = { border: "1px solid #ccc", padding: "6px", textAlign: "left" };
-const tdStyle = {
-  border: "1px solid #ddd",
-  padding: "6px",
-  verticalAlign: "top",
-};
-
 /* FIELD MAP - fleksibël për JSON të ndryshme */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER"],
-  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK"],
+  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
   Vol: ["Vol", "VOL", "vol"],
   Faqe: ["Faqe", "FAQE", "faqe"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA"],
-  Kufizimet: ["Kufizimet", "KUFIZIMET", "kufizimet", "KUFIZIM_E", "KUFIZIM_D"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro"],
+  Kufizimet: [
+    "Kufizimet",
+    "KUFIZIMET",
+    "kufizimet",
+    "KUFIZIM_E",
+    "KUFIZIM_D",
+    "TR_PERSH1",
+  ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA"],
 };
 
@@ -92,6 +88,9 @@ const afatetZK = {
   3012: { start: "2026-02-17", end: "2026-04-03" },
   3406: { start: "2026-02-17", end: "2026-04-03" },
   1011: { start: "2026-02-17", end: "2026-04-03" },
+  1448: { start: "2026-02-26", end: "2026-04-12" },
+  2564: { start: "2026-02-26", end: "2026-04-12" },
+  2904: { start: "2026-02-26", end: "2026-04-12" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -120,7 +119,18 @@ export default function MapView() {
     return window.innerWidth >= 768; // ✅ true për desktop, false për mobile
   });
   const isMobile = window.innerWidth < 768;
+  const thStyle = {
+    border: "1px solid #e2e8f0",
+    padding: "8px",
+    textAlign: "left",
+    fontWeight: "600",
+    backgroundColor: "#f1f5f9",
+  };
 
+  const tdStyle = {
+    border: "1px solid #e2e8f0",
+    padding: "8px",
+  };
   const ALBANIA_BOUNDS = L.latLngBounds(
     [39.6, 19.1], // SW
     [42.7, 21.1], // NE
@@ -192,6 +202,30 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
         type: "parcel",
       },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1448DA_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1448DA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2564MA_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2564MA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2904PE_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2904PE_N.geojson",
+        type: "building",
+      },
     ];
 
     Promise.all(
@@ -211,22 +245,22 @@ export default function MapView() {
 
           const zk = getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim();
 
-          return isWithinDateRange(zk); 
+          return isWithinDateRange(zk);
         });
 
         L.geoJSON(validFeatures, {
           style: type === "building" ? buildingStyle : parcelStyle,
 
           onEachFeature: (feature, layer) => {
-            feature._layer = layer;
+            feature._layer = layer; // lidh feature -> layer
+            layer.feature = feature;
             feature.type = type;
-
             const props = feature.properties || {};
 
             // Normalized properties me fallback për Zk_Emer
             feature.normalized = {
               Zk_Numer: getFieldValue(props, fieldMap.Zk_Numer),
-              Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer) || "MLIZ", // fallback këtu
+              Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer),
               Nr_Pas: getFieldValue(props, fieldMap.Nr_Pas),
               Vol: getFieldValue(props, fieldMap.Vol),
               Faqe: getFieldValue(props, fieldMap.Faqe),
@@ -359,7 +393,11 @@ export default function MapView() {
       const ownerMatch = ownerVal
         ? f.owners.some((o) => o.includes(ownerVal))
         : true;
-      return zkMatch && ownerMatch;
+
+      const trMatch = ownerVal
+        ? f.normalized.Kufizimet.toLowerCase().includes(ownerVal)
+        : true;
+      return zkMatch && (ownerMatch || trMatch);
     });
 
     if (!matches.length) {
@@ -441,7 +479,7 @@ export default function MapView() {
       >
         ☰
       </button>
-      
+
       {/* MAP AND SIDEBAR */}
       <div id="app-container" style={{ display: "flex", flex: 1 }}>
         {/* SIDEBAR */}
@@ -598,7 +636,6 @@ export default function MapView() {
             >
               🔍 Kërko emrin tënd në listë
             </button>
-      
           </div>
         )}
         {/* MAP */}

@@ -68,6 +68,9 @@ const afatetZK = {
   3012: { start: "2026-02-17", end: "2026-04-03" },
   3406: { start: "2026-02-17", end: "2026-04-03" },
   1011: { start: "2026-02-17", end: "2026-04-03" },
+  1448: { start: "2026-02-26", end: "2026-04-12" },
+  2564: { start: "2026-02-26", end: "2026-04-12" },
+  2904: { start: "2026-02-26", end: "2026-04-12" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -82,13 +85,20 @@ function isWithinDateRange(zkNumer) {
 }
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER"],
-  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK","Nr_Zk","Nr_ZK"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK"],
+  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
   Vol: ["Vol", "VOL", "vol"],
   Faqe: ["Faqe", "FAQE", "faqe"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Owner"],
-  Kufizimet: ["Kufizimet", "KUFIZIMET", "kufizimet", "KUFIZIM_E", "KUFIZIM_D"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro"],
+  Kufizimet: [
+    "Kufizimet",
+    "KUFIZIMET",
+    "kufizimet",
+    "KUFIZIM_E",
+    "KUFIZIM_D",
+    "TR_PERSH1",
+  ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA"],
 };
 
@@ -189,6 +199,31 @@ export default function Lista() {
       {
         url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
         type: "parcel",
+      },
+
+        {
+        url: import.meta.env.BASE_URL + "geojson/SH1448DA_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1448DA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2564MA_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2564MA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2904PE_P_ALL.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2904PE_N.geojson",
+        type: "building",
       },
     ];
 
