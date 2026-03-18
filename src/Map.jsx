@@ -226,6 +226,12 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/SH2904PE_N.geojson",
         type: "building",
       },
+       
+       {
+        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar.geojson",
+        type: "parcel",
+      },
+
     ];
 
     Promise.all(

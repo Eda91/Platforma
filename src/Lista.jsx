@@ -71,6 +71,9 @@ const afatetZK = {
   1448: { start: "2026-02-26", end: "2026-04-12" },
   2564: { start: "2026-02-26", end: "2026-04-12" },
   2904: { start: "2026-02-26", end: "2026-04-12" },
+  3873: { start: "2026-01-01", end: "2026-12-31" },
+  2431: { start: "2026-01-01", end: "2026-12-31" },
+  2152: { start: "2026-01-01", end: "2026-12-31" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -85,7 +88,7 @@ function isWithinDateRange(zkNumer) {
 }
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK","Nr_Zk","Nr_ZK"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
   Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK"],
   Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
   Vol: ["Vol", "VOL", "vol"],
@@ -225,6 +228,12 @@ export default function Lista() {
         url: import.meta.env.BASE_URL + "geojson/SH2904PE_N.geojson",
         type: "building",
       },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar.geojson",
+        type: "parcel",
+      },
+
     ];
 
     Promise.all(
