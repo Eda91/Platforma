@@ -74,6 +74,11 @@ const afatetZK = {
   3873: { start: "2026-03-17", end: "2026-05-01" },
   2431: { start: "2026-03-17", end: "2026-05-01" },
   2152: { start: "2026-03-17", end: "2026-05-01" },
+  1474: { start: "2026-03-17", end: "2026-05-01" },
+  1899: { start: "2026-03-17", end: "2026-05-01" },
+  2355: { start: "2026-03-17", end: "2026-05-01" },
+  2432: { start: "2026-03-17", end: "2026-05-01" },
+
 };
 
 function isWithinDateRange(zkNumer) {
@@ -231,6 +236,11 @@ export default function Lista() {
 
       {
         url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar.geojson",
+        type: "parcel",
+      },
+
+       {
+        url: import.meta.env.BASE_URL + "geojson/Elbasani_loti7_geoportal.geojson",
         type: "parcel",
       },
 
