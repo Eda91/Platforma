@@ -28,7 +28,7 @@ function extractOwnersFromPronaret(text = "") {
 const fieldMap = {
   Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
   Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK"],
-  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
+  Nr_Pas: ["Nr_Pas","Nr_pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
   Vol: ["Vol", "VOL", "vol"],
   Faqe: ["Faqe", "FAQE", "faqe"],
   Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro"],
