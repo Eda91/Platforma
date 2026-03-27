@@ -502,6 +502,15 @@ footer p {
     left: auto;    /* 🔒 force right */
     position:fixed;
   }
+
+.city-label div {
+  background: rgba(255,255,255,0.6);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+
+
   }
 
 

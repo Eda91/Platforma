@@ -34,7 +34,7 @@ const tdStyle = {
   border: "1px solid #ddd",
   padding: "6px",
   color: "black",
-   textAlign: "center",
+  textAlign: "center",
 };
 const afatetZK = {
   1349: { start: "2026-01-19", end: "2026-03-06" },
@@ -78,7 +78,16 @@ const afatetZK = {
   1899: { start: "2026-03-17", end: "2026-05-01" },
   2355: { start: "2026-03-17", end: "2026-05-01" },
   2432: { start: "2026-03-17", end: "2026-05-01" },
-
+  1000: { start: "2026-03-20", end: "2026-05-05" },
+  1264: { start: "2026-03-20", end: "2026-05-05" },
+  1289: { start: "2026-03-20", end: "2026-05-05" },
+  1714: { start: "2026-03-20", end: "2026-05-05" },
+  1769: { start: "2026-03-20", end: "2026-05-05" },
+  2792: { start: "2026-03-20", end: "2026-05-05" },
+  2859: { start: "2026-03-20", end: "2026-05-05" },
+  2979: { start: "2026-03-20", end: "2026-05-05" },
+  3853: { start: "2026-03-20", end: "2026-05-05" },
+  3988: { start: "2026-03-20", end: "2026-05-05" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -94,10 +103,19 @@ function isWithinDateRange(zkNumer) {
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
   Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK"],
-  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK"],
+  Nr_Pas: [
+    "Nr_Pas",
+    "NR_PAS",
+    "NR_PASS",
+    "NR_PASURIE",
+    "NrPas",
+    "nr_pas",
+    "Numri_i_Pa",
+    "NR__PAS",
+  ],
   Vol: ["Vol", "VOL", "vol"],
-  Faqe: ["Faqe", "FAQE", "faqe"],
+  Faqe: ["Faqe", "FAQE", "faqe", "FQ"],
   Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro"],
   Kufizimet: [
     "Kufizimet",
@@ -107,7 +125,7 @@ const fieldMap = {
     "KUFIZIM_D",
     "TR_PERSH1",
   ],
-  Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA"],
+  Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
 
 function getFieldValue(props, keys) {
@@ -209,7 +227,7 @@ export default function Lista() {
         type: "parcel",
       },
 
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH1448DA_P_ALL.geojson",
         type: "parcel",
       },
@@ -239,11 +257,54 @@ export default function Lista() {
         type: "parcel",
       },
 
-       {
-        url: import.meta.env.BASE_URL + "geojson/Elbasani_loti7_geoportal.geojson",
+      {
+        url:
+          import.meta.env.BASE_URL + "geojson/Elbasani_loti7_geoportal.geojson",
         type: "parcel",
       },
 
+      {
+        url: import.meta.env.BASE_URL + "geojson/LOT_3_RF_7_ZK_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1000AB_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1264BR_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1289BR_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1714GI_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH1769GJ_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2792NI_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2859PA_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH2979PL_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SH3853XH_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
     ];
 
     Promise.all(
@@ -278,7 +339,10 @@ export default function Lista() {
               Faqe: getFieldValue(p, fieldMap.Faqe),
               Pronaret: pronaret,
               Kufizimet: kufizimetCombined,
-              Siperfaqe: getFieldValue(p, fieldMap.Siperfaqe),
+              Siperfaqe: (() => {
+                const val = getFieldValue(p, fieldMap.Siperfaqe);
+                return val ? Math.round(Number(val) * 100) / 100 + " m²" : "-";
+              })(),
               _searchText:
                 `${zkEmer} ${pronaret} ${kufizimetCombined}`.toLowerCase(),
             };
@@ -304,12 +368,12 @@ export default function Lista() {
       const allowedByDate = isWithinDateRange(row.Zk_Numer);
 
       if (!allowedByDate) return false;
-       const query = searchValue || debouncedInput.trim().toLowerCase();
+      const query = searchValue || debouncedInput.trim().toLowerCase();
       if (!query) return true;
 
       return row._searchText.includes(query);
     });
-  }, [allData, searchValue,debouncedInput]);
+  }, [allData, searchValue, debouncedInput]);
 
   const handleSearch = () => {
     setSearchValue(searchInput.trim().toLowerCase());
