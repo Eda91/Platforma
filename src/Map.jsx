@@ -26,6 +26,24 @@ function extractOwnersFromPronaret(text = "") {
     .filter(Boolean);
 }
 
+function getPolygonCenter(feature) {
+  if (!feature || !feature.geometry) return null;
+
+  const coords = feature.geometry.coordinates;
+
+  // Për Leaflet me GeoJSON, shapet janë zakonisht [ [lng, lat], ... ]
+  // Marrim mesataren e të gjitha points si approximation
+  let sumLat = 0, sumLng = 0, count = 0;
+
+  coords[0].forEach(([lng, lat]) => {
+    sumLat += lat;
+    sumLng += lng;
+    count++;
+  });
+
+  return count ? L.latLng(sumLat / count, sumLng / count) : null;
+}
+
 /* FIELD MAP - fleksibël për JSON të ndryshme */
 const fieldMap = {
   Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
@@ -394,7 +412,7 @@ export default function MapView() {
                 getFieldValue(props, fieldMap.Pronaret) || "-",
               );
 
-              // 🚀 DELAY HEAVY CENTER CALCULATION
+               // 🚀 DELAY HEAVY CENTER CALCULATION
               let center = null;
 
               try {
@@ -416,23 +434,23 @@ export default function MapView() {
               // ✅ ZK LABEL
               if (center && f.type === "parcel") {
                 feature._zkLabel = L.marker(center, {
-                  interactive: false,
+                  interactive: true,
                   icon: L.divIcon({
                     className: "zk-label",
-                    html: `<div style="font-size:11px;color:#000;">${feature.zk}</div>`,
+                    html: `<div style="font-size:18px;color:#000; ">${feature.zk}</div>`,
                   }),
                 });
               }
 
               // ✅ CITY LABEL
               if (center && f.type === "city") {
-                const cityName = props.NAME_2 || props.NAME_1 || "City";
+                const cityName = feature.properties?.NAME_2 || feature.properties?.NAME_1 || "City";
 
                 feature._label = L.marker(center, {
                   interactive: false,
                   icon: L.divIcon({
                     className: "city-label",
-                    html: `<div style="font-size:10px;font-weight:600;">${cityName}</div>`,
+                    html: `<div style="font-size:9px;font-weight:600;margin-left:-10px">${cityName}</div>`,
                   }),
                 });
               }
