@@ -28,7 +28,14 @@ function extractOwnersFromPronaret(text = "") {
 /* FIELD MAP - fleksibël për JSON të ndryshme */
 const fieldMap = {
   Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK"],
+  Zk_Emer: [
+    "Zk_Emer",
+    "ZK_EMER",
+    "zk_emer",
+    "ZONA_EMER",
+    "Emri_ZK",
+    "EMRI_I_ZK",
+  ],
   Nr_Pas: [
     "Nr_Pas",
     "Nr_pas",
@@ -72,9 +79,7 @@ function getFeatureCenter(feature) {
 
   try {
     if (feature.geometry.type === "Polygon") {
-      return L.latLng(
-        polylabel(feature.geometry.coordinates, 1).reverse()
-      );
+      return L.latLng(polylabel(feature.geometry.coordinates, 1).reverse());
     }
 
     if (feature.geometry.type === "MultiPolygon") {
@@ -100,8 +105,6 @@ function getFeatureCenter(feature) {
     return layer?.getBounds().getCenter();
   }
 }
-
-
 
 const afatetZK = {
   1349: { start: "2026-01-19", end: "2026-03-06" },
@@ -209,14 +212,14 @@ export default function MapView() {
     if (!mapContainer) return;
 
     const map = L.map(mapContainer, {
-      preferCanvas: false,
+      preferCanvas: true,
       maxBounds: ALBANIA_BOUNDS,
       maxBoundsViscosity: 1.0,
-      minZoom: 7.5,
+      minZoom: 7.7,
       maxZoom: 19,
       zoomSnap: 0.15,
       zoomDelta: 0.15,
-    }).setView([41.1, 20.1], 7.7);
+    }).setView([41.1, 20.1], 7.8);
 
     mapRef.current = map;
 
@@ -378,20 +381,24 @@ export default function MapView() {
         });
 
         L.geoJSON(validFeatures, {
-          style:
-            type === "city"
-              ? cityStyle
-              : type === "building"
-                ? buildingStyle
-                : parcelStyle,
+          style: (feature) => {
+            if (type === "city") return cityStyle;
+            if (type === "building") return buildingStyle;
+
+            return {
+              color: "#ff9800", 
+              weight: 1.2, 
+              fillColor: "#ff9800",
+              fillOpacity: 0.3,
+            };
+          },
 
           onEachFeature: (feature, layer) => {
-            feature._layer = layer; // lidh feature -> layer
+            feature._layer = layer;
             layer.feature = feature;
             feature.type = type;
             const props = feature.properties || {};
 
-            // Normalized properties me fallback për Zk_Emer
             feature.normalized = {
               Zk_Numer: getFieldValue(props, fieldMap.Zk_Numer),
               Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer),
@@ -415,44 +422,34 @@ export default function MapView() {
               })(),
             };
 
-            // Unified property extraction me fallback
             feature.zk =
               getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim() || "-";
-            // 🔒 RESTRICTION NGA DATA
+
             feature.isActive = isWithinDateRange(feature.zk);
             feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
             feature.owners = extractOwnersFromPronaret(
               getFieldValue(props, fieldMap.Pronaret) || "-",
             );
 
-            // Fallback për Zk_Emer në debug
             const zkEmerValue =
               getFieldValue(props, fieldMap.Zk_Emer) || "MLIZ";
             console.log("ZK EMER:", zkEmerValue);
 
-            // LABELS
-          // ONLY showing the parts that changed (everything else stays EXACTLY as your code)
-
-// ================= FIX 1: LABEL CREATION =================
-if (layer.getBounds) {
-  try {
-    const bounds = layer.getBounds();
-    if (bounds && bounds.isValid()) {
-
-      // ✅ FIX: use polylabel center instead of bounds center
-      const center = getFeatureCenter(feature);
-
-      // 🟧 PARCEL / BUILDING LABEL
-      if (
-        (type === "parcel" || type === "building") &&
-        feature.nrPas !== "-"
-      ) {
-
-        feature._label = L.marker(center, {
-          interactive: false,
-          icon: L.divIcon({
-            className: "parcel-label",
-            html: ` 
+            if (layer.getBounds) {
+              try {
+                const bounds = layer.getBounds();
+                if (bounds && bounds.isValid()) {
+                  const center = getFeatureCenter(feature);
+                  feature._center = center;
+                  if (
+                    (type === "parcel" || type === "building") &&
+                    feature.nrPas !== "-"
+                  ) {
+                    feature._label = L.marker(center, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "parcel-label",
+                        html: ` 
               <div style="
                 font-size:12px;
                 font-weight:400;
@@ -466,45 +463,79 @@ if (layer.getBounds) {
 
               </div>
             `,
-            iconSize: [0, 0],
-            iconAnchor: [0, 0],
-          }),
-        });  
-      }
+                        iconSize: [0, 0],
+                        iconAnchor: [0, 0],
+                      }),
+                    });
+                  }
 
-      
-      
-    
+                  if (type === "parcel") {
+                    const zknumber = feature.zk || "-";
+                    const center = feature._center; // ✅ përdor cache
 
-      // 🟥 CITY LABEL (FIXED)
-      if (type === "city") {
-        const cityName = props.NAME_2 || props.NAME_1 || "City";
+                    feature._zkLabel = L.marker(center, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "zk-label",
+                        html: `
+        <div style="
+          font-size:11px;
+          margin-left:-10px;
+          font-weight:400;
+          color:#000;
+          text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+          white-space:nowrap;
+        ">
+          ${zknumber}
+        </div>
+      `,
+                        iconSize: [0, 0],
+                      }),
+                    });
+                  }
 
-        feature._label = L.marker(center, {
-          interactive: false,
-          icon: L.divIcon({
-            className: "city-label",
-            html: `
-              <div style="
-                font-size:11px;
-                margin-left :-10px;
-                font-weight:400;
-                color:#00000;
-                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-                white-space:nowrap;
-              ">
-                ${cityName}
-              </div>
-            `,
-            iconSize: [0, 0],
-          }),
-        });
-      }
-    }
-  } catch (e) {
-    console.error("Label error:", e);
-  }
-}
+                  // 🟥 CITY LABEL (FIXED)
+                  if (type === "city") {
+                    const coords = feature.geometry.coordinates;
+
+                    let bestPoint;
+
+                    if (feature.geometry.type === "MultiPolygon") {
+                      // merr polygon-in më të madh
+                      let maxArea = 0;
+
+                      coords.forEach((poly) => {
+                        const a = Math.abs(
+                          L.polygon(poly[0]).getBounds().getCenter().lat,
+                        ); // fallback
+                        if (a > maxArea) {
+                          maxArea = a;
+                          bestPoint = poly;
+                        }
+                      });
+
+                      bestPoint = polylabel(bestPoint, 1);
+                    } else {
+                      bestPoint = polylabel(coords, 1);
+                    }
+
+                    const center = L.latLng(bestPoint[1], bestPoint[0]);
+
+                    const cityName = props.NAME_2 || props.NAME_1 || "City";
+
+                    feature._label = L.marker(center, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "city-label",
+                        html: `<div style="font-size:9px;font-weight:600; margin-left:-8px;">${cityName}</div>`,
+                      }),
+                    });
+                  }
+                }
+              } catch (e) {
+                console.error("Label error:", e);
+              }
+            }
             // CLICK POPUP
             layer.on("click", () => {
               let popupHtml = "";
@@ -523,46 +554,54 @@ if (layer.getBounds) {
       updateLabels();
     });
 
-    /* ===== LABEL UPDATE ==== */
-    let timeout = null;
+    let renderedZK = new Set();
+    let timeout;
 
-   // ================= FIX 2: updateLabels =================
+    function updateLabels() {
+      if (!labelLayerRef.current) return;
 
-function updateLabels() {
-  if (!labelLayerRef.current) return;
+      if (timeout) return;
 
-  if (timeout) return;
-  timeout = setTimeout(() => {
-    labelLayerRef.current.clearLayers();
+      timeout = setTimeout(() => {
+        labelLayerRef.current.clearLayers();
+        renderedZK.clear();
 
-    const bounds = map.getBounds();
-    const zoom = map.getZoom();
+        const bounds = map.getBounds();
+        const zoom = map.getZoom();
 
-    featuresRef.current.forEach((f) => {
-      if (!f._layer || !f._label) return;
+        featuresRef.current.forEach((f) => {
+          if (!f._layer || !f._center) return;
 
-      const layer = f._layer;
-      const center = getFeatureCenter(f);
+          const center = f._center;
 
-      // 🟥 Cities appear earlier
-      if (f.type === "city" && zoom >= 5) {
-        labelLayerRef.current.addLayer(f._label);
-      }
+          // 🚀 mos rendero jashtë ekranit (SUPER IMPORTANT)
+          if (!bounds.contains(center)) return;
 
-       if ((f.type === "parcel" || f.type === "building") && zoom <= 13) {
-        if (f._zkLabel) labelLayerRef.current.addLayer(f._zkLabel);
-      }
-    
+          // 🟥 CITY LABELS
+          if (f.type === "city" && zoom >= 6) {
+            if (f._label) labelLayerRef.current.addLayer(f._label);
+          }
 
-      // 🟧 Parcels & buildings appear later
-      if ((f.type === "parcel" || f.type === "building") && zoom >= 14) {
-        labelLayerRef.current.addLayer(f._label);
-      }
-    });
+          // 🟦 ZK LABEL (vetëm një herë për zonë)
+          if (f.type === "parcel" && zoom >= 10 && zoom <= 14) {
+            if (!renderedZK.has(f.zk)) {
+              renderedZK.add(f.zk);
 
-    timeout = null;
-  }, 50);
-}
+              if (f._zkLabel) {
+                labelLayerRef.current.addLayer(f._zkLabel);
+              }
+            }
+          }
+
+          // 🟧 NR PASURIE (vetëm zoom i lartë)
+          if ((f.type === "parcel" || f.type === "building") && zoom >= 15) {
+            if (f._label) labelLayerRef.current.addLayer(f._label);
+          }
+        });
+
+        timeout = null;
+      }, 80); // pak më i butë → më smooth
+    }
     map.on("zoomend moveend", updateLabels);
 
     return () => {
