@@ -37,29 +37,7 @@ const tdStyle = {
   textAlign: "center",
 };
 const afatetZK = {
-  1349: { start: "2026-01-19", end: "2026-03-06" },
-  3085: { start: "2026-01-19", end: "2026-03-06" },
-  2950: { start: "2026-01-05", end: "2026-02-20" },
-  3911: { start: "2026-01-05", end: "2026-02-20" },
-  2983: { start: "2026-01-05", end: "2026-02-20" },
-  2910: { start: "2026-01-19", end: "2026-03-06" },
-  2674: { start: "2026-01-19", end: "2026-03-06" },
-  2463: { start: "2026-01-05", end: "2026-02-20" },
-  1278: { start: "2026-01-05", end: "2026-02-20" },
-  2290: { start: "2026-01-19", end: "2026-03-06" },
-  3080: { start: "2026-01-15", end: "2026-02-28" },
-  2774: { start: "2026-01-15", end: "2026-02-28" },
-  1973: { start: "2026-01-15", end: "2026-02-28" },
-  1889: { start: "2026-01-15", end: "2026-02-28" },
-  1662: { start: "2026-01-15", end: "2026-02-28" },
-  1111: { start: "2026-01-15", end: "2026-02-28" },
-  4002: { start: "2026-01-09", end: "2026-02-22" },
-  2501: { start: "2026-01-09", end: "2026-02-22" },
-  1743: { start: "2026-01-09", end: "2026-02-22" },
-  2706: { start: "2026-01-15", end: "2026-03-01" },
-  3366: { start: "2026-01-23", end: "2026-03-09" },
-  3311: { start: "2026-01-23", end: "2026-03-09" },
-  1968: { start: "2026-01-19", end: "2026-03-05" },
+
   1338: { start: "2026-02-20", end: "2026-04-06" },
   1350: { start: "2026-02-20", end: "2026-04-06" },
   2731: { start: "2026-02-20", end: "2026-04-06" },
@@ -88,6 +66,7 @@ const afatetZK = {
   2979: { start: "2026-03-20", end: "2026-05-05" },
   3853: { start: "2026-03-20", end: "2026-05-05" },
   3988: { start: "2026-03-20", end: "2026-05-05" },
+  //1555: { start: "2026-03-31", end: "2026-05-14" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -189,35 +168,7 @@ export default function Lista() {
 
   useEffect(() => {
     const files = [
-      {
-        url: import.meta.env.BASE_URL + "geojson/loti5.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/loti6.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/PARCELA_MLIZ_.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/NDERTESA_MLIZ_.geojson",
-        type: "building",
-      },
-
-      {
-        url: import.meta.env.BASE_URL + "geojson/SHAHINAJ_PARCELA.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SHETEL_PARCELA.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/HOTOVE_PARCELA.geojson",
-        type: "parcel",
-      },
+    
       {
         url: import.meta.env.BASE_URL + "geojson/parcela1.geojson",
         type: "parcel",
@@ -305,6 +256,17 @@ export default function Lista() {
         url: import.meta.env.BASE_URL + "geojson/SH3853XH_P_PUBLIKIM.geojson",
         type: "parcel",
       },
+  /*
+         {
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",// eshte per diten e marte javes tjeter  
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",// eshte per diten e marte javes tjeter  
+        type: "building",
+      },
+
+      */
     ];
 
     Promise.all(
