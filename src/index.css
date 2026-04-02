@@ -438,7 +438,6 @@ footer p {
 ============================ */
 @media (max-width: 480px) {
 
-
   .sidebar input,
   .sidebar button {
     font-size: 15px;
@@ -504,7 +503,6 @@ footer p {
   }
 
 .city-label div {
-  background: rgba(255,255,255,0.6);
   padding: 2px 6px;
   border-radius: 4px;
 }

@@ -66,6 +66,14 @@ const afatetZK = {
   2979: { start: "2026-03-20", end: "2026-05-05" },
   3853: { start: "2026-03-20", end: "2026-05-05" },
   3988: { start: "2026-03-20", end: "2026-05-05" },
+  2400: { start: "2026-03-20", end: "2026-05-05" },
+  2492: { start: "2026-03-20", end: "2026-05-05" },
+  2775: { start: "2026-03-20", end: "2026-05-05" },
+  2777: { start: "2026-03-20", end: "2026-05-05" },
+  2791: { start: "2026-03-20", end: "2026-05-05" },
+  2894: { start: "2026-03-20", end: "2026-05-05" },
+  2907: { start: "2026-03-20", end: "2026-05-05" },
+  3842: { start: "2026-03-20", end: "2026-05-05" },
   //1555: { start: "2026-03-31", end: "2026-05-14" },
 };
 
@@ -81,8 +89,8 @@ function isWithinDateRange(zkNumer) {
 }
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK","NR_ZK","ZK_NUMRI","NUMRI_ZK","ZK_EMRI"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK","EMRI_ZK"],
   Nr_Pas: [
     "Nr_Pas",
     "NR_PAS",
@@ -92,10 +100,11 @@ const fieldMap = {
     "nr_pas",
     "Numri_i_Pa",
     "NR__PAS",
+    "NR__PASURI",
   ],
   Vol: ["Vol", "VOL", "vol"],
   Faqe: ["Faqe", "FAQE", "faqe", "FQ"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA"],
   Kufizimet: [
     "Kufizimet",
     "KUFIZIMET",
@@ -103,6 +112,7 @@ const fieldMap = {
     "KUFIZIM_E",
     "KUFIZIM_D",
     "TR_PERSH1",
+    "SHENIME_NE"
   ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
@@ -254,6 +264,44 @@ export default function Lista() {
       },
       {
         url: import.meta.env.BASE_URL + "geojson/SH3853XH_P_PUBLIKIM.geojson",
+        type: "parcel",
+      },
+
+
+           {
+        url: import.meta.env.BASE_URL + "geojson/SH2400LE_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+        {
+        url: import.meta.env.BASE_URL + "geojson/SH2492LO_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+
+         {
+        url: import.meta.env.BASE_URL + "geojson/SH2775ND_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+          {
+        url: import.meta.env.BASE_URL + "geojson/SH2777NE_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+
+    {
+        url: import.meta.env.BASE_URL + "geojson/SH2791NI_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+
+    {
+        url: import.meta.env.BASE_URL + "geojson/SH2894PE_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+          {
+        url: import.meta.env.BASE_URL + "geojson/SH2907PE_P_PUBLIKIMI.geojson",
+        type: "parcel",
+      },
+
+    {
+        url: import.meta.env.BASE_URL + "geojson/SH3842VU_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
   /*
