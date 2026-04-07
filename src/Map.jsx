@@ -58,10 +58,11 @@ const fieldMap = {
     "Numri_i_Pa",
     "NR__PAS",
     "NR__PASURI",
+    "Nr_Pas",
   ],
-  Vol: ["Vol", "VOL", "vol"],
-  Faqe: ["Faqe", "FAQE", "faqe", "FQ"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA"],
+  Vol: ["Vol", "VOL", "vol" , "Vol"],
+  Faqe: ["Faqe", "FAQE", "faqe", "FQ","Faqe"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA","Pronaret"],
   Kufizimet: [
     "Kufizimet",
     "KUFIZIMET",
@@ -69,7 +70,8 @@ const fieldMap = {
     "KUFIZIM_E",
     "KUFIZIM_D",
     "TR_PERSH1",
-    "SHENIME_NE"
+    "SHENIME_NE",
+    "Kufizimet"
   ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
@@ -156,7 +158,7 @@ const afatetZK = {
   2894: { start: "2026-03-20", end: "2026-05-05" },
   2907: { start: "2026-03-20", end: "2026-05-05" },
   3842: { start: "2026-03-20", end: "2026-05-05" },
-  1555: { start: "2026-04-07", end: "2026-05-22"},
+  1555: { start: "2026-04-07", end: "2026-05-22" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -369,6 +371,7 @@ export default function MapView() {
 
       {
         url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",
+        type: "parcel",
       },
       {
         url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson", 

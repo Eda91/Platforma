@@ -89,8 +89,8 @@ function isWithinDateRange(zkNumer) {
 }
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK","NR_ZK","ZK_NUMRI","NUMRI_ZK","ZK_EMRI"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK","EMRI_ZK"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK","NR_ZK","ZK_NUMRI","NUMRI_ZK"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK","EMRI_ZK","ZK_EMRI"],
   Nr_Pas: [
     "Nr_Pas",
     "NR_PAS",
@@ -101,10 +101,12 @@ const fieldMap = {
     "Numri_i_Pa",
     "NR__PAS",
     "NR__PASURI",
+    "Nr_Pas",
+     "Nr_Pas",
   ],
-  Vol: ["Vol", "VOL", "vol"],
-  Faqe: ["Faqe", "FAQE", "faqe", "FQ"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA"],
+  Vol: ["Vol", "VOL", "vol" , "Vol"],
+  Faqe: ["Faqe", "FAQE", "faqe", "FQ","Faqe"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA","Pronaret"],
   Kufizimet: [
     "Kufizimet",
     "KUFIZIMET",
@@ -112,19 +114,25 @@ const fieldMap = {
     "KUFIZIM_E",
     "KUFIZIM_D",
     "TR_PERSH1",
-    "SHENIME_NE"
+    "SHENIME_NE",
+    "Kufizimet"
   ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
 
 function getFieldValue(props, keys) {
   for (const k of keys) {
-    if (props[k] != null && props[k] !== "") return props[k];
+    if (props[k] != null && props[k] !== "") {
+      console.log(`Found field for ${k}:`, props[k]); // Log the found value
+      return props[k];
+    }
   }
   for (const key in props) {
     for (const k of keys) {
-      if (key.toLowerCase().includes(k.toLowerCase()) && props[key])
+      if (key.toLowerCase().includes(k.toLowerCase()) && props[key]) {
+        console.log(`Found field for ${k} in alternate check:`, props[key]); // Log the found value
         return props[key];
+      }
     }
   }
   return "-";
@@ -267,7 +275,6 @@ export default function Lista() {
         type: "parcel",
       },
 
-
            {
         url: import.meta.env.BASE_URL + "geojson/SH2400LE_P_PUBLIKIMI.geojson",
         type: "parcel",
@@ -312,6 +319,11 @@ export default function Lista() {
       {
         url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",
         type: "building",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/LOT_3_RF_4ZK_PUBLIKIM.geojson",
+        type: "parcel",
       },
 
       
