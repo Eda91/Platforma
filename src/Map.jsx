@@ -148,7 +148,6 @@ const afatetZK = {
   2979: { start: "2026-03-20", end: "2026-05-05" },
   3853: { start: "2026-03-20", end: "2026-05-05" },
   3988: { start: "2026-03-20", end: "2026-05-05" },
-
   2400: { start: "2026-03-20", end: "2026-05-05" },
   2492: { start: "2026-03-20", end: "2026-05-05" },
   2775: { start: "2026-03-20", end: "2026-05-05" },
@@ -157,8 +156,7 @@ const afatetZK = {
   2894: { start: "2026-03-20", end: "2026-05-05" },
   2907: { start: "2026-03-20", end: "2026-05-05" },
   3842: { start: "2026-03-20", end: "2026-05-05" },
-  
-  //1555: { start: "2026-03-31", end: "2026-05-14" },
+  1555: { start: "2026-04-07", end: "2026-05-22"},
 };
 
 function isWithinDateRange(zkNumer) {
@@ -369,18 +367,15 @@ export default function MapView() {
         type: "parcel",
       },
 
-
-  /*
       {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson", // eshte per diten e marte javes tjeter
-        type: "parcel",
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",
       },
       {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson", // eshte per diten e marte javes tjeter
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson", 
         type: "building",
       },
 
-      */
+      
     ];
 
     async function loadLayersSequentially() {

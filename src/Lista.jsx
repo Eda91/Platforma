@@ -74,7 +74,7 @@ const afatetZK = {
   2894: { start: "2026-03-20", end: "2026-05-05" },
   2907: { start: "2026-03-20", end: "2026-05-05" },
   3842: { start: "2026-03-20", end: "2026-05-05" },
-  //1555: { start: "2026-03-31", end: "2026-05-14" },
+  1555: { start: "2026-04-07", end: "2026-05-22" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -304,17 +304,17 @@ export default function Lista() {
         url: import.meta.env.BASE_URL + "geojson/SH3842VU_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
-  /*
+ 
          {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",// eshte per diten e marte javes tjeter  
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",
         type: "parcel",
       },
       {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",// eshte per diten e marte javes tjeter  
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",
         type: "building",
       },
 
-      */
+      
     ];
 
     Promise.all(
