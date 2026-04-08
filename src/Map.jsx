@@ -33,7 +33,9 @@ function getPolygonCenter(feature) {
 
   // Për Leaflet me GeoJSON, shapet janë zakonisht [ [lng, lat], ... ]
   // Marrim mesataren e të gjitha points si approximation
-  let sumLat = 0, sumLng = 0, count = 0;
+  let sumLat = 0,
+    sumLng = 0,
+    count = 0;
 
   coords[0].forEach(([lng, lat]) => {
     sumLat += lat;
@@ -46,8 +48,27 @@ function getPolygonCenter(feature) {
 
 /* FIELD MAP - fleksibël për JSON të ndryshme */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK","NR_ZK","ZK_NUMRI","NUMRI_ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK","EMRI_ZK","ZK_EMRI"],
+  Zk_Numer: [
+    "Zk_Numer",
+    "ZK_NUMER",
+    "zk_numer",
+    "ZK",
+    "Nr_Zk",
+    "Nr_ZK",
+    "NR_ZK",
+    "ZK_NUMRI",
+    "NUMRI_ZK",
+  ],
+  Zk_Emer: [
+    "Zk_Emer",
+    "ZK_EMER",
+    "zk_emer",
+    "ZONA_EMER",
+    "Emri_ZK",
+    "EMRI_I_ZK",
+    "EMRI_ZK",
+    "ZK_EMRI",
+  ],
   Nr_Pas: [
     "Nr_Pas",
     "NR_PAS",
@@ -60,9 +81,17 @@ const fieldMap = {
     "NR__PASURI",
     "Nr_Pas",
   ],
-  Vol: ["Vol", "VOL", "vol" , "Vol"],
-  Faqe: ["Faqe", "FAQE", "faqe", "FQ","Faqe"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA","Pronaret"],
+  Vol: ["Vol", "VOL", "vol", "Vol"],
+  Faqe: ["Faqe", "FAQE", "faqe", "FQ", "Faqe"],
+  Pronaret: [
+    "Pronaret",
+    "PRONARET",
+    "pronaret",
+    "EMER_PRONA",
+    "Emri_i_Pro",
+    "PRONESIA",
+    "Pronaret",
+  ],
   Kufizimet: [
     "Kufizimet",
     "KUFIZIMET",
@@ -71,7 +100,7 @@ const fieldMap = {
     "KUFIZIM_D",
     "TR_PERSH1",
     "SHENIME_NE",
-    "Kufizimet"
+    "Kufizimet",
   ],
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
@@ -159,6 +188,10 @@ const afatetZK = {
   2907: { start: "2026-03-20", end: "2026-05-05" },
   3842: { start: "2026-03-20", end: "2026-05-05" },
   1555: { start: "2026-04-07", end: "2026-05-22" },
+  1304: { start: "2026-04-01", end: "2026-05-15" },
+  3672: { start: "2026-04-02", end: "2026-05-16" },
+  2773: { start: "2026-04-01", end: "2026-05-15" },
+  2534: { start: "2026-04-01", end: "2026-05-15" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -218,7 +251,7 @@ export default function MapView() {
       maxBounds: ALBANIA_BOUNDS,
       maxBoundsViscosity: 1.0,
       minZoom: 7.7,
-      maxZoom: 19,
+      maxZoom: 18,
       zoomSnap: 0.15,
       zoomDelta: 0.15,
     }).setView([41.1, 20.1], 7.8);
@@ -332,39 +365,39 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/SH3853XH_P_PUBLIKIM.geojson",
         type: "parcel",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2400LE_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2492LO_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
 
-         {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2775ND_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
-          {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2777NE_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
 
-    {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2791NI_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
 
-    {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2894PE_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
-          {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH2907PE_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
 
-    {
+      {
         url: import.meta.env.BASE_URL + "geojson/SH3842VU_P_PUBLIKIMI.geojson",
         type: "parcel",
       },
@@ -374,11 +407,14 @@ export default function MapView() {
         type: "parcel",
       },
       {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson", 
+        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",
         type: "building",
       },
 
-      
+      {
+        url: import.meta.env.BASE_URL + "geojson/4_ZK_AFISHIM.geojson",
+        type: "parcel",
+      },
     ];
 
     async function loadLayersSequentially() {
@@ -390,7 +426,26 @@ export default function MapView() {
           const data = await res.json();
 
           const validFeatures = (data.features || []).filter((feature) => {
-            if (!isValidPolygonGeometry(feature.geometry)) return false;
+            if (!feature || !feature.geometry) return false;
+
+            const g = feature.geometry;
+
+            if (!["Polygon", "MultiPolygon"].includes(g.type)) return false;
+
+            if (!g.coordinates || !g.coordinates.length) return false;
+
+            try {
+              const first =
+                g.type === "Polygon"
+                  ? g.coordinates[0][0]
+                  : g.coordinates[0][0][0];
+
+              if (!Array.isArray(first) || first.length < 2) return false;
+
+              if (isNaN(first[0]) || isNaN(first[1])) return false;
+            } catch {
+              return false;
+            }
 
             const props = feature.properties || {};
             const zk = getFieldValue(props, fieldMap.Zk_Numer)
@@ -400,113 +455,123 @@ export default function MapView() {
             return isWithinDateRange(zk);
           });
 
-          L.geoJSON(validFeatures, {
-            style: (feature) => {
-              if (f.type === "city") return cityStyle;
-              if (f.type === "building") return buildingStyle;
+          try {
+            L.geoJSON(validFeatures, {
+              style: (feature) => {
+                if (f.type === "city") return cityStyle;
+                if (f.type === "building") return buildingStyle;
 
-              return {
-                color: "#ff9800",
-                weight: 1.2,
-                fillColor: "#ff9800",
-                fillOpacity: 0.3,
-              };
-            },
+                return {
+                  color: "#ff9800",
+                  weight: 1.2,
+                  fillColor: "#ff9800",
+                  fillOpacity: 0.3,
+                };
+              },
 
-            onEachFeature: (feature, layer) => {
-              feature._layer = layer;
-              layer.feature = feature;
-              feature.type = f.type;
+              onEachFeature: (feature, layer) => {
+                try {
+                  feature._layer = layer;
+                  layer.feature = feature;
+                  feature.type = f.type;
 
-              const props = feature.properties || {};
+                  const props = feature.properties || {};
 
-              feature.normalized = {
-                Zk_Numer: getFieldValue(props, fieldMap.Zk_Numer),
-                Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer),
-                Nr_Pas: getFieldValue(props, fieldMap.Nr_Pas),
-                Vol: getFieldValue(props, fieldMap.Vol),
-                Faqe: getFieldValue(props, fieldMap.Faqe),
-                Pronaret: getFieldValue(props, fieldMap.Pronaret),
-                Kufizimet: [
-                  getFieldValue(props, ["KUFIZIM_E"]),
-                  getFieldValue(props, ["KUFIZIM_D"]),
-                  getFieldValue(props, fieldMap.Kufizimet),
-                ]
-                  .filter((v) => v && v !== "-")
-                  .join(" | "),
-                Siperfaqe: (() => {
-                  const val = getFieldValue(props, fieldMap.Siperfaqe);
-                  if (!val) return "-";
-                  const num = Number(val);
-                  return Math.round(num * 100) / 100 + " m²";
-                })(),
-              };
+                  feature.normalized = {
+                    Zk_Numer: getFieldValue(props, fieldMap.Zk_Numer),
+                    Zk_Emer: getFieldValue(props, fieldMap.Zk_Emer),
+                    Nr_Pas: getFieldValue(props, fieldMap.Nr_Pas),
+                    Vol: getFieldValue(props, fieldMap.Vol),
+                    Faqe: getFieldValue(props, fieldMap.Faqe),
+                    Pronaret: getFieldValue(props, fieldMap.Pronaret),
+                    Kufizimet: [
+                      getFieldValue(props, ["KUFIZIM_E"]),
+                      getFieldValue(props, ["KUFIZIM_D"]),
+                      getFieldValue(props, fieldMap.Kufizimet),
+                    ]
+                      .filter((v) => v && v !== "-")
+                      .join(" | "),
+                    Siperfaqe: (() => {
+                      const val = getFieldValue(props, fieldMap.Siperfaqe);
+                      if (!val) return "-";
+                      const num = Number(val);
+                      return Math.round(num * 100) / 100 + " m²";
+                    })(),
+                  };
 
-              feature.zk =
-                getFieldValue(props, fieldMap.Zk_Numer)?.toString().trim() ||
-                "-";
+                  feature.zk =
+                    getFieldValue(props, fieldMap.Zk_Numer)
+                      ?.toString()
+                      .trim() || "-";
 
-              feature.isActive = isWithinDateRange(feature.zk);
-              feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
-              feature.owners = extractOwnersFromPronaret(
-                getFieldValue(props, fieldMap.Pronaret) || "-",
-              );
+                  feature.isActive = isWithinDateRange(feature.zk);
+                  feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
+                  feature.owners = extractOwnersFromPronaret(
+                    getFieldValue(props, fieldMap.Pronaret) || "-",
+                  );
 
-               // 🚀 DELAY HEAVY CENTER CALCULATION
-              let center = null;
+                  let center = null;
 
-              try {
-                center = getFeatureCenter(feature);
-                feature._center = center;
-              } catch (e) {}
+                  try {
+                    center = getFeatureCenter(feature);
+                    feature._center = center;
+                  } catch (e) {}
 
-              // 🚀 CREATE LABEL ONLY IF NEEDED
-              if (center && (f.type === "parcel" || f.type === "building")) {
-                feature._label = L.marker(center, {
-                  interactive: false,
-                  icon: L.divIcon({
-                    className: "parcel-label",
-                    html: `<div style="font-size:12px;color:#000;">${feature.nrPas}</div>`,
-                  }),
-                });
-              }
+                  if (
+                    center &&
+                    (f.type === "parcel" || f.type === "building")
+                  ) {
+                    feature._label = L.marker(center, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "parcel-label",
+                        html: `<div style="font-size:12px;color:#000;">${feature.nrPas}</div>`,
+                      }),
+                    });
+                  }
 
-              // ✅ ZK LABEL
-              if (center && f.type === "parcel") {
-                feature._zkLabel = L.marker(center, {
-                  interactive: true,
-                  icon: L.divIcon({
-                    className: "zk-label",
-                    html: `<div style="font-size:18px;color:#000; ">${feature.zk}</div>`,
-                  }),
-                });
-              }
+                  if (center && f.type === "parcel") {
+                    feature._zkLabel = L.marker(center, {
+                      interactive: true,
+                      icon: L.divIcon({
+                        className: "zk-label",
+                        html: `<div style="font-size:18px;color:#000;">${feature.zk}</div>`,
+                      }),
+                    });
+                  }
 
-              // ✅ CITY LABEL
-              if (center && f.type === "city") {
-                const cityName = feature.properties?.NAME_2 || feature.properties?.NAME_1 || "City";
+                  if (center && f.type === "city") {
+                    const cityName =
+                      feature.properties?.NAME_2 ||
+                      feature.properties?.NAME_1 ||
+                      "City";
 
-                feature._label = L.marker(center, {
-                  interactive: false,
-                  icon: L.divIcon({
-                    className: "city-label",
-                    html: `<div style="font-size:9px;font-weight:600;margin-left:-10px">${cityName}</div>`,
-                  }),
-                });
-              }
+                    feature._label = L.marker(center, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "city-label",
+                        html: `<div style="font-size:9px;font-weight:600;margin-left:-10px">${cityName}</div>`,
+                      }),
+                    });
+                  }
 
-              // CLICK POPUP
-              layer.on("click", () => {
-                let popupHtml = "";
-                for (const key in feature.normalized) {
-                  popupHtml += `<b>${key.replace("_", " ")}:</b> ${feature.normalized[key]}<br/>`;
+                  layer.on("click", () => {
+                    let popupHtml = "";
+                    for (const key in feature.normalized) {
+                      popupHtml += `<b>${key.replace("_", " ")}:</b> ${feature.normalized[key]}<br/>`;
+                    }
+                    layer.bindPopup(popupHtml || "Nuk ka të dhëna").openPopup();
+                  });
+
+                  allFeatures.push(feature);
+                } catch (e) {
+                  console.warn("⚠️ skip feature");
                 }
-                layer.bindPopup(popupHtml || "Nuk ka të dhëna").openPopup();
-              });
-
-              allFeatures.push(feature);
-            },
-          }).addTo(map);
+              },
+            }).addTo(map);
+          } catch (e) {
+            console.warn("⛔ skip file:", f.url);
+          }
 
           // ⏱ prevents freezing
           await new Promise((r) => setTimeout(r, 30));
@@ -518,7 +583,7 @@ export default function MapView() {
       featuresRef.current = allFeatures;
       updateLabels();
     }
-  let renderedZK = new Set();
+    let renderedZK = new Set();
     let timeout;
 
     function updateLabels() {
@@ -566,12 +631,11 @@ export default function MapView() {
       }, 80); // pak më i butë → më smooth
     }
 
-
     loadLayersSequentially();
     map.whenReady(() => {
       updateLabels();
     });
-  
+
     map.on("zoomend moveend", updateLabels);
 
     return () => {
@@ -630,7 +694,8 @@ export default function MapView() {
         f._layer.setStyle({ color: "red", weight: 3, fillOpacity: 0.5 }),
     );
 
-    const group = L.featureGroup(matches.map((f) => f._layer));
+    const group = L.featureGroup(matches.map((f) => f._layer).filter(Boolean));
+    if (!group.getLayers().length) return;
 
     mapRef.current.flyToBounds(group.getBounds(), {
       maxZoom: 18,
