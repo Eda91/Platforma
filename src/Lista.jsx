@@ -39,15 +39,6 @@ const tdStyle = {
 
 /* ===================== AFATET ===================== */
 const afatetZK = {
-  1338: { start: "2026-02-20", end: "2026-04-06" },
-  1350: { start: "2026-02-20", end: "2026-04-06" },
-  2731: { start: "2026-02-20", end: "2026-04-06" },
-  1599: { start: "2026-02-17", end: "2026-04-03" },
-  3634: { start: "2026-02-17", end: "2026-04-03" },
-  3012: { start: "2026-02-17", end: "2026-04-03" },
-  3406: { start: "2026-02-17", end: "2026-04-03" },
-  1011: { start: "2026-02-17", end: "2026-04-03" },
-  1448: { start: "2026-02-26", end: "2026-04-12" },
   2564: { start: "2026-02-26", end: "2026-04-12" },
   2904: { start: "2026-02-26", end: "2026-04-12" },
   3873: { start: "2026-03-17", end: "2026-05-01" },
@@ -154,7 +145,6 @@ export default function Lista() {
 
   useEffect(() => {
     const files = [
-      "parcela1.geojson","parcela2.geojson","SH1448DA_P_ALL.geojson","SH1448DA_N.geojson",
       "SH2564MA_P_ALL.geojson","SH2564MA_N.geojson","SH2904PE_P_PUBLIKIM.geojson","SH2904PE_N.geojson",
       "parcela_dorezuar.geojson","Elbasani_loti7_geoportal.geojson","LOT_3_RF_7_ZK_P.geojson",
       "SH1000AB_P_PUBLIKIM.geojson","SH1264BR_P_PUBLIKIM.geojson","SH1289BR_P_PUBLIKIM.geojson",
@@ -163,7 +153,8 @@ export default function Lista() {
       "SH2400LE_P_PUBLIKIMI.geojson","SH2492LO_P_PUBLIKIMI.geojson","SH2775ND_P_PUBLIKIMI.geojson",
       "SH2777NE_P_PUBLIKIMI.geojson","SH2791NI_P_PUBLIKIMI.geojson","SH2894PE_P_PUBLIKIMI.geojson",
       "SH2907PE_P_PUBLIKIMI.geojson","SH3842VU_P_PUBLIKIMI.geojson","MK1555DR_P.geojson","MK1555DR_N.geojson",
-      "LOT_3_RF_4ZK_PUBLIKIM.geojson","4_ZK_AFISHIM.geojson"
+      "LOT_3_RF_4ZK_PUBLIKIM.geojson","4_ZK_AFISHIM.geojson","PE2239KO_P.geojson","PR1088BA_P.geojson",
+      "PR3131RA_P.geojson","SR2806NI_N.geojson"
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);
 
     const loadFiles = async () => {

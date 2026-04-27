@@ -151,17 +151,7 @@ function getFeatureCenter(feature) {
 }
 
 const afatetZK = {
-  1338: { start: "2026-02-20", end: "2026-04-06" },
-  1350: { start: "2026-02-20", end: "2026-04-06" },
-  2731: { start: "2026-02-20", end: "2026-04-06" },
-  1599: { start: "2026-02-17", end: "2026-04-03" },
-  3634: { start: "2026-02-17", end: "2026-04-03" },
-  3012: { start: "2026-02-17", end: "2026-04-03" },
-  3406: { start: "2026-02-17", end: "2026-04-03" },
-  1011: { start: "2026-02-17", end: "2026-04-03" },
-  1448: { start: "2026-02-26", end: "2026-04-12" },
-  2564: { start: "2026-02-26", end: "2026-04-12" },
-  2904: { start: "2026-02-26", end: "2026-04-12" },
+  
   3873: { start: "2026-03-17", end: "2026-05-01" },
   2431: { start: "2026-03-17", end: "2026-05-01" },
   2152: { start: "2026-03-17", end: "2026-05-01" },
@@ -192,6 +182,10 @@ const afatetZK = {
   3672: { start: "2026-04-02", end: "2026-05-16" },
   2773: { start: "2026-04-01", end: "2026-05-15" },
   2534: { start: "2026-04-01", end: "2026-05-15" },
+  3131: { start: "2026-04-27", end: "2026-06-11" },
+  2239: { start: "2026-04-27", end: "2026-06-11" },
+  1088: { start: "2026-04-27", end: "2026-06-11" },
+  2806: { start: "2026-12-31", end: "2026-12-31" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -279,22 +273,6 @@ export default function MapView() {
         type: "city",
       },
 
-      {
-        url: import.meta.env.BASE_URL + "geojson/parcela1.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/parcela2.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH1448DA_P_ALL.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH1448DA_N.geojson",
-        type: "building",
-      },
       {
         url: import.meta.env.BASE_URL + "geojson/SH2564MA_P_ALL.geojson",
         type: "parcel",
@@ -415,6 +393,28 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/4_ZK_AFISHIM.geojson",
         type: "parcel",
       },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE2239KO_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR1088BA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR3131RA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/SR2806NI_P.geojson",
+        type: "parcel",
+      },
+      
+       {
+        url: import.meta.env.BASE_URL + "geojson/SR2806NI_N.geojson",
+        type: "building",
+      },
+
     ];
 
     async function loadLayersSequentially() {
