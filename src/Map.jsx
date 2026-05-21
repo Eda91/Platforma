@@ -151,50 +151,11 @@ function getFeatureCenter(feature) {
 }
 
 const afatetZK = {
-  
-  3873: { start: "2026-03-17", end: "2026-05-01" },
-  2431: { start: "2026-03-17", end: "2026-05-01" },
-  2152: { start: "2026-03-17", end: "2026-05-01" },
-  1474: { start: "2026-03-17", end: "2026-05-01" },
-  1899: { start: "2026-03-17", end: "2026-05-01" },
-  2355: { start: "2026-03-17", end: "2026-05-01" },
-  2432: { start: "2026-03-17", end: "2026-05-01" },
-  1000: { start: "2026-03-20", end: "2026-05-05" },
-  1264: { start: "2026-03-20", end: "2026-05-05" },
-  1289: { start: "2026-03-20", end: "2026-05-05" },
-  1714: { start: "2026-03-20", end: "2026-05-05" },
-  1769: { start: "2026-03-20", end: "2026-05-05" },
-  2792: { start: "2026-03-20", end: "2026-05-05" },
-  2859: { start: "2026-03-20", end: "2026-05-05" },
-  2979: { start: "2026-03-20", end: "2026-05-05" },
-  3853: { start: "2026-03-20", end: "2026-05-05" },
-  3988: { start: "2026-03-20", end: "2026-05-05" },
-  2400: { start: "2026-03-20", end: "2026-05-05" },
-  2492: { start: "2026-03-20", end: "2026-05-05" },
-  2775: { start: "2026-03-20", end: "2026-05-05" },
-  2777: { start: "2026-03-20", end: "2026-05-05" },
-  2791: { start: "2026-03-20", end: "2026-05-05" },
-  2894: { start: "2026-03-20", end: "2026-05-05" },
-  2907: { start: "2026-03-20", end: "2026-05-05" },
-  3842: { start: "2026-03-20", end: "2026-05-05" },
-  1555: { start: "2026-04-07", end: "2026-05-22" },
-  1304: { start: "2026-04-01", end: "2026-05-15" },
-  3672: { start: "2026-04-02", end: "2026-05-16" },
-  2773: { start: "2026-04-01", end: "2026-05-15" },
-  2534: { start: "2026-04-01", end: "2026-05-15" },
+
   3131: { start: "2026-04-27", end: "2026-06-11" },
   2239: { start: "2026-04-27", end: "2026-06-11" },
   1088: { start: "2026-04-27", end: "2026-06-11" },
   2806: { start: "2026-04-30", end: "2026-06-13" },
-  1683: { start: "2026-04-30", end: "2026-06-13" },
-  1788: { start: "2026-04-30", end: "2026-06-13" },
-  2797: { start: "2026-04-30", end: "2026-06-13" },
-  3794: { start: "2026-04-30", end: "2026-06-13" },
-  3821: { start: "2026-04-30", end: "2026-06-13" },
-  3004: { start: "2026-04-30", end: "2026-06-13" },
-  3482: { start: "2026-04-30", end: "2026-06-13" },
-  3483: { start: "2026-04-30", end: "2026-06-13" },
-  3851: { start: "2026-04-30", end: "2026-06-13" },
   2955: { start: "2026-05-18", end: "2026-07-02" },
   3067: { start: "2026-05-18", end: "2026-07-02" },
 
@@ -285,52 +246,7 @@ export default function MapView() {
         type: "city",
       },
 
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH2564MA_P_ALL.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH2564MA_N.geojson",
-        type: "building",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH2904PE_P_ALL.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/SH2904PE_N.geojson",
-        type: "building",
-      },
 
-      {
-        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar.geojson",
-        type: "parcel",
-      },
-
-      {
-        url:
-          import.meta.env.BASE_URL + "geojson/Elbasani_loti7_geoportal.geojson",
-        type: "parcel",
-      },
-
-      {
-        url: import.meta.env.BASE_URL + "geojson/LOT_3_RF_7_ZK_P.geojson",
-        type: "parcel",
-      },
-
-      {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_P.geojson",
-        type: "parcel",
-      },
-      {
-        url: import.meta.env.BASE_URL + "geojson/MK1555DR_N.geojson",
-        type: "building",
-      },
-
-      {
-        url: import.meta.env.BASE_URL + "geojson/4_ZK_AFISHIM.geojson",
-        type: "parcel",
-      },
       {
         url: import.meta.env.BASE_URL + "geojson/PE2239KO_P.geojson",
         type: "parcel",
@@ -352,16 +268,7 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_N.geojson",
         type: "building",
       },
-       {
-        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar_Lot5.geojson",
-        type: "parcel",
-      },
-
-       {
-        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar_Lot5.geojson",
-        type: "parcel",
-      },
-
+  
         {
         url: import.meta.env.BASE_URL + "geojson/PR3067PS_N.geojson",
         type: "building",
