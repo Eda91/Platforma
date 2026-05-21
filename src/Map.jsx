@@ -186,6 +186,18 @@ const afatetZK = {
   2239: { start: "2026-04-27", end: "2026-06-11" },
   1088: { start: "2026-04-27", end: "2026-06-11" },
   2806: { start: "2026-04-30", end: "2026-06-13" },
+  1683: { start: "2026-04-30", end: "2026-06-13" },
+  1788: { start: "2026-04-30", end: "2026-06-13" },
+  2797: { start: "2026-04-30", end: "2026-06-13" },
+  3794: { start: "2026-04-30", end: "2026-06-13" },
+  3821: { start: "2026-04-30", end: "2026-06-13" },
+  3004: { start: "2026-04-30", end: "2026-06-13" },
+  3482: { start: "2026-04-30", end: "2026-06-13" },
+  3483: { start: "2026-04-30", end: "2026-06-13" },
+  3851: { start: "2026-04-30", end: "2026-06-13" },
+  2955: { start: "2026-05-18", end: "2026-07-02" },
+  3067: { start: "2026-05-18", end: "2026-07-02" },
+
 };
 
 function isWithinDateRange(zkNumer) {
@@ -413,6 +425,33 @@ export default function MapView() {
        {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_N.geojson",
         type: "building",
+      },
+       {
+        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar_Lot5.geojson",
+        type: "parcel",
+      },
+
+       {
+        url: import.meta.env.BASE_URL + "geojson/parcela_dorezuar_Lot5.geojson",
+        type: "parcel",
+      },
+
+        {
+        url: import.meta.env.BASE_URL + "geojson/PR3067PS_N.geojson",
+        type: "building",
+      },
+       {
+        url: import.meta.env.BASE_URL + "geojson/PR3067PS_P.geojson",
+        type: "parcel",
+      },
+
+        {
+        url: import.meta.env.BASE_URL + "geojson/VL2955PI_N.geojson",
+        type: "building",
+      },
+       {
+        url: import.meta.env.BASE_URL + "geojson/VL2955PI_P.geojson",
+        type: "parcel",
       },
 
     ];

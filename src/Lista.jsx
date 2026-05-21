@@ -74,7 +74,18 @@ const afatetZK = {
   3131: { start: "2026-04-27", end: "2026-06-11" },
   2239: { start: "2026-04-27", end: "2026-06-11" },
   1088: { start: "2026-04-27", end: "2026-06-11" },
-   2806: { start: "2026-04-30", end: "2026-06-13" },
+  2806: { start: "2026-04-30", end: "2026-06-13" },
+  1683: { start: "2026-04-30", end: "2026-06-13" },
+  1788: { start: "2026-04-30", end: "2026-06-13" },
+  2797: { start: "2026-04-30", end: "2026-06-13" },
+  3794: { start: "2026-04-30", end: "2026-06-13" },
+  3821: { start: "2026-04-30", end: "2026-06-13" },
+  3004: { start: "2026-04-30", end: "2026-06-13" },
+  3482: { start: "2026-04-30", end: "2026-06-13" },
+  3483: { start: "2026-04-30", end: "2026-06-13" },
+  3851: { start: "2026-04-30", end: "2026-05-01" },
+  2955: { start: "2026-05-18", end: "2026-07-02" },
+  3067: { start: "2026-05-18", end: "2026-07-02" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -158,7 +169,9 @@ export default function Lista() {
       "SH2777NE_P_PUBLIKIMI.geojson","SH2791NI_P_PUBLIKIMI.geojson","SH2894PE_P_PUBLIKIMI.geojson",
       "SH2907PE_P_PUBLIKIMI.geojson","SH3842VU_P_PUBLIKIMI.geojson","MK1555DR_P.geojson","MK1555DR_N.geojson",
       "LOT_3_RF_4ZK_PUBLIKIM.geojson","4_ZK_AFISHIM.geojson","PE2239KO_P.geojson","PR1088BA_P.geojson",
-      "PR3131RA_P.geojson","SR2806NI_N.geojson"
+      "PR3131RA_P.geojson","SR2806NI_N.geojson","parcela_dorezuar_Lot5.geojson","parcela_dorezuar_Lot6.geojson","PR3067PS_N.geojson",
+      "PR3067PS_P.geojson","VL2955PI_N.geojson","VL2955PI_P.geojson",
+      
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);
 
     const loadFiles = async () => {
