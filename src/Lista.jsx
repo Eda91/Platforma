@@ -162,16 +162,11 @@ export default function Lista() {
     const files = [
       "SH2564MA_P_ALL.geojson","SH2564MA_N.geojson","SH2904PE_P_PUBLIKIM.geojson","SH2904PE_N.geojson",
       "parcela_dorezuar.geojson","Elbasani_loti7_geoportal.geojson","LOT_3_RF_7_ZK_P.geojson",
-      "SH1000AB_P_PUBLIKIM.geojson","SH1264BR_P_PUBLIKIM.geojson","SH1289BR_P_PUBLIKIM.geojson",
-      "SH1714GI_P_PUBLIKIM.geojson","SH1769GJ_P_PUBLIKIMI.geojson","SH2792NI_P_PUBLIKIM.geojson",
-      "SH2859PA_P_PUBLIKIM.geojson","SH2979PL_P_PUBLIKIM.geojson","SH3853XH_P_PUBLIKIM.geojson",
-      "SH2400LE_P_PUBLIKIMI.geojson","SH2492LO_P_PUBLIKIMI.geojson","SH2775ND_P_PUBLIKIMI.geojson",
-      "SH2777NE_P_PUBLIKIMI.geojson","SH2791NI_P_PUBLIKIMI.geojson","SH2894PE_P_PUBLIKIMI.geojson",
-      "SH2907PE_P_PUBLIKIMI.geojson","SH3842VU_P_PUBLIKIMI.geojson","MK1555DR_P.geojson","MK1555DR_N.geojson",
-      "LOT_3_RF_4ZK_PUBLIKIM.geojson","4_ZK_AFISHIM.geojson","PE2239KO_P.geojson","PR1088BA_P.geojson",
-      "PR3131RA_P.geojson","SR2806NI_N.geojson","parcela_dorezuar_Lot5.geojson","parcela_dorezuar_Lot6.geojson","PR3067PS_N.geojson",
+       "MK1555DR_P.geojson","MK1555DR_N.geojson", "LOT_3_RF_4ZK_PUBLIKIM.geojson","4_ZK_AFISHIM.geojson",
+       "PE2239KO_P.geojson","PR1088BA_P.geojson",  "PR3131RA_P.geojson","SR2806NI_N.geojson",
+       "parcela_dorezuar_Lot5.geojson","parcela_dorezuar_Lot6.geojson","PR3067PS_N.geojson",
       "PR3067PS_P.geojson","VL2955PI_N.geojson","VL2955PI_P.geojson",
-      
+
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);
 
     const loadFiles = async () => {
