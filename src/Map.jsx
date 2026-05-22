@@ -158,6 +158,7 @@ const afatetZK = {
   2806: { start: "2026-04-30", end: "2026-06-13" },
   2955: { start: "2026-05-18", end: "2026-07-02" },
   3067: { start: "2026-05-18", end: "2026-07-02" },
+  2350: { start: "2026-05-20", end: "2026-07-03" },
 
 };
 
@@ -287,6 +288,15 @@ export default function MapView() {
         type: "parcel",
       },
 
+         {
+        url: import.meta.env.BASE_URL + "geojson/MK2350KU_N.geojson",
+        type: "building",
+      },
+       {
+        url: import.meta.env.BASE_URL + "geojson/MK2350KU_P.geojson",
+        type: "parcel",
+      },
+
     ];
 
     async function loadLayersSequentially() {
@@ -402,15 +412,53 @@ export default function MapView() {
                     });
                   }
 
-                  if (center && f.type === "parcel") {
-                    feature._zkLabel = L.marker(center, {
-                      interactive: true,
-                      icon: L.divIcon({
-                        className: "zk-label",
-                        html: `<div style="font-size:18px;color:#000;">${feature.zk}</div>`,
-                      }),
-                    });
-                  }
+                    if (center && f.type === "parcel") {
+
+                      let offsetLat = 0;
+                      let offsetLng = 0;
+
+                      // 👉 move 1088 slightly LEFT
+                      if (feature.zk === "1088") {
+                        offsetLng = -0.031; // adjust this value if needed
+                      }
+                        if (feature.zk === "3067") {
+                        offsetLng = -0.005; // adjust this value if needed
+                      }
+
+                        if (feature.zk === "2806") {
+                        offsetLng = -0.04; // adjust this value if needed
+                        offsetLat = +0.02; 
+                      }
+
+                        if (feature.zk === "2955") {
+                        offsetLng = -0.02; // adjust this value if needed
+                      
+                      }
+                      
+                        if (feature.zk === "2239") {
+                        offsetLat = +0.02; 
+                      }
+
+
+                      const shiftedCenter = L.latLng(
+                        center.lat + offsetLat,
+                        center.lng + offsetLng
+                      );
+
+                      feature._zkLabel = L.marker(shiftedCenter, {
+                        interactive: false,
+                        icon: L.divIcon({
+                          className: "zk-label",
+                          iconSize: [0, 0],
+                          iconAnchor: [0, 0],
+                          html: `
+                            <div class="zk-text">
+                              ${feature.zk}
+                            </div>
+                          `,
+                        }),
+                      });
+                    }
 
                   if (center && f.type === "city") {
                     const cityName =
