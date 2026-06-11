@@ -159,6 +159,9 @@ const afatetZK = {
   2955: { start: "2026-05-18", end: "2026-07-02" },
   3067: { start: "2026-05-18", end: "2026-07-02" },
   2350: { start: "2026-05-20", end: "2026-07-03" },
+  3376: { start: "2026-06-10", end: "2026-07-25" },
+  1361: { start: "2026-06-11", end: "2026-07-25" },
+  1084: { start: "2026-06-15", end: "2026-07-29" },
 
 };
 
@@ -234,7 +237,7 @@ export default function MapView() {
     labelLayerRef.current = L.layerGroup().addTo(map);
 
     const parcelStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.25 };
-    const buildingStyle = { color: "green", weight: 1, fillOpacity: 0.5 };
+    const buildingStyle = { color: "#008000", weight: 1, fillOpacity: 0.5 };
     const cityStyle = {
       color: "#c2410c",
       weight: 2,
@@ -288,7 +291,7 @@ export default function MapView() {
         type: "parcel",
       },
 
-         {
+      {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_N.geojson",
         type: "building",
       },
@@ -296,6 +299,32 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_P.geojson",
         type: "parcel",
       },
+
+      {
+      url: import.meta.env.BASE_URL + "geojson/EL3376SH_N.geojson",
+      type: "building",
+    },
+    {
+      url: import.meta.env.BASE_URL + "geojson/EL3376SH_P.geojson",
+      type: "parcel",
+    },
+
+       {
+      url: import.meta.env.BASE_URL + "geojson/PE1361CA_N.geojson",
+      type: "building",
+    },
+    {
+      url: import.meta.env.BASE_URL + "geojson/PE1361CA_P.geojson",
+      type: "parcel",
+    },
+       {
+      url: import.meta.env.BASE_URL + "geojson/PE1084BA_N.geojson",
+      type: "building",
+    },
+    {
+      url: import.meta.env.BASE_URL + "geojson/PE11084BA_P.geojson",
+      type: "parcel",
+    },
 
     ];
 
@@ -417,7 +446,7 @@ export default function MapView() {
                       let offsetLat = 0;
                       let offsetLng = 0;
 
-                      // 👉 move 1088 slightly LEFT
+                     
                       if (feature.zk === "1088") {
                         offsetLng = -0.031; // adjust this value if needed
                       }
@@ -435,9 +464,18 @@ export default function MapView() {
                       
                       }
                       
-                        if (feature.zk === "2239") {
+                        if (feature.zk === "1084") {
                         offsetLat = +0.02; 
                       }
+                        if (feature.zk === "1361") {
+                        offsetLng = -0.005; // adjust this value if needed
+                      }
+
+                        if (feature.zk === "3367") {
+                        offsetLng = -0.04; // adjust this value if needed
+                        offsetLat = +0.02; 
+                      }
+
 
 
                       const shiftedCenter = L.latLng(
