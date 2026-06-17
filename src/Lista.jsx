@@ -49,6 +49,8 @@ const afatetZK = {
   3376: { start: "2026-06-10", end: "2026-07-25" },
   1361: { start: "2026-06-11", end: "2026-07-25" },
   1084: { start: "2026-06-15", end: "2026-07-29" },
+  2238: { start: "2026-06-17", end: "2026-07-31" },
+  1885: { start: "2026-06-17", end: "2026-07-31" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -126,7 +128,8 @@ export default function Lista() {
        "PE2239KO_P.geojson","PR1088BA_P.geojson",  "PR3131RA_P.geojson","SR2806NI_N.geojson",
        "PR3067PS_N.geojson", "PR3067PS_P.geojson","VL2955PI_N.geojson","VL2955PI_P.geojson",
         "MK2350KU_N.geojson","MK2350KU_P.geojson","EL3376SH_N.geojson","EL3376SH_P.geojson",
-        "PE1361CA_N.geojson","PE1361CA_P.geojson","PE1084BA_N.geojson", "PE1084BA_P.geojson"
+        "PE1361CA_N.geojson","PE1361CA_P.geojson","PE1084BA_N.geojson", "PE1084BA_P.geojson",
+        "LU2238KS_P.geojson","EL1885GU_N.geojson","EL1885GU_P.geojson"
      
 
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);

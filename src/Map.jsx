@@ -162,6 +162,10 @@ const afatetZK = {
   3376: { start: "2026-06-10", end: "2026-07-25" },
   1361: { start: "2026-06-11", end: "2026-07-25" },
   1084: { start: "2026-06-15", end: "2026-07-29" },
+  2238: { start: "2026-06-17", end: "2026-07-31" },
+  1885: { start: "2026-06-17", end: "2026-07-31" },
+
+
 
 };
 
@@ -322,7 +326,19 @@ export default function MapView() {
       type: "building",
     },
     {
-      url: import.meta.env.BASE_URL + "geojson/PE11084BA_P.geojson",
+      url: import.meta.env.BASE_URL + "geojson/PE1084BA_P.geojson",
+      type: "parcel",
+    },
+         {
+      url: import.meta.env.BASE_URL + "geojson/EL1885GU_N.geojson",
+      type: "building",
+    },
+    {
+      url: import.meta.env.BASE_URL + "geojson/EL1885GU_P.geojson",
+      type: "parcel",
+    },
+     {
+      url: import.meta.env.BASE_URL + "geojson/LU2238KS_P.geojson",
       type: "parcel",
     },
 
