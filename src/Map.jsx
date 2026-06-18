@@ -164,6 +164,7 @@ const afatetZK = {
   1084: { start: "2026-06-15", end: "2026-07-29" },
   2238: { start: "2026-06-17", end: "2026-07-31" },
   1885: { start: "2026-06-17", end: "2026-07-31" },
+  2216: { start: "2026-06-18", end: "2026-08-01" },
 
 
 
@@ -342,6 +343,15 @@ export default function MapView() {
       type: "parcel",
     },
 
+          {
+      url: import.meta.env.BASE_URL + "geojson/PR2216KO_N.geojson",
+      type: "building",
+    },
+    {
+      url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
+      type: "parcel",
+    },
+
     ];
 
     async function loadLayersSequentially() {
@@ -431,6 +441,12 @@ export default function MapView() {
                       ?.toString()
                       .trim() || "-";
 
+                      if (feature.zk === "-" || feature.zk === "0") {
+                          feature.isValidZk = false;
+                        } else {
+                          feature.isValidZk = true;
+                        }
+
                   feature.isActive = isWithinDateRange(feature.zk);
                   feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
                   feature.owners = extractOwnersFromPronaret(
@@ -491,8 +507,8 @@ export default function MapView() {
                         offsetLng = -0.04; // adjust this value if needed
                         offsetLat = +0.02; 
                       }
-
-
+                          if (!feature.zk || feature.zk === "-" || feature.zk === "0") return;
+                     
 
                       const shiftedCenter = L.latLng(
                         center.lat + offsetLat,
