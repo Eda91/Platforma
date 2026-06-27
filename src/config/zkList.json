@@ -1,0 +1,296 @@
+{
+  "1000": {
+    "name": "ABAT"
+  },
+    "1011": {
+    "name": "ALIAJ"
+  },
+  "1084": {
+    "name": "BALLABAN"
+  },
+
+  "1088": {
+    "name": "BALLE"
+  },
+   "1111":{
+    "name": "BARDHAJ REC"
+ 
+  },
+  "1264": {
+    "name": "BRASHTE"
+ 
+  },
+  "1278": {
+    "name": "BRENOGE"
+  },
+  "1289": {
+    "name": "BRUÇAJ"
+  },
+    "1304":{
+    "name": "BUKMIRE"
+  },
+    "1338":{
+    "name": "BUZËMADHE"
+  },
+   "1349": {
+    "name": "CAHAN"
+  },
+    "1350":{
+    "name": "ÇAJE"
+  },
+  "1361": {
+    "name": "CAUSHAJ"
+  },
+  "1448": {
+    "name": "DARRAGJAT"
+  },
+   "1474": {
+    "name": "DERSTIL"
+  },
+  "1555": {
+    "name": "DRIZAR"
+  },
+   "1599":{
+    "name": "FAJZE"
+  },
+    "1683":{
+    "name": "GAJREP"
+  },
+  "1714": {
+    "name": "GIMAJ"
+ 
+  },
+   "1743":{
+    "name": "GJINOVEC"
+
+  },
+  "1769": {
+    "name": "GJURAJ"
+  },
+   "1788":{
+    "name": "GOLAJ"
+  },
+  "1885": {
+    "name": "GURABARDH"
+  },
+   "1899": {
+    "name": "GURI I ZI "
+  },
+  "1968": {
+    "name": "HOTOVE"
+  },
+
+   "1973":{
+    "name": "HURDHE REC"
+  },
+  "2152": {
+    "name": "KISHAJ"
+  },
+  "2216": {
+    "name": "KONDAS"
+  },
+  "2238": {
+  },
+  "2239": {
+    "name": "KOSOVË-GOSNISHT"
+  },
+    "2290": {
+    "name": "KRYEMADH"
+  },
+  "2350": {
+    "name": "KUTE"
+  },
+   "2355": {
+    "name": "LABINOT FUSHE"
+  },
+  "2400": {
+    "name": "LEKAJ"
+ 
+  },
+
+  "2431": {
+    "name": "LETAJ"
+  },
+   "2432": {
+    "name": "LETAN"
+
+  },
+   "2463": {
+    "name": "LIQENI I KUQ"
+
+  },
+  "2492": {
+    "name": "LOTAJ"
+  },
+   "2501":{
+    "name": "LUBALESH"
+  },
+ "2534":{
+    "name": "LURTH"
+  },
+   "2551": {
+    "name": "MALAGJIKAJVAL"
+  },
+  "2564": {
+    "name": "MALI I GJYMIT "
+  },
+   "2674": {
+    "name": "METALIAJ "
+  },
+  "2706":{
+    "name": "MLIZ"
+  },
+  "2731":{
+    "name": "MUJAJ"
+  },
+  "2773":{
+    "name": "NDRESHEN"
+  },
+
+  "2775": {
+    "name": "NDREJAJ"
+  },
+  "2777": {
+    "name": "NENMAVRIQ"
+   
+  },
+  "2791": {
+    "name": "NICAJ-SHALE "
+    
+  },
+  "2792": {
+    "name": "NICAJ-SHOSHE"
+ 
+  },
+   "2797":{
+    "name": "NIKOLIQ"
+ 
+  },
+  "2806": {
+    "name": "NIVICE"
+    
+  },
+  "2859": {
+    "name": "PALAJ"
+ 
+  },
+   "2860": {
+    "name": "PALAJ-GUSHTE"
+  },
+  "2894": {
+    "name": "PECAJ"
+  },
+  "2904": {
+    "name": "PENTAR"
+  },
+  "2907": {
+    "name": "PEPSUMAJ"
+  },
+   "2910": {
+    "name": "PERAJ"
+  },
+   "2950": {
+    "name": "PEROLLAJ"
+  },
+  "2955": {
+    "name": "PICAR"
+  },
+  "2979": {
+    "name": "PLAN"
+  },
+
+    "3004":{
+    "name": "POCEST"
+  },
+  "3012":{
+    "name": "POGAJ"
+  },
+  "3067": {
+    "name": "PSAR"
+  },
+
+   "3080":{
+    "name": "QAFE MURRE"
+  },
+   "3085": {
+    "name": "QARR"
+  },
+  "3131": {
+    "name": "RABAN"
+  },
+  "3273": {
+    "name": "-"
+  },
+   "3307": {
+    "name": "SERME"
+  },
+  "3311": {
+    "name": "SHAHINAJ"
+  },
+   "3366": {
+    "name": "SHETEL"
+  },
+  "3376": {
+    "name": "SHIRGJAN"
+  },
+
+    "3406":{
+    "name": "SHPAT"
+  },
+    "3482":{
+    "name": "SOHODOLL I MADH"
+  },
+    "3483":{
+    "name": "SOHODOLL I VOGEL"
+  },
+  "3571": {
+    "name": "-"
+  },
+  "3607": {
+    "name": "TOPLAN"
+    
+  },
+  "3634":{
+    "name": "TREGTAN"
+  
+  },
+
+   "3672":{
+    "name": "UKBIBAJ"
+  },
+  "3772": {
+    "name": "VILLE"
+   
+  },
+   "3794":{
+    "name": "VLLAHEN"
+  },
+    "3821":{
+    "name": "VRANISHT"
+ 
+  },
+  "3842": {
+    "name": "VUKSANAJ"
+
+  },
+   "3852":{
+    "name": "XHAFERAJ"
+    
+  },
+  "3853": {
+    "name": "XHAN"
+  },
+  "3873": {
+    "name": "ZAHRISHT"
+    
+  },
+
+  "3911": {
+    "name": "-"
+ 
+  },
+  "3988": {
+    "name": "OROSH"
+
+  }
+}

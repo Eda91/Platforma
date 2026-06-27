@@ -4,7 +4,11 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import polylabel from "@mapbox/polylabel";
 import * as turf from "@turf/turf";
+import { trackZkSearch } from "../api/analytics";
+import afatetZK from "../src/config/afatetZK.json";
+import { uploadStats } from "../api/firebaseAnalytics";
 import "./index.css";
+
 
 /* FIX MARKER ICONS */
 delete L.Icon.Default.prototype._getIconUrl;
@@ -105,6 +109,8 @@ const fieldMap = {
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
 
+
+
 /* HELPER TO GET FIELD VALUE */
 function getFieldValue(obj, keys) {
   if (!obj) return undefined;
@@ -150,7 +156,7 @@ function getFeatureCenter(feature) {
   }
 }
 
-const afatetZK = {
+const afatet= {
 
   3131: { start: "2026-04-27", end: "2026-06-11" },
   2239: { start: "2026-04-27", end: "2026-06-11" },
@@ -171,11 +177,22 @@ const afatetZK = {
 };
 
 function isWithinDateRange(zkNumer) {
-  const rule = afatetZK[zkNumer];
+  const rule = afatet[zkNumer];
   if (!rule) return true;
 
   const today = new Date();
   return today >= new Date(rule.start) && today <= new Date(rule.end);
+}
+
+
+function normalizeText(text = "") {
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // heq thekset
+    .replace(/\s+/g, " ");           // heq hapësirat e tepërta
 }
 
 export default function MapView() {
@@ -192,6 +209,10 @@ export default function MapView() {
   const modalRef = useRef(null);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
+  const [fshati, setFshati] = useState("");
+  const zkIndexRef = useRef({});
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [afatetZKState, setAfatetZKState] = useState({});
 
   const [sidebarVisible, setSidebarVisible] = useState(() => {
     return window.innerWidth >= 768;
@@ -217,6 +238,7 @@ export default function MapView() {
   /* ================= MAP INIT ================= */
   useEffect(() => {
     if (mapRef.current) return;
+
 
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
@@ -447,6 +469,16 @@ export default function MapView() {
                           feature.isValidZk = true;
                         }
 
+                        const zkKey = feature.zk;
+
+                        if (zkKey && zkKey !== "-" && zkKey !== "0") {
+                          if (!zkIndexRef.current[zkKey]) {
+                            zkIndexRef.current[zkKey] = [];
+                          }
+
+                          zkIndexRef.current[zkKey].push(layer);
+                        }
+
                   feature.isActive = isWithinDateRange(feature.zk);
                   feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
                   feature.owners = extractOwnersFromPronaret(
@@ -574,10 +606,14 @@ export default function MapView() {
       updateLabels();
     }
     let renderedZK = new Set();
-    let timeout;
+   let timeout;
 
     function updateLabels() {
       if (!labelLayerRef.current) return;
+
+      if (!mapRef.current) return;
+        if (!mapRef.current._container) return;
+        if (!mapRef.current._loaded) return;
 
       if (timeout) return;
 
@@ -585,7 +621,20 @@ export default function MapView() {
         labelLayerRef.current.clearLayers();
         renderedZK.clear();
 
-        const bounds = map.getBounds();
+     // const bounds = map.getBounds();
+            const map = mapRef.current;
+
+        // 🔒 HARD GUARD
+        if (!map || !map._container || !map._loaded) return;
+
+        let bounds;
+        try {
+          bounds = map.getBounds();
+          if (!bounds || !bounds.isValid()) return;
+        } catch (e) {
+          return; // map është në teardown ose invalid state
+        }
+
         const zoom = map.getZoom();
 
         featuresRef.current.forEach((f) => {
@@ -617,7 +666,7 @@ export default function MapView() {
           }
         });
 
-        timeout = null;
+    timeout = null;
       }, 80); // pak më i butë → më smooth
     }
 
@@ -635,83 +684,185 @@ export default function MapView() {
     };
   }, []);
 
+  const zoomToZK = (zkValue) => {
+  if (!mapRef.current) return;
+
+  const layers = zkIndexRef.current[zkValue];
+
+  if (!layers || !layers.length) return;
+
+  const group = L.featureGroup(layers);
+
+  mapRef.current.fitBounds(group.getBounds(), {
+    padding: [40, 40],
+    maxZoom: 16,
+  });
+
+  // highlight
+  layers.forEach((l) => {
+    l.setStyle?.({
+      color: "red",
+      weight: 3,
+      fillOpacity: 0.6,
+    });
+  });
+};
+
+const normalize = (str) =>
+  str
+    ?.toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
+
+    const afatetIndex = Object.entries(afatetZK).reduce((acc, [zk, val]) => {
+  acc[normalizeText(val.name)] = zk;
+  return acc;
+}, {});
+
+const findZkByFshati = (fshati) => {
+  const input = normalizeText(fshati);
+  return afatetIndex[input] || null;
+};
+
+
+const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
+
+console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
+
+  try {
+    if (!zk || zk === "-" || zk === "0") return; // ✅ STOP INVALID ZK
+
+    const existing = JSON.parse(localStorage.getItem("zkClicks") || "{}");
+
+    const key = zk.trim(); // ✅ CLEAN KEY
+
+    existing[key] = (existing[key] || 0) + 1;
+
+    localStorage.setItem("zkClicks", JSON.stringify(existing));
+
+    window.dispatchEvent(new Event("zkClicksUpdated"));
+ 
+
+    uploadStats(existing);
+
+    await trackZkSearch({
+      zk,
+      owner,
+      fshati,
+      resultCount,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
   /* ================= SEARCH ================= */
-  const handleSearch = () => {
-    const zkVal = zk.trim().toLowerCase();
-    const ownerVal = owner.trim().toLowerCase();
+const handleSearch = () => {
+const zkVal = normalizeText(zk);
+const ownerVal = normalizeText(owner);
+const fshatiVal = normalizeText(fshati);
 
-    if (!zkVal && !ownerVal) {
-      setMessage("Vendos një kriter kërkimi");
-      setResults([]);
-      setShowResultsModal(false);
-      return;
-    }
+  if (!zkVal && !ownerVal && !fshatiVal) {
+    setMessage("Vendos të paktën një kriter kërkimi");
+    setResults([]);
+    setShowResultsModal(false);
+    return;
+  }
 
-    const baseStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.2 };
-    featuresRef.current.forEach(
-      (f) => f._layer && f._layer.setStyle(baseStyle),
-    );
+if (zkVal) {
+  zoomToZK(zkVal.trim());
+}
 
-    const matches = featuresRef.current.filter((f) => {
-      if (!f._layer) return false;
-      const zkMatch = zkVal ? f.zk.toLowerCase().includes(zkVal) : true;
-      const ownerMatch = ownerVal
-        ? f.owners.some((o) => o.includes(ownerVal))
-        : true;
+  const matches = featuresRef.current.filter((f) => {
+      const zkName = normalizeText(f.normalized?.Zk_Emer);
+      const owner = normalizeText((f.owners || []).join(" "));
+      const zk = normalizeText(f.zk);
 
-      const trMatch = ownerVal
-        ? f.normalized.Kufizimet.toLowerCase().includes(ownerVal)
-        : true;
-      return zkMatch && (ownerMatch || trMatch);
-    });
-
-    if (!matches.length) {
-      setMessage(
-        "Nuk u gjet asnjë pasuri ose afati i afishimit ka përfunduar.",
+        return (
+        (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
+        (ownerVal && owner.includes(ownerVal)) ||
+        (fshatiVal && zkName.includes(fshatiVal))
       );
-      setResults([]);
-      setShowResultsModal(false);
-      return;
-    }
+  });
 
-    setMessage("");
-    setResults(matches.map((f) => f.normalized));
-    setShowResultsModal(true);
+ const zkFromFshati = findZkByFshati(fshatiVal);
 
-    matches.forEach(
-      (f) =>
-        f._layer &&
-        f._layer.setStyle({ color: "red", weight: 3, fillOpacity: 0.5 }),
-    );
+const payload = {
+  zk: zkVal || zkFromFshati || null,
+  owner: ownerVal || null,
+  fshati: fshatiVal || null,
+  resultCount: zkVal || zkFromFshati || null
+};
 
-    const group = L.featureGroup(matches.map((f) => f._layer).filter(Boolean));
-    if (!group.getLayers().length) return;
+// TRACK SEARCH (statistika)
+trackSearch(payload);
 
-    mapRef.current.flyToBounds(group.getBounds(), {
-      maxZoom: 18,
-      duration: 1.2,
-      easeLinearity: 0.25,
+console.log("TRACK SEARCH CALLED:", payload);
+
+  if (!matches.length) {
+    setMessage("Nuk u gjet asnjë rezultat.");
+    setResults([]);
+    setShowResultsModal(false);
+    return;
+  }
+
+setMessage("");
+
+// Shfaq tabelën vetëm kur është kërkuar pronari
+const shouldShowTable = ownerVal.length > 0;
+
+if (shouldShowTable) {
+  setResults(matches.map((f) => f.normalized));
+  setShowResultsModal(true);
+} else {
+  setResults([]);
+  setShowResultsModal(false);
+}
+
+const group = L.featureGroup(
+  matches
+    .map((f) => f._layer)
+    .filter(Boolean)
+);
+
+
+
+  if (group.getLayers().length) {
+    mapRef.current.fitBounds(group.getBounds(), {
       padding: [30, 30],
+      maxZoom: 18,
     });
+  }
 
-    if (isMobile) setSidebarVisible(false);
-    matches.forEach((f) => {
-      f._layer.setStyle({ color: "red", weight: 3, fillOpacity: 0.5 });
-
-      if (isMobile) {
-        let html = "";
-        for (const k in f.normalized) {
-          html += `<b>${k}:</b> ${f.normalized[k]}<br/>`;
-        }
-        f._layer.bindPopup(html).openPopup();
-      }
-    });
-
-    if (!isMobile) {
-      setResults(matches.map((f) => f.normalized));
-      setShowResultsModal(true);
+  matches.forEach((f) => {
+    if (f._layer) {
+      f._layer.setStyle({
+        color: "red",
+        weight: 3,
+        fillOpacity: 0.5,
+      });
     }
-  };
+  });
+};
+
+useEffect(() => {
+  const zkFromUrl = window.location.pathname.split("/").pop();
+  
+
+  if (zkFromUrl) {
+    setTimeout(() => {
+      zoomToZK(zkFromUrl);
+    }, 1200);
+  }
+}, []);
+
+
+
+
 
   /* ================= MODAL DRAG ================= */
   const onMouseDown = (e) => {
@@ -816,6 +967,32 @@ export default function MapView() {
               )}
 
               <input
+                  placeholder="Fshati (Emri i Zonës Kadastrale)"
+                  value={fshati}
+                  onChange={(e) => setFshati(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    marginBottom: "4px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    fontSize: "14px",
+                  }}
+                />
+
+                   {!fshati&&(
+                <div
+                  style={{
+                    color: "red",
+                    fontSize: "13px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Ju lutem vendosni Zonën Kadastrale
+                </div>
+              )}
+
+              <input
                 placeholder="Emri dhe Mbiemri i Pronarit *"
                 value={owner}
                 onChange={(e) => setOwner(e.target.value)}
@@ -843,7 +1020,7 @@ export default function MapView() {
               <div style={{ textAlign: "center" }}>
                 <button
                   onClick={handleSearch}
-                  disabled={!zk || !owner}
+           
                   style={{
                     width: "140px",
                     padding: "10px",
