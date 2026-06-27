@@ -1024,13 +1024,13 @@ useEffect(() => {
                   style={{
                     width: "140px",
                     padding: "10px",
-                    backgroundColor: !zk || !owner ? "#b5c7e6" : "#004aad",
+                    backgroundColor: "#004aad",
                     color: "#fff",
                     border: "none",
                     borderRadius: "6px",
                     fontSize: "14px",
                     fontWeight: 500,
-                    cursor: !zk || !owner ? "not-allowed" : "pointer",
+                  
                   }}
                 >
                   🔍 Kërko
