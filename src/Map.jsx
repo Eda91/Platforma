@@ -729,25 +729,18 @@ const findZkByFshati = (fshati) => {
 
 
 const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
-
-console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
+  console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
 
   try {
-    if (!zk || zk === "-" || zk === "0") return; // ✅ STOP INVALID ZK
+    // ❌ stop invalid values
+    if (!zk || zk === "-" || zk === "0") return;
 
-    const existing = JSON.parse(localStorage.getItem("zkClicks") || "{}");
+    const key = zk.trim();
 
-    const key = zk.trim(); // ✅ CLEAN KEY
+    // 🔥 1. UPDATE FIREBASE ONLY (NO localStorage)
+    await uploadStats(key);
 
-    existing[key] = (existing[key] || 0) + 1;
-
-    localStorage.setItem("zkClicks", JSON.stringify(existing));
-
-    window.dispatchEvent(new Event("zkClicksUpdated"));
- 
-
-    uploadStats(existing);
-
+    // 🔥 2. LOG SEARCH (analytics)
     await trackZkSearch({
       zk,
       owner,
@@ -755,6 +748,7 @@ console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
       resultCount,
       timestamp: new Date().toISOString(),
     });
+
   } catch (err) {
     console.warn(err);
   }

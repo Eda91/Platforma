@@ -1,18 +1,15 @@
 import { doc, setDoc, increment } from "firebase/firestore";
 import { db } from "../src/firebase";
 
-export async function uploadStats() {
-  try {
-    await setDoc(
-      doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO"),
-      {
-        clicks: increment(1),
-        updatedAt: new Date().toISOString(),
-      },
-      { merge: true }
-    );
-  } catch (err) {
-    alert(err.code + "\n\n" + err.message);
-    console.error(err);
-  }
+export async function uploadStats(zk) {
+  if (!zk || zk === "-" || zk === "0") return;
+
+  await setDoc(
+    doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO"),
+    {
+      [zk]: increment(1),
+      updatedAt: new Date()
+    },
+    { merge: true }
+  );
 }
