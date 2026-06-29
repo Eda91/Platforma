@@ -9,27 +9,23 @@ const zkList = Array.isArray(zkListRaw)
     }));
 
 export function buildZkDataset(clickMap = {}) {
-  const now = new Date();
-
-  if (!Array.isArray(zkList)) {
-    console.warn("zkList not array, fallback applied");
-  }
+  const now = Date.now();
 
   return zkList.map((z) => {
-    const afat = afatetZK?.[z.zk] || null;
+    const afat = afatetZK?.[z.zk];
 
     const start = afat?.start ?? "-";
     const end = afat?.end ?? "-";
 
     const isActive =
       afat &&
-      new Date(afat.start) <= now &&
-      now <= new Date(afat.end);
+      Date.parse(afat.start) <= now &&
+      now <= Date.parse(afat.end);
 
     return {
       zk: z.zk,
       file: z.file,
-      clicks: Number(clickMap[String(z.zk).trim()] || 0),
+      clicks: Number(clickMap[String(z.zk).trim()] ?? 0),
       start,
       end,
       status: isActive ? "ACTIVE" : "INACTIVE",
