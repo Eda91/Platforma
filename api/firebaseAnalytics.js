@@ -4,11 +4,13 @@ import { db } from "../src/firebase";
 export async function uploadStats(zk) {
   if (!zk || zk === "-" || zk === "0") return;
 
+  const ref = doc(db, "clicks", "global");
+
   await setDoc(
-    doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO"),
+    ref,
     {
       [zk]: increment(1),
-      updatedAt: new Date()
+      updatedAt: new Date().toISOString(),
     },
     { merge: true }
   );

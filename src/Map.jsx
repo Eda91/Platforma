@@ -755,7 +755,7 @@ const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
 };
 
   /* ================= SEARCH ================= */
-const handleSearch = () => {
+const handleSearch = async () => {
 const zkVal = normalizeText(zk);
 const ownerVal = normalizeText(owner);
 const fshatiVal = normalizeText(fshati);
@@ -793,7 +793,7 @@ const payload = {
 };
 
 // TRACK SEARCH (statistika)
-trackSearch(payload);
+await trackSearch(payload);
 
 console.log("TRACK SEARCH CALLED:", payload);
 

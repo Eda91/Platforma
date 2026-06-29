@@ -30,7 +30,9 @@ useEffect(() => {
         doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO")
       );
 
-      const data = snap.exists() ? snap.data().clicks : {};
+    const data = snap.exists() ? snap.data() : {};
+      delete data.updatedAt;
+      setClickMap(data);
 
       setClickMap(data || {});
     } catch (err) {
