@@ -9,7 +9,6 @@ import afatetZK from "../src/config/afatetZK.json";
 import { uploadStats } from "../api/firebaseAnalytics";
 import "./index.css";
 
-
 /* FIX MARKER ICONS */
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -109,8 +108,6 @@ const fieldMap = {
   Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
 
-
-
 /* HELPER TO GET FIELD VALUE */
 function getFieldValue(obj, keys) {
   if (!obj) return undefined;
@@ -156,8 +153,7 @@ function getFeatureCenter(feature) {
   }
 }
 
-const afatet= {
-
+const afatet = {
   3131: { start: "2026-04-27", end: "2026-06-11" },
   2239: { start: "2026-04-27", end: "2026-06-11" },
   1088: { start: "2026-04-27", end: "2026-06-11" },
@@ -171,9 +167,6 @@ const afatet= {
   2238: { start: "2026-06-17", end: "2026-07-31" },
   1885: { start: "2026-06-17", end: "2026-07-31" },
   2216: { start: "2026-06-18", end: "2026-08-01" },
-
-
-
 };
 
 function isWithinDateRange(zkNumer) {
@@ -184,7 +177,6 @@ function isWithinDateRange(zkNumer) {
   return today >= new Date(rule.start) && today <= new Date(rule.end);
 }
 
-
 function normalizeText(text = "") {
   return text
     .toString()
@@ -192,7 +184,7 @@ function normalizeText(text = "") {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "") // heq thekset
-    .replace(/\s+/g, " ");           // heq hapësirat e tepërta
+    .replace(/\s+/g, " "); // heq hapësirat e tepërta
 }
 
 export default function MapView() {
@@ -239,7 +231,6 @@ export default function MapView() {
   useEffect(() => {
     if (mapRef.current) return;
 
-
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
 
@@ -277,7 +268,6 @@ export default function MapView() {
         type: "city",
       },
 
-
       {
         url: import.meta.env.BASE_URL + "geojson/PE2239KO_P.geojson",
         type: "parcel",
@@ -294,26 +284,26 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_P.geojson",
         type: "parcel",
       },
-      
-       {
+
+      {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_N.geojson",
         type: "building",
       },
-  
-        {
+
+      {
         url: import.meta.env.BASE_URL + "geojson/PR3067PS_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/PR3067PS_P.geojson",
         type: "parcel",
       },
 
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/VL2955PI_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/VL2955PI_P.geojson",
         type: "parcel",
       },
@@ -322,58 +312,57 @@ export default function MapView() {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_P.geojson",
         type: "parcel",
       },
 
       {
-      url: import.meta.env.BASE_URL + "geojson/EL3376SH_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/EL3376SH_P.geojson",
-      type: "parcel",
-    },
+        url: import.meta.env.BASE_URL + "geojson/EL3376SH_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL3376SH_P.geojson",
+        type: "parcel",
+      },
 
-       {
-      url: import.meta.env.BASE_URL + "geojson/PE1361CA_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PE1361CA_P.geojson",
-      type: "parcel",
-    },
-       {
-      url: import.meta.env.BASE_URL + "geojson/PE1084BA_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PE1084BA_P.geojson",
-      type: "parcel",
-    },
-         {
-      url: import.meta.env.BASE_URL + "geojson/EL1885GU_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/EL1885GU_P.geojson",
-      type: "parcel",
-    },
-     {
-      url: import.meta.env.BASE_URL + "geojson/LU2238KS_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1361CA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1361CA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1084BA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1084BA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL1885GU_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL1885GU_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/LU2238KS_P.geojson",
+        type: "parcel",
+      },
 
-          {
-      url: import.meta.env.BASE_URL + "geojson/PR2216KO_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
-      type: "parcel",
-    },
-
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2216KO_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
+        type: "parcel",
+      },
     ];
 
     async function loadLayersSequentially() {
@@ -463,21 +452,21 @@ export default function MapView() {
                       ?.toString()
                       .trim() || "-";
 
-                      if (feature.zk === "-" || feature.zk === "0") {
-                          feature.isValidZk = false;
-                        } else {
-                          feature.isValidZk = true;
-                        }
+                  if (feature.zk === "-" || feature.zk === "0") {
+                    feature.isValidZk = false;
+                  } else {
+                    feature.isValidZk = true;
+                  }
 
-                        const zkKey = feature.zk;
+                  const zkKey = feature.zk;
 
-                        if (zkKey && zkKey !== "-" && zkKey !== "0") {
-                          if (!zkIndexRef.current[zkKey]) {
-                            zkIndexRef.current[zkKey] = [];
-                          }
+                  if (zkKey && zkKey !== "-" && zkKey !== "0") {
+                    if (!zkIndexRef.current[zkKey]) {
+                      zkIndexRef.current[zkKey] = [];
+                    }
 
-                          zkIndexRef.current[zkKey].push(layer);
-                        }
+                    zkIndexRef.current[zkKey].push(layer);
+                  }
 
                   feature.isActive = isWithinDateRange(feature.zk);
                   feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
@@ -505,62 +494,59 @@ export default function MapView() {
                     });
                   }
 
-                    if (center && f.type === "parcel") {
+                  if (center && f.type === "parcel") {
+                    let offsetLat = 0;
+                    let offsetLng = 0;
 
-                      let offsetLat = 0;
-                      let offsetLng = 0;
+                    if (feature.zk === "1088") {
+                      offsetLng = -0.031; // adjust this value if needed
+                    }
+                    if (feature.zk === "3067") {
+                      offsetLng = -0.005; // adjust this value if needed
+                    }
 
-                     
-                      if (feature.zk === "1088") {
-                        offsetLng = -0.031; // adjust this value if needed
-                      }
-                        if (feature.zk === "3067") {
-                        offsetLng = -0.005; // adjust this value if needed
-                      }
+                    if (feature.zk === "2806") {
+                      offsetLng = -0.04; // adjust this value if needed
+                      offsetLat = +0.02;
+                    }
 
-                        if (feature.zk === "2806") {
-                        offsetLng = -0.04; // adjust this value if needed
-                        offsetLat = +0.02; 
-                      }
+                    if (feature.zk === "2955") {
+                      offsetLng = -0.02; // adjust this value if needed
+                    }
 
-                        if (feature.zk === "2955") {
-                        offsetLng = -0.02; // adjust this value if needed
-                      
-                      }
-                      
-                        if (feature.zk === "1084") {
-                        offsetLat = +0.02; 
-                      }
-                        if (feature.zk === "1361") {
-                        offsetLng = -0.005; // adjust this value if needed
-                      }
+                    if (feature.zk === "1084") {
+                      offsetLat = +0.02;
+                    }
+                    if (feature.zk === "1361") {
+                      offsetLng = -0.005; // adjust this value if needed
+                    }
 
-                        if (feature.zk === "3367") {
-                        offsetLng = -0.04; // adjust this value if needed
-                        offsetLat = +0.02; 
-                      }
-                          if (!feature.zk || feature.zk === "-" || feature.zk === "0") return;
-                     
+                    if (feature.zk === "3367") {
+                      offsetLng = -0.04; // adjust this value if needed
+                      offsetLat = +0.02;
+                    }
+                    if (!feature.zk || feature.zk === "-" || feature.zk === "0")
+                      return;
 
-                      const shiftedCenter = L.latLng(
-                        center.lat + offsetLat,
-                        center.lng + offsetLng
-                      );
+                    const shiftedCenter = L.latLng(
+                      center.lat + offsetLat,
+                      center.lng + offsetLng,
+                    );
 
-                      feature._zkLabel = L.marker(shiftedCenter, {
-                        interactive: false,
-                        icon: L.divIcon({
-                          className: "zk-label",
-                          iconSize: [0, 0],
-                          iconAnchor: [0, 0],
-                          html: `
+                    feature._zkLabel = L.marker(shiftedCenter, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "zk-label",
+                        iconSize: [0, 0],
+                        iconAnchor: [0, 0],
+                        html: `
                             <div class="zk-text">
                               ${feature.zk}
                             </div>
                           `,
-                        }),
-                      });
-                    }
+                      }),
+                    });
+                  }
 
                   if (center && f.type === "city") {
                     const cityName =
@@ -606,68 +592,53 @@ export default function MapView() {
       updateLabels();
     }
     let renderedZK = new Set();
-   let timeout;
+    let timeout;
 
     function updateLabels() {
-      if (!labelLayerRef.current) return;
+      const map = mapRef.current;
+      const layerGroup = labelLayerRef.current;
 
-      if (!mapRef.current) return;
-        if (!mapRef.current._container) return;
-        if (!mapRef.current._loaded) return;
+      if (!map || !layerGroup) return;
+      if (!map._loaded || !map._container) return;
 
-      if (timeout) return;
+      if (updateLabels._timeout) return;
 
-      timeout = setTimeout(() => {
-        labelLayerRef.current.clearLayers();
-        renderedZK.clear();
+      updateLabels._timeout = setTimeout(() => {
+        updateLabels._timeout = null;
 
-     // const bounds = map.getBounds();
-            const map = mapRef.current;
-
-        // 🔒 HARD GUARD
-        if (!map || !map._container || !map._loaded) return;
+        layerGroup.clearLayers();
 
         let bounds;
         try {
           bounds = map.getBounds();
-          if (!bounds || !bounds.isValid()) return;
-        } catch (e) {
-          return; // map është në teardown ose invalid state
+          if (!bounds?.isValid()) return;
+        } catch {
+          return;
         }
 
         const zoom = map.getZoom();
+        const renderedZK = new Set();
 
-        featuresRef.current.forEach((f) => {
-          if (!f._layer || !f._center) return;
-          const center = f._center;
+        for (const f of featuresRef.current) {
+          if (!f?._center) continue;
+          if (!bounds.contains(f._center)) continue;
 
-          // 🚀 mos rendero jashtë ekranit (SUPER IMPORTANT)
-          if (!bounds.contains(center)) return;
-
-          // 🟥 CITY LABELS
           if (f.type === "city" && zoom >= 6) {
-            if (f._label) labelLayerRef.current.addLayer(f._label);
+            f._label && layerGroup.addLayer(f._label);
           }
 
-          // 🟦 ZK LABEL (vetëm një herë për zonë)
           if (f.type === "parcel" && zoom >= 10 && zoom <= 14) {
             if (!renderedZK.has(f.zk)) {
               renderedZK.add(f.zk);
-
-              if (f._zkLabel) {
-                labelLayerRef.current.addLayer(f._zkLabel);
-              }
+              f._zkLabel && layerGroup.addLayer(f._zkLabel);
             }
           }
 
-          // 🟧 NR PASURIE (vetëm zoom i lartë)
           if ((f.type === "parcel" || f.type === "building") && zoom >= 15) {
-            if (f._label) labelLayerRef.current.addLayer(f._label);
+            f._label && layerGroup.addLayer(f._label);
           }
-        });
-
-    timeout = null;
-      }, 80); // pak më i butë → më smooth
+        }
+      }, 80);
     }
 
     loadLayersSequentially();
@@ -681,66 +652,58 @@ export default function MapView() {
       map.off();
       map.remove();
       mapRef.current = null;
+      zkIndexRef.current = {};
+      featuresRef.current = [];
     };
   }, []);
 
   const zoomToZK = (zkValue) => {
-  if (!mapRef.current) return;
+    if (!mapRef.current) return;
 
-  const layers = zkIndexRef.current[zkValue];
+    const key = normalizeText(zkValue);
+    const layers = zkIndexRef.current[key];
 
-  if (!layers || !layers.length) return;
+    if (!layers || !layers.length) return;
 
-  const group = L.featureGroup(layers);
+    const group = L.featureGroup(layers);
 
-  mapRef.current.fitBounds(group.getBounds(), {
-    padding: [40, 40],
-    maxZoom: 16,
-  });
-
-  // highlight
-  layers.forEach((l) => {
-    l.setStyle?.({
-      color: "red",
-      weight: 3,
-      fillOpacity: 0.6,
+    mapRef.current.fitBounds(group.getBounds(), {
+      padding: [40, 40],
+      maxZoom: 16,
     });
-  });
-};
 
-const normalize = (str) =>
-  str
-    ?.toString()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, " ");
+    layers.forEach((l) => {
+      l.setStyle?.({
+        color: "red",
+        weight: 3,
+        fillOpacity: 0.6,
+      });
+    });
+  };
 
-    const afatetIndex = Object.entries(afatetZK).reduce((acc, [zk, val]) => {
-  acc[normalizeText(val.name)] = zk;
-  return acc;
-}, {});
+  const afatetIndex = Object.entries(afatetZK || {}).reduce(
+    (acc, [zk, val]) => {
+      if (val?.name) {
+        acc[normalizeText(val.name)] = zk;
+      }
+      return acc;
+    },
+    {},
+  );
 
-const findZkByFshati = (fshati) => {
-  const input = normalizeText(fshati);
-  return afatetIndex[input] || null;
-};
+  const findZkByFshati = (fshati) => {
+    const input = normalizeText(fshati);
+    return afatetIndex[input] || null;
+  };
 
-
-const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
-  console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
-
+ const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
   try {
-    // ❌ stop invalid values
     if (!zk || zk === "-" || zk === "0") return;
 
-    const key = zk.trim();
+    const key = normalizeText(zk);
 
-    // 🔥 1. UPDATE FIREBASE ONLY (NO localStorage)
     await uploadStats(key);
 
-    // 🔥 2. LOG SEARCH (analytics)
     await trackZkSearch({
       zk,
       owner,
@@ -748,54 +711,44 @@ const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
       resultCount,
       timestamp: new Date().toISOString(),
     });
-
   } catch (err) {
-    console.warn(err);
+    console.warn("trackSearch error:", err);
   }
 };
 
   /* ================= SEARCH ================= */
 const handleSearch = async () => {
-const zkVal = normalizeText(zk);
-const ownerVal = normalizeText(owner);
-const fshatiVal = normalizeText(fshati);
+  const zkVal = normalizeText(zk);
+  const ownerVal = normalizeText(owner);
+  const fshatiVal = normalizeText(fshati);
 
   if (!zkVal && !ownerVal && !fshatiVal) {
     setMessage("Vendos të paktën një kriter kërkimi");
-    setResults([]);
-    setShowResultsModal(false);
     return;
   }
 
-if (zkVal) {
-  zoomToZK(zkVal.trim());
-}
+  if (zkVal) zoomToZK(zkVal);
 
   const matches = featuresRef.current.filter((f) => {
-      const zkName = normalizeText(f.normalized?.Zk_Emer);
-      const owner = normalizeText((f.owners || []).join(" "));
-      const zk = normalizeText(f.zk);
+    const zkName = normalizeText(f.normalized?.Zk_Emer);
+    const ownerText = normalizeText((f.owners || []).join(" "));
+    const zkCode = normalizeText(f.zk);
 
-        return (
-        (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
-        (ownerVal && owner.includes(ownerVal)) ||
-        (fshatiVal && zkName.includes(fshatiVal))
-      );
+    return (
+      (zkVal && (zkCode.includes(zkVal) || zkName.includes(zkVal))) ||
+      (ownerVal && ownerText.includes(ownerVal)) ||
+      (fshatiVal && zkName.includes(fshatiVal))
+    );
   });
 
- const zkFromFshati = findZkByFshati(fshatiVal);
+  const zkFromFshati = findZkByFshati(fshatiVal);
 
-const payload = {
-  zk: zkVal || zkFromFshati || null,
-  owner: ownerVal || null,
-  fshati: fshatiVal || null,
-  resultCount: zkVal || zkFromFshati || null
-};
-
-// TRACK SEARCH (statistika)
-await trackSearch(payload);
-
-console.log("TRACK SEARCH CALLED:", payload);
+  await trackSearch({
+    zk: zkVal || zkFromFshati || null,
+    owner: ownerVal || null,
+    fshati: fshatiVal || null,
+    resultCount: matches.length,
+  });
 
   if (!matches.length) {
     setMessage("Nuk u gjet asnjë rezultat.");
@@ -804,26 +757,14 @@ console.log("TRACK SEARCH CALLED:", payload);
     return;
   }
 
-setMessage("");
+  setMessage("");
 
-// Shfaq tabelën vetëm kur është kërkuar pronari
-const shouldShowTable = ownerVal.length > 0;
+  const shouldShowTable = ownerVal.length > 0;
 
-if (shouldShowTable) {
-  setResults(matches.map((f) => f.normalized));
-  setShowResultsModal(true);
-} else {
-  setResults([]);
-  setShowResultsModal(false);
-}
+  setResults(shouldShowTable ? matches.map((f) => f.normalized) : []);
+  setShowResultsModal(shouldShowTable);
 
-const group = L.featureGroup(
-  matches
-    .map((f) => f._layer)
-    .filter(Boolean)
-);
-
-
+  const group = L.featureGroup(matches.map((f) => f._layer).filter(Boolean));
 
   if (group.getLayers().length) {
     mapRef.current.fitBounds(group.getBounds(), {
@@ -833,30 +774,23 @@ const group = L.featureGroup(
   }
 
   matches.forEach((f) => {
-    if (f._layer) {
-      f._layer.setStyle({
-        color: "red",
-        weight: 3,
-        fillOpacity: 0.5,
-      });
-    }
+    f._layer?.setStyle?.({
+      color: "red",
+      weight: 3,
+      fillOpacity: 0.5,
+    });
   });
 };
 
-useEffect(() => {
-  const zkFromUrl = window.location.pathname.split("/").pop();
-  
+  useEffect(() => {
+    const zkFromUrl = window.location.pathname.split("/").pop();
 
-  if (zkFromUrl) {
-    setTimeout(() => {
-      zoomToZK(zkFromUrl);
-    }, 1200);
-  }
-}, []);
-
-
-
-
+    if (zkFromUrl) {
+      setTimeout(() => {
+        zoomToZK(zkFromUrl);
+      }, 1200);
+    }
+  }, []);
 
   /* ================= MODAL DRAG ================= */
   const onMouseDown = (e) => {
@@ -961,20 +895,20 @@ useEffect(() => {
               )}
 
               <input
-                  placeholder="Fshati (Emri i Zonës Kadastrale)"
-                  value={fshati}
-                  onChange={(e) => setFshati(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    marginBottom: "4px",
-                    borderRadius: "6px",
-                    border: "1px solid #ccc",
-                    fontSize: "14px",
-                  }}
-                />
+                placeholder="Fshati (Emri i Zonës Kadastrale)"
+                value={fshati}
+                onChange={(e) => setFshati(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "4px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
+              />
 
-                   {!fshati&&(
+              {!fshati && (
                 <div
                   style={{
                     color: "red",
@@ -1014,7 +948,6 @@ useEffect(() => {
               <div style={{ textAlign: "center" }}>
                 <button
                   onClick={handleSearch}
-           
                   style={{
                     width: "140px",
                     padding: "10px",
@@ -1024,7 +957,6 @@ useEffect(() => {
                     borderRadius: "6px",
                     fontSize: "14px",
                     fontWeight: 500,
-                  
                   }}
                 >
                   🔍 Kërko
