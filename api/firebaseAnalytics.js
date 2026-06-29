@@ -1,45 +1,53 @@
-import { doc, setDoc, increment } from "firebase/firestore";
+import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import { db } from "../src/firebase";
+
+const LEGACY_DOC_ID = "3bFrd9Iw5HtgL6tMR6YO";
 
 export async function uploadStats(zk) {
   if (!zk || zk === "-" || zk === "0") return;
 
-  const zkRef = doc(db, "clicks", String(zk));
   const globalRef = doc(db, "clicks", "global");
-  const legacyRef = doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO");
+  const zkRef = doc(db, "clicks_zk", String(zk));
+  const legacyRef = doc(db, "clicks", LEGACY_DOC_ID);
 
   try {
-    await Promise.all([
-      setDoc(
-        zkRef,
-        {
-          clicks: increment(1),
-          updatedAt: new Date().toISOString(),
-        },
-        { merge: true }
-      ),
+    await runTransaction(db, async (tx) => {
+      const globalSnap = await tx.get(globalRef);
+      const zkSnap = await tx.get(zkRef);
+      const legacySnap = await tx.get(legacyRef);
 
-      setDoc(
-        globalRef,
-        {
-          clicks: increment(1),
-          updatedAt: new Date().toISOString(),
-        },
-        { merge: true }
-      ),
+      const globalCount = globalSnap.exists() ? globalSnap.data().count || 0 : 0;
+      const zkCount = zkSnap.exists() ? zkSnap.data().count || 0 : 0;
 
-      setDoc(
+      const legacyData = legacySnap.exists() ? legacySnap.data() : {};
+      const zkBreakdown = legacyData.clicks || {};
+
+      tx.set(globalRef, {
+        count: globalCount + 1,
+        updatedAt: serverTimestamp(),
+      });
+
+      tx.set(zkRef, {
+        count: zkCount + 1,
+        updatedAt: serverTimestamp(),
+      });
+
+      // 🔥 breakdown by ZK inside legacy doc
+      tx.set(
         legacyRef,
         {
           clicks: {
-            [zk]: increment(1),
+            ...zkBreakdown,
+            [zk]: (zkBreakdown[zk] || 0) + 1,
           },
-          updatedAt: new Date().toISOString(),
+          updatedAt: serverTimestamp(),
         },
         { merge: true }
-      ),
-    ]);
+      );
+    });
+
+    console.log("UPLOAD OK");
   } catch (err) {
-    console.error("uploadStats error:", err);
+    console.error("UPLOAD ERROR", err);
   }
 }

@@ -7,7 +7,8 @@ import * as turf from "@turf/turf";
 import { trackZkSearch } from "../api/analytics";
 import afatetZK from "../src/config/afatetZK.json";
 import { uploadStats } from "../api/firebaseAnalytics";
-import { collection, getDocs } from "firebase/firestore";
+import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
+import { db } from "../src/firebase";
 import "./index.css";
 
 
@@ -214,7 +215,7 @@ export default function MapView() {
   const zkIndexRef = useRef({});
   const [dataLoaded, setDataLoaded] = useState(false);
   const [afatetZKState, setAfatetZKState] = useState({});
-  const lastTrackRef = useRef(null);
+   const trackLockRef = useRef(new Set());
 
   const [sidebarVisible, setSidebarVisible] = useState(() => {
     return window.innerWidth >= 768;
@@ -589,12 +590,12 @@ export default function MapView() {
 
                   allFeatures.push(feature);
                 } catch (e) {
-                  console.warn("⚠️ skip feature");
+                 // console.warn("⚠️ skip feature");
                 }
               },
             }).addTo(map);
           } catch (e) {
-            console.warn("⛔ skip file:", f.url);
+           // console.warn("⛔ skip file:", f.url);
           }
 
           // ⏱ prevents freezing
@@ -726,32 +727,22 @@ const findZkByFshati = (fshati) => {
 };
 
 
-const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
-  const key = `${zk}-${owner}-${fshati}`;
-
-  if (lastTrackRef.current === key) return;
-  lastTrackRef.current = key;
-
-  console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
+const trackSearch = async ({ zk, owner, fshati }) => {
+  if (!zk || zk === "-" || zk === "0") return;
 
   try {
-    if (!zk || zk === "-" || zk === "0") return;
-
-    uploadStats(zk).catch(() => {});
+    await uploadStats(zk);
 
     await trackZkSearch({
       zk,
       owner,
       fshati,
-      resultCount,
       timestamp: new Date().toISOString(),
     });
-
   } catch (err) {
-    console.warn(err);
+    console.error(err);
   }
 };
-
 
   /* ================= SEARCH ================= */
 const handleSearch = async () => {
@@ -786,22 +777,21 @@ const handleSearch = async () => {
 
   // 🔥 FIX: dedup key për tracking
   const trackKey = `${zkVal}-${ownerVal}-${fshatiVal}`;
-  if (window.__lastTrackKey === trackKey) return;
-  window.__lastTrackKey = trackKey;
+
 
   // ❗ TRACK vetëm nëse ka kërkim valid
   await trackSearch({
     zk: zkVal || zkFromFshati || null,
     owner: ownerVal || null,
     fshati: fshatiVal || null,
-    resultCount: matches.length,
+    resultCount: zk || zkFromFshati
   });
 
   console.log("TRACK SEARCH CALLED:", {
     zk: zkVal || zkFromFshati || null,
     owner: ownerVal,
     fshati: fshatiVal,
-    resultCount: matches.length,
+    resultCount: zkVal ||zkFromFshati
   });
 
   if (!matches.length) {
