@@ -13,7 +13,7 @@ import {
 import { buildZkDataset } from "../api/getzkstats";
 import zkListRaw from "../src/config/zkList.json";
 import afatetZK from "../src/config/afatetZK.json";
-import { doc, getDoc , onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../src/firebase";
 import "../src/statistics.css";
 
@@ -24,20 +24,22 @@ export default function Statistics() {
 
   /* ================= LOAD CLICK DATA ================= */
 useEffect(() => {
-  const ref = doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO");
+  const load = async () => {
+    try {
+      const snap = await getDoc(
+        doc(db, "clicks", "3bFrd9Iw5HtgL6tMR6YO")
+      );
 
-  const unsub = onSnapshot(ref, (snap) => {
-    if (!snap.exists()) return;
+      const data = snap.exists() ? snap.data().clicks : {};
 
-    const data = snap.data();
+      setClickMap(data || {});
+    } catch (err) {
+      console.error(err);
+      setClickMap({});
+    }
+  };
 
-    setClickMap((prev) => ({
-      ...prev,
-      ...(data.clicks || {}),
-    }));
-  });
-
-  return () => unsub();
+  load();
 }, []);
 
 
@@ -57,10 +59,10 @@ useEffect(() => {
   }, [rows]);
 
   /* ================= METRICS ================= */
-const totalClicks = useMemo(
-  () => Object.values(rows).reduce((s, r) => s + (Number(r.clicks) || 0), 0),
-  [rows]
-);
+  const totalClicks = useMemo(
+    () => rows.reduce((s, r) => s + (Number(r.clicks) || 0), 0),
+    [rows]
+  );
 
   const activeZones = useMemo(
     () => rows.filter((r) => r.isActive).length,

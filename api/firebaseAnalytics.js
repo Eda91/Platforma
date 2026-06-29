@@ -1,4 +1,4 @@
-import { doc, updateDoc, increment } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 import { db } from "../src/firebase";
 
 export async function uploadStats(zk) {
@@ -6,8 +6,18 @@ export async function uploadStats(zk) {
 
   const ref = doc(db, "clicks", zk);
 
-  await updateDoc(ref, {
-    count: increment(1),
-    updatedAt: new Date().toISOString(),
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
+
+    const current = snap.exists() ? snap.data().count || 0 : 0;
+
+    transaction.set(
+      ref,
+      {
+        count: current + 1,
+        updatedAt: Date.now(),
+      },
+      { merge: true }
+    );
   });
 }
