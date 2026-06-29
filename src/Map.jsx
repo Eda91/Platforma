@@ -214,6 +214,7 @@ export default function MapView() {
   const zkIndexRef = useRef({});
   const [dataLoaded, setDataLoaded] = useState(false);
   const [afatetZKState, setAfatetZKState] = useState({});
+  const lastTrackRef = useRef(null);
 
   const [sidebarVisible, setSidebarVisible] = useState(() => {
     return window.innerWidth >= 768;
@@ -726,18 +727,18 @@ const findZkByFshati = (fshati) => {
 
 
 const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
+  const key = `${zk}-${owner}-${fshati}`;
+
+  if (lastTrackRef.current === key) return;
+  lastTrackRef.current = key;
+
   console.log("TRACK SEARCH CALLED:", { zk, owner, fshati, resultCount });
 
   try {
-    // ❌ stop invalid values
     if (!zk || zk === "-" || zk === "0") return;
 
-    const key = zk.trim();
+    uploadStats(zk).catch(() => {});
 
-    // 🔥 1. UPDATE FIREBASE ONLY (NO localStorage)
-  uploadStats(key).catch(() => {});
-
-    // 🔥 2. LOG SEARCH (analytics)
     await trackZkSearch({
       zk,
       owner,
@@ -751,11 +752,12 @@ const trackSearch = async ({ zk, owner, fshati, resultCount }) => {
   }
 };
 
+
   /* ================= SEARCH ================= */
 const handleSearch = async () => {
-const zkVal = normalizeText(zk);
-const ownerVal = normalizeText(owner);
-const fshatiVal = normalizeText(fshati);
+  const zkVal = normalizeText(zk);
+  const ownerVal = normalizeText(owner);
+  const fshatiVal = normalizeText(fshati);
 
   if (!zkVal && !ownerVal && !fshatiVal) {
     setMessage("Vendos të paktën një kriter kërkimi");
@@ -764,35 +766,43 @@ const fshatiVal = normalizeText(fshati);
     return;
   }
 
-if (zkVal) {
-  zoomToZK(zkVal.trim());
-}
+  if (zkVal) {
+    zoomToZK(zkVal.trim());
+  }
 
   const matches = featuresRef.current.filter((f) => {
-      const zkName = normalizeText(f.normalized?.Zk_Emer);
-      const owner = normalizeText((f.owners || []).join(" "));
-      const zk = normalizeText(f.zk);
+    const zkName = normalizeText(f.normalized?.Zk_Emer);
+    const owner = normalizeText((f.owners || []).join(" "));
+    const zk = normalizeText(f.zk);
 
-        return (
-        (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
-        (ownerVal && owner.includes(ownerVal)) ||
-        (fshatiVal && zkName.includes(fshatiVal))
-      );
+    return (
+      (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
+      (ownerVal && owner.includes(ownerVal)) ||
+      (fshatiVal && zkName.includes(fshatiVal))
+    );
   });
 
- const zkFromFshati = findZkByFshati(fshatiVal);
+  const zkFromFshati = findZkByFshati(fshatiVal);
 
-const payload = {
-  zk: zkVal || zkFromFshati || null,
-  owner: ownerVal || null,
-  fshati: fshatiVal || null,
-  resultCount: zkVal || zkFromFshati || null
-};
+  // 🔥 FIX: dedup key për tracking
+  const trackKey = `${zkVal}-${ownerVal}-${fshatiVal}`;
+  if (window.__lastTrackKey === trackKey) return;
+  window.__lastTrackKey = trackKey;
 
-// TRACK SEARCH (statistika)
-await trackSearch(payload);
+  // ❗ TRACK vetëm nëse ka kërkim valid
+  await trackSearch({
+    zk: zkVal || zkFromFshati || null,
+    owner: ownerVal || null,
+    fshati: fshatiVal || null,
+    resultCount: matches.length,
+  });
 
-console.log("TRACK SEARCH CALLED:", payload);
+  console.log("TRACK SEARCH CALLED:", {
+    zk: zkVal || zkFromFshati || null,
+    owner: ownerVal,
+    fshati: fshatiVal,
+    resultCount: matches.length,
+  });
 
   if (!matches.length) {
     setMessage("Nuk u gjet asnjë rezultat.");
@@ -801,26 +811,21 @@ console.log("TRACK SEARCH CALLED:", payload);
     return;
   }
 
-setMessage("");
+  setMessage("");
 
-// Shfaq tabelën vetëm kur është kërkuar pronari
-const shouldShowTable = ownerVal.length > 0;
+  const shouldShowTable = ownerVal.length > 0;
 
-if (shouldShowTable) {
-  setResults(matches.map((f) => f.normalized));
-  setShowResultsModal(true);
-} else {
-  setResults([]);
-  setShowResultsModal(false);
-}
+  if (shouldShowTable) {
+    setResults(matches.map((f) => f.normalized));
+    setShowResultsModal(true);
+  } else {
+    setResults([]);
+    setShowResultsModal(false);
+  }
 
-const group = L.featureGroup(
-  matches
-    .map((f) => f._layer)
-    .filter(Boolean)
-);
-
-
+  const group = L.featureGroup(
+    matches.map((f) => f._layer).filter(Boolean)
+  );
 
   if (group.getLayers().length) {
     mapRef.current.fitBounds(group.getBounds(), {
