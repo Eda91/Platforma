@@ -248,10 +248,8 @@ const logoutBtnStyle = {
         {/* ================= TABLE ================= */}
         <div style={panel}>
           <h3>📋 Statusi i Zonave</h3>
-
-          <div style={{ maxHeight: 523, overflowY: "auto",  border: "2px solid #94a3b8",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.04)",}}>
-
+<div className="table-wrapper">
+        <div className="table-scroll">
             {/* HEADER */}
             <div style={styles.header}>
               <div>ZK</div>
@@ -286,6 +284,7 @@ const logoutBtnStyle = {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

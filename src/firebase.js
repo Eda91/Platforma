@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
 
@@ -18,9 +18,19 @@ const firebaseConfig = {
   measurementId: "G-Y727Y50X1S"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
+// Firestore (safe everywhere)
 export const db = getFirestore(app);
+
+// Analytics (safe check)
+let analytics = null;
+
+isSupported().then((ok) => {
+  if (ok) {
+    analytics = getAnalytics(app);
+  }
+});
+
+export { analytics };
 
