@@ -24,6 +24,28 @@ body {
   z-index: 0;
 }
 
+.leaflet-container {
+  background:#111;
+  cursor:grab;
+}
+
+.leaflet-container:active {
+  cursor:grabbing;
+}
+
+
+.leaflet-tile {
+  transition: opacity 0.25s ease;
+}
+
+
+.leaflet-control-zoom a {
+  width:38px;
+  height:38px;
+  line-height:38px;
+  font-size:22px;
+}
+
 /* -------------------
    Container for sidebar + map
 -------------------- */

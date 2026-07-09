@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router,BrowserRouter, Routes, Route } from "react-router-dom";
 import MapView from "./Map";
 import Lista from "./Lista";
 import ZonaDashboard from "./referenca";
@@ -13,6 +13,7 @@ export default function App() {
      <Routes>
    {/* <Route path="/map/:zk" element={<MapView />} /> */}
       <Route path="/" element={<MapView />} />
+      <Route path="/:zk" element={<MapView />} />
 
       <Route path="/lista" element={<Lista />} />
       <Route path="/listarf" element={<ZonaDashboard />} />

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -173,6 +174,7 @@ const afatet= {
   2238: { start: "2026-06-17", end: "2026-07-31" },
   1885: { start: "2026-06-17", end: "2026-07-31" },
   2216: { start: "2026-06-18", end: "2026-08-01" },
+  8573: { start: "2026-07-09", end: "2026-08-22" }
 
 
 
@@ -198,6 +200,11 @@ function normalizeText(text = "") {
 }
 
 export default function MapView() {
+
+ const { zk: urlZk } = useParams();
+
+ console.log("URL ZK:", urlZk);
+
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
   const featuresRef = useRef([]);
@@ -238,6 +245,7 @@ export default function MapView() {
     [42.7, 21.1], // NE
   );
 
+
   /* ================= MAP INIT ================= */
   useEffect(() => {
     if (mapRef.current) return;
@@ -246,23 +254,45 @@ export default function MapView() {
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
 
-    const map = L.map(mapContainer, {
-      preferCanvas: true,
-      renderer: L.canvas(),
-      maxBounds: ALBANIA_BOUNDS,
-      maxBoundsViscosity: 1.0,
-      minZoom: 7.7,
-      maxZoom: 18,
-      zoomSnap: 0.15,
-      zoomDelta: 0.15,
-    }).setView([41.1, 20.1], 7.8);
+   
+
+
+const map = L.map(mapContainer, {
+  preferCanvas: true,
+  renderer: L.canvas(),
+
+  // smooth movement
+  zoomAnimation: true,
+  fadeAnimation: true,
+  markerZoomAnimation: true,
+
+  // smoother wheel zoom
+  scrollWheelZoom: true,
+  wheelDebounceTime: 20,
+  wheelPxPerZoomLevel: 80,
+
+  // zoom behavior
+  zoomSnap: 0.05,
+  zoomDelta: 0.1,
+
+  // limits
+  maxBounds: ALBANIA_BOUNDS,
+  maxBoundsViscosity: 1.0,
+  minZoom: 7.7,
+  maxZoom: 21,
+
+}).setView([41.1, 20.1], 7.8);
 
     mapRef.current = map;
 
-    L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { maxZoom: 19 },
-    ).addTo(map);
+  L.tileLayer(
+"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+{
+  maxZoom: 21,
+  detectRetina: true,
+  keepBuffer: 4
+}
+).addTo(map);
 
     labelLayerRef.current = L.layerGroup().addTo(map);
 
@@ -376,6 +406,18 @@ export default function MapView() {
       url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
       type: "parcel",
     },
+
+      {
+      url: import.meta.env.BASE_URL + "geojson/LU8573LU_N.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/LU8573LU_P.geojson",
+      type: "parcel",
+    },
+
+    
 
     ];
 
@@ -607,6 +649,12 @@ export default function MapView() {
 
       featuresRef.current = allFeatures;
       updateLabels();
+
+
+      if (urlZk) {
+          zoomToZK(urlZk);
+      }
+
     }
     let renderedZK = new Set();
    let timeout;
@@ -689,28 +737,67 @@ export default function MapView() {
   }, []);
 
 
+
+   useEffect(() => {
+    if (!zk) return;
+    if (!mapRef.current) return;
+
+    zoomToZK(zk);
+  }, [zk]);
+
+
 const zoomToZK = (zkValue) => {
+
   if (!mapRef.current) return;
 
   const key = normalizeText(zkValue);
+
   const layers = zkIndexRef.current[key];
 
-  if (!layers || !layers.length) return;
+  if (!layers || layers.length === 0) return;
 
-  const group = L.featureGroup(layers);
 
-  mapRef.current.fitBounds(group.getBounds(), {
-    padding: [40, 40],
-    maxZoom: 16,
+  const validLayers = layers.filter(
+    l => l && typeof l.getBounds === "function"
+  );
+
+
+  if (!validLayers.length) return;
+
+
+  const group = L.featureGroup(validLayers);
+
+  const bounds = group.getBounds();
+
+
+  mapRef.current.flyToBounds(bounds, {
+
+    padding: [60,60],
+
+    maxZoom: 17,
+
+    duration: 2.5,
+
+    easeLinearity: 0.25
+
   });
 
-  layers.forEach((l) => {
-    l.setStyle?.({
-      color: "red",
-      weight: 3,
-      fillOpacity: 0.6,
+
+
+  validLayers.forEach(layer => {
+
+    layer.setStyle({
+
+      color:"#ff0000",
+
+      weight:3,
+
+      fillOpacity:0.55
+
     });
+
   });
+
 };
 
 
@@ -835,16 +922,7 @@ const handleSearch = async () => {
   });
 };
 
-useEffect(() => {
-  const zkFromUrl = window.location.pathname.split("/").pop();
-  
 
-  if (zkFromUrl) {
-    setTimeout(() => {
-      zoomToZK(zkFromUrl);
-    }, 1200);
-  }
-}, []);
 
 
 
