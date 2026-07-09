@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+
 import { ArrowLeft } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -201,7 +201,9 @@ function normalizeText(text = "") {
 
 export default function MapView() {
 
- const { zk: urlZk } = useParams();
+
+ const params = new URLSearchParams(window.location.search);
+ const urlZk = params.get("zk");
 
  console.log("URL ZK:", urlZk);
 
@@ -294,7 +296,9 @@ const map = L.map(mapContainer, {
 }
 ).addTo(map);
 
-    labelLayerRef.current = L.layerGroup().addTo(map);
+  L.control.zoom({
+  position:"bottomright"
+}).addTo(map);
 
     const parcelStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.25 };
     const buildingStyle = { color: "#008000", weight: 1, fillOpacity: 0.5 };
@@ -737,13 +741,11 @@ const map = L.map(mapContainer, {
   }, []);
 
 
-
-   useEffect(() => {
-    if (!zk) return;
-    if (!mapRef.current) return;
-
-    zoomToZK(zk);
-  }, [zk]);
+useEffect(() => {
+  if (urlZk) {
+    setZk(urlZk);
+  }
+}, [urlZk]);
 
 
 const zoomToZK = (zkValue) => {
@@ -905,10 +907,14 @@ const handleSearch = async () => {
   );
 
   if (group.getLayers().length) {
-    mapRef.current.fitBounds(group.getBounds(), {
-      padding: [30, 30],
-      maxZoom: 18,
-    });
+  mapRef.current.flyToBounds(
+  group.getBounds(),
+  {
+    padding:[50,50],
+    maxZoom:18,
+    duration:2
+  }
+);
   }
 
   matches.forEach((f) => {
