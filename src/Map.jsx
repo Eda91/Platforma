@@ -427,6 +427,7 @@ const map = L.map(mapContainer, {
     ];
 
     async function loadLayersSequentially() {
+       console.log("BASE URL:", import.meta.env.BASE_URL);
       const allFeatures = [];
 
       for (const f of files) {
