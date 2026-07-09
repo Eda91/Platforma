@@ -202,8 +202,8 @@ function normalizeText(text = "") {
 export default function MapView() {
 
 
- const params = new URLSearchParams(window.location.search);
- const urlZk = params.get("zk");
+const params = new URLSearchParams(window.location.search);
+const urlZk = params.get("zk") || "";
 
  console.log("URL ZK:", urlZk);
 
