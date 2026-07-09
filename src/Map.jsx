@@ -286,6 +286,7 @@ const map = L.map(mapContainer, {
 }).setView([41.1, 20.1], 7.8);
 
     mapRef.current = map;
+    labelLayerRef.current = L.layerGroup().addTo(map);
 
   L.tileLayer(
 "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
