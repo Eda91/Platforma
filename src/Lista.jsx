@@ -132,7 +132,9 @@ export default function Lista() {
         "MK2350KU_N.geojson","MK2350KU_P.geojson","EL3376SH_N.geojson","EL3376SH_P.geojson",
         "PE1361CA_N.geojson","PE1361CA_P.geojson","PE1084BA_N.geojson", "PE1084BA_P.geojson",
         "LU2238KS_P.geojson","EL1885GU_N.geojson","EL1885GU_P.geojson","PR2216KO_N.geojson",
-        "PR2216KO_P.geojson", "LU8573LU_N.geojson", "LU8573LU_P.geojson"
+        "PR2216KO_P.geojson", "LU8573LU_N.geojson","LU8573LU_P.geojson","DL1074BA_N.geojson",
+        "DL1074BA_P.geojson"
+
      
 
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);

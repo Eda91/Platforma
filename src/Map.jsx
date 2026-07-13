@@ -174,8 +174,8 @@ const afatet= {
   2238: { start: "2026-06-17", end: "2026-07-31" },
   1885: { start: "2026-06-17", end: "2026-07-31" },
   2216: { start: "2026-06-18", end: "2026-08-01" },
-  8573: { start: "2026-07-09", end: "2026-08-22" }
-
+  8573: { start: "2026-07-09", end: "2026-08-22" },
+  1074: { start: "2026-07-13", end: "2026-08-26" }
 
 
 };
@@ -422,7 +422,15 @@ const map = L.map(mapContainer, {
       type: "parcel",
     },
 
-    
+        {
+      url: import.meta.env.BASE_URL + "geojson/DL1074BA_N.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/DL1074BA_P.geojson",
+      type: "parcel",
+    },
 
     ];
 
@@ -929,10 +937,6 @@ const handleSearch = async () => {
     }
   });
 };
-
-
-
-
 
 
 
