@@ -127,6 +127,31 @@ function getFieldValue(obj, keys) {
   return undefined;
 }
 
+function getZkValue(props) {
+  if (!props) return null;
+
+  // fillimisht provo fushat ekzistuese
+  const value = getFieldValue(props, fieldMap.Zk_Numer);
+
+  if (value !== undefined && value !== null) {
+    return value.toString().trim();
+  }
+
+  // fallback automatik për çdo emër tjetër fushe
+  const key = Object.keys(props).find((k) => {
+    const n = normalizeText(k).replace(/_/g, "");
+
+    return (
+      n.includes("zknumer") ||
+      n.includes("numerzk") ||
+      n === "zk" ||
+      n.includes("nrzk")
+    );
+  });
+
+  return key ? props[key]?.toString().trim() : null;
+}
+
 function getFeatureCenter(feature) {
   const layer = feature._layer;
 
@@ -466,9 +491,7 @@ const map = L.map(mapContainer, {
             }
 
             const props = feature.properties || {};
-            const zk = getFieldValue(props, fieldMap.Zk_Numer)
-              ?.toString()
-              .trim();
+             const zk = getZkValue(props);
 
             return isWithinDateRange(zk);
           });
@@ -517,10 +540,7 @@ const map = L.map(mapContainer, {
                     })(),
                   };
 
-                  feature.zk =
-                    getFieldValue(props, fieldMap.Zk_Numer)
-                      ?.toString()
-                      .trim() || "-";
+                  feature.zk = getZkValue(props) || "-";
 
                       if (feature.zk === "-" || feature.zk === "0") {
                           feature.isValidZk = false;
@@ -528,15 +548,16 @@ const map = L.map(mapContainer, {
                           feature.isValidZk = true;
                         }
 
-                        const zkKey = feature.zk;
+                     const zkKey = normalizeText(feature.zk);
 
-                        if (zkKey && zkKey !== "-" && zkKey !== "0") {
-                          if (!zkIndexRef.current[zkKey]) {
-                            zkIndexRef.current[zkKey] = [];
-                          }
+                      if (zkKey && zkKey !== "-" && zkKey !== "0") {
 
-                          zkIndexRef.current[zkKey].push(layer);
+                        if (!zkIndexRef.current[zkKey]) {
+                          zkIndexRef.current[zkKey] = [];
                         }
+
+                        zkIndexRef.current[zkKey].push(layer);
+                      }
 
                   feature.isActive = isWithinDateRange(feature.zk);
                   feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
