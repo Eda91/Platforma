@@ -637,11 +637,12 @@ const map = L.map(mapContainer, {
                       }
                         if (feature.zk === "2216") {
                      
-                       offsetLng = +0.001;
+                           offsetLng = +0.00001;
+                           offsetLng = -0.01;
                       }
 
                         if (feature.zk === "2618") {
-                          offsetLat = -0.01;   // pak poshtë
+                           offsetLat = -0.01;   // pak poshtë
                            offsetLng = +0.03;
                       }
                           if (!feature.zk || feature.zk === "-" || feature.zk === "0") return;
