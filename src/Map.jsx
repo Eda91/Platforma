@@ -200,7 +200,8 @@ const afatet= {
   1885: { start: "2026-06-17", end: "2026-07-31" },
   2216: { start: "2026-06-18", end: "2026-08-01" },
   8573: { start: "2026-07-09", end: "2026-08-22" },
-  1074: { start: "2026-07-13", end: "2026-08-26" }
+  1074: { start: "2026-07-13", end: "2026-08-26" },
+  2618: { start: "2026-07-21", end: "2026-09-04" }
 
 
 };
@@ -457,6 +458,16 @@ const map = L.map(mapContainer, {
       type: "parcel",
     },
 
+       {
+      url: import.meta.env.BASE_URL + "geojson/PR2618MA_N.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/PR2618MA_P.geojson",
+      type: "parcel",
+    },
+
     ];
 
     async function loadLayersSequentially() {
@@ -618,6 +629,20 @@ const map = L.map(mapContainer, {
                         if (feature.zk === "3367") {
                         offsetLng = -0.04; // adjust this value if needed
                         offsetLat = +0.02; 
+                      }
+                       
+                        if (feature.zk === "1084") {
+                             offsetLat = +0.01;
+                             offsetLng = +0.01;
+                      }
+                        if (feature.zk === "2216") {
+                     
+                       offsetLng = +0.001;
+                      }
+
+                        if (feature.zk === "2618") {
+                          offsetLat = -0.01;   // pak poshtë
+                           offsetLng = +0.03;
                       }
                           if (!feature.zk || feature.zk === "-" || feature.zk === "0") return;
                      
