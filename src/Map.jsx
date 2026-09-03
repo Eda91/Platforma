@@ -201,9 +201,8 @@ const afatet= {
   2216: { start: "2026-06-18", end: "2026-08-01" },
   8573: { start: "2026-07-09", end: "2026-08-22" },
   1074: { start: "2026-07-13", end: "2026-08-26" },
-  2618: { start: "2026-07-21", end: "2026-09-04" }
-
-
+  2618: { start: "2026-07-21", end: "2026-09-04" },
+  2564: { start: "2026-08-31", end: "2026-10-15" }
 };
 
 function isWithinDateRange(zkNumer) {
@@ -327,14 +326,29 @@ const map = L.map(mapContainer, {
   position:"bottomright"
 }).addTo(map);
 
-    const parcelStyle = { color: "#ff9800", weight: 1, fillOpacity: 0.25 };
-    const buildingStyle = { color: "#008000", weight: 1, fillOpacity: 0.5 };
-    const cityStyle = {
-      color: "#c2410c",
-      weight: 2,
-      fillOpacity: 0,
-      fillColor: "transparent",
-    };
+   const parcelStyle = {
+  color: "#ff9800",
+  weight: 1.2,
+  fillColor: "#ff9800",
+  fillOpacity: 0.3
+};
+
+const buildingStyle = {
+  color: "#008000",
+  weight: 1,
+  fillColor: "#008000",
+  fillOpacity: 0.5
+};
+
+const cityStyle = {
+  color: "#c2410c",
+  weight: 2,
+  fillOpacity: 0,
+  fillColor: "transparent",
+};
+
+
+
     const files = [
       {
         url: import.meta.env.BASE_URL + "geojson/gadm41_ALB_2.geojson",
@@ -468,6 +482,16 @@ const map = L.map(mapContainer, {
       type: "parcel",
     },
 
+          {
+      url: import.meta.env.BASE_URL + "geojson/EL2654ME_ND.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/EL2654ME_P.geojson",
+      type: "parcel",
+    },
+
     ];
 
     async function loadLayersSequentially() {
@@ -509,17 +533,31 @@ const map = L.map(mapContainer, {
 
           try {
             L.geoJSON(validFeatures, {
-              style: (feature) => {
-                if (f.type === "city") return cityStyle;
-                if (f.type === "building") return buildingStyle;
+            style: () => {
+                  if (f.type === "city") {
+                    return cityStyle;
+                  }
 
-                return {
-                  color: "#ff9800",
-                  weight: 1.2,
-                  fillColor: "#ff9800",
-                  fillOpacity: 0.3,
-                };
-              },
+                  if (f.type === "building") {
+                    return {
+                      color: "#008000",
+                      weight: 1,
+                      fillColor: "#008000",
+                      fillOpacity: 0.3,
+                    };
+                  }
+
+                  if (f.type === "parcel") {
+                    return {
+                      color: "#ff9800",
+                      weight: 1.2,
+                      fillColor: "#ff9800",
+                      fillOpacity: 0.7,
+                    };
+                  }
+
+                  return {};
+                },
 
               onEachFeature: (feature, layer) => {
                 try {
