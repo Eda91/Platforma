@@ -202,7 +202,7 @@ const afatet= {
   8573: { start: "2026-07-09", end: "2026-08-22" },
   1074: { start: "2026-07-13", end: "2026-08-26" },
   2618: { start: "2026-07-21", end: "2026-09-04" },
-  2564: { start: "2026-08-31", end: "2026-10-15" },
+  2654: { start: "2026-08-31", end: "2026-10-15" },
   2494: { start: "2026-09-10", end: "2026-10-24" }
 };
 
@@ -307,17 +307,23 @@ const map = L.map(mapContainer, {
   maxBounds: ALBANIA_BOUNDS,
   maxBoundsViscosity: 1.0,
   minZoom: 7.7,
-  maxZoom: 21,
+  maxZoom: 18.3,
 
 }).setView([41.1, 20.1], 7.8);
 
     mapRef.current = map;
     labelLayerRef.current = L.layerGroup().addTo(map);
 
+    /* ================= BUILDING GREEN MARKERS ================= */
+
+const buildingMarkersLayer = L.layerGroup().addTo(map);
+
+
+
   L.tileLayer(
 "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 {
-  maxZoom: 21,
+  maxZoom: 19,
   detectRetina: true,
   keepBuffer: 4
 }
@@ -338,7 +344,7 @@ const buildingStyle = {
   color: "#008000",
   weight: 1,
   fillColor: "#008000",
-  fillOpacity: 0.5
+  fillOpacity: 0.3
 };
 
 const cityStyle = {
@@ -484,7 +490,7 @@ const cityStyle = {
     },
 
    {
-      url: import.meta.env.BASE_URL + "geojson/EL2654ME_ND.geojson",
+      url: import.meta.env.BASE_URL + "geojson/EL2654ME_N.geojson",
       type: "building",
     },
 
@@ -549,12 +555,15 @@ const cityStyle = {
                     return cityStyle;
                   }
 
-                  if (f.type === "building") {
+                 if (f.type === "building") {
                     return {
-                      color: "#008000",
-                      weight: 1,
-                      fillColor: "#008000",
-                      fillOpacity: 0.3,
+                      color: "#00a83b",
+                      weight: 2.5,
+
+                      fillColor: "#00e64d",
+                      fillOpacity: 0.85,
+
+                      opacity: 1,
                     };
                   }
 
@@ -575,6 +584,24 @@ const cityStyle = {
                   feature._layer = layer;
                   layer.feature = feature;
                   feature.type = f.type;
+
+                  /* =========================================
+                    CREATE GREEN MARKER FOR BUILDINGS
+                  ========================================= */
+
+              if (f.type === "building") {
+                  try {
+                    const bounds = layer.getBounds();
+
+                    if (bounds && bounds.isValid()) {
+                      const center = bounds.getCenter();
+
+                    
+                    }
+                  } catch (e) {
+                    console.warn("Building marker error:", e);
+                  }
+                }
 
                   const props = feature.properties || {};
 
@@ -782,6 +809,8 @@ const cityStyle = {
         labelLayerRef.current.clearLayers();
         renderedZK.clear();
 
+        buildingMarkersLayer.clearLayers();
+
      // const bounds = map.getBounds();
             const map = mapRef.current;
 
@@ -798,34 +827,82 @@ const cityStyle = {
 
         const zoom = map.getZoom();
 
-        featuresRef.current.forEach((f) => {
-          if (!f._layer || !f._center) return;
-          const center = f._center;
+       featuresRef.current.forEach((f) => {
+  if (!f._layer || !f._center) return;
 
-          // 🚀 mos rendero jashtë ekranit (SUPER IMPORTANT)
-          if (!bounds.contains(center)) return;
+  const center = f._center;
 
-          // 🟥 CITY LABELS
-          if (f.type === "city" && zoom >= 6) {
-            if (f._label) labelLayerRef.current.addLayer(f._label);
-          }
+  // mos rendero jashtë ekranit
+  if (!bounds.contains(center)) return;
 
-          // 🟦 ZK LABEL (vetëm një herë për zonë)
-          if (f.type === "parcel" && zoom >= 10 && zoom <= 14) {
-            if (!renderedZK.has(f.zk)) {
-              renderedZK.add(f.zk);
+  // CITY LABELS
+  if (f.type === "city" && zoom >= 6) {
+    if (f._label) {
+      labelLayerRef.current.addLayer(f._label);
+    }
+  }
 
-              if (f._zkLabel) {
-                labelLayerRef.current.addLayer(f._zkLabel);
-              }
-            }
-          }
+  // ZK LABEL
+  if (
+    f.type === "parcel" &&
+    zoom >= 10 &&
+    zoom <= 14
+  ) {
+    if (!renderedZK.has(f.zk)) {
+      renderedZK.add(f.zk);
 
-          // 🟧 NR PASURIE (vetëm zoom i lartë)
-          if ((f.type === "parcel" || f.type === "building") && zoom >= 15) {
-            if (f._label) labelLayerRef.current.addLayer(f._label);
-          }
-        });
+      if (f._zkLabel) {
+        labelLayerRef.current.addLayer(
+          f._zkLabel
+        );
+      }
+    }
+  }
+
+  /* =========================================
+     NDERTESAT - JESHILe ME E DUKSHME
+  ========================================= */
+
+  if (f.type === "building") {
+    if (zoom >= 12) {
+      f._layer.setStyle({
+        color: "#00a83b",
+        weight: 2.5,
+
+        fillColor: "#00e64d",
+        fillOpacity: 0.9,
+
+        opacity: 1,
+      });
+    } else {
+      f._layer.setStyle({
+        color: "#008000",
+        weight: 1,
+
+        fillColor: "#008000",
+        fillOpacity: 0.3,
+
+        opacity: 1,
+      });
+    }
+  }
+
+  /* =========================================
+     NR PASURIE
+  ========================================= */
+
+  if (
+    (f.type === "parcel" ||
+      f.type === "building") &&
+    zoom >= 12
+  ) {
+    if (f._label) {
+      labelLayerRef.current.addLayer(
+        f._label
+      );
+    }
+  }
+});
 
     timeout = null;
       }, 80); // pak më i butë → më smooth
