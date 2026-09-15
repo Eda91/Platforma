@@ -740,7 +740,7 @@ CITIES.forEach((city) => {
           /* ===============================================
              WHITE OUTSIDE ALBANIA
           =============================================== */
-
+/*
           L.polygon(
             [
               WORLD,
@@ -766,6 +766,7 @@ CITIES.forEach((city) => {
                 false,
             }
           ).addTo(map);
+          */
 
           if (
             disposed ||
@@ -778,21 +779,15 @@ CITIES.forEach((city) => {
              ALBANIA BORDER
           =============================================== */
 
-          const albaniaLayer =
-            L.geoJSON(
+      const albaniaLayer = L.geoJSON(
               albaniaData,
               {
-                pane:
-                  "albaniaBorder",
+                pane: "albaniaBorder",
 
                 style: {
-                  color:
-                    "#64748b",
-
-                  weight: 1.3,
-
-                  opacity: 0.8,
-
+                  color: "#cbd5e1",
+                  weight: 1.5,
+                  opacity: 0.65,
                   fillOpacity: 0,
                 },
               }
