@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "bashkia": "Himarë",
+    "drejtoriteVendore": [
+      "Vlorë",
+      "Sarandë"
+    ],
+    "locations": [
+      "Palasë",
+      "Gjilekë",
+      "Dhërmi",
+      "Iliaz",
+      "Vuno",
+      "Himarë",
+      "Pilur",
+      "Kudhës",
+      "Qeparo Fshat",
+      "Qeparo Fushë",
+      "Kallarat",
+      "Vranisht",
+      "Tërbaç",
+      "Bolenë",
+      "Kuç",
+      "Borsh",
+      "Fterrë",
+      "Çorraj",
+      "Piqeras",
+      "Bunec",
+      "Sasaj",
+      "Lukovë",
+      "Shën Vasil",
+      "Nivicë",
+      "Heremec"
+    ],
+    "startDate": "10.09.2026",
+    "endDate": "25.11.2026",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "bashkia": "Vlorë",
+    "drejtoriteVendore": [
+      "Vlorë"
+      
+    ],
+    "locations": [] ,
+    "startDate": "-",
+    "endDate": "-",
+    "status": "pending"
+  },
+    {
+    "id": 3,
+    "bashkia": "Sarandë",
+    "drejtoriteVendore": [
+      "Sarandë"
+      
+    ],
+    "locations": [] ,
+    "startDate": "-",
+    "endDate": "-",
+    "status": "pending"
+  }
+
+]

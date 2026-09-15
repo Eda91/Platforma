@@ -1,160 +1,8 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ZONES from "../doortodoor/data/zones.json";
+import CALENDAR from "../doortodoor/data/calendar.json";
 import "./PublicDashboard.css";
-
-/*
-  =========================================================
-  DEMO DATA
-  =========================================================
-
-  Këto janë të dhëna DEMO për ndërfaqen.
-  Më pas ZONES mund të vijë nga API / JSON / DB.
-
-  E rëndësishme:
-  - nid përdoret vetëm për kërkim
-  - nid NUK afishohet në listë
-*/
-
-const ZONES = [
-  {
-    id: 1,
-    zk: "2955",
-    dv: "Vlorë",
-    bashkia: "Himarë",
-    fshati: "Piqeras",
-    zoneStatus: "completed",
-    startDate: "10.08.2026",
-    endDate: "28.08.2026",
-
-    applications: [
-      {
-        id: 1,
-        code: "PIQ-001",
-        nid: "A11111111A",
-        status: "approved",
-        description: "Pajisur me vendim",
-      },
-      {
-        id: 2,
-        code: "PIQ-002",
-        nid: "A22222222B",
-        status: "approved",
-        description: "Pajisur me vendim",
-      },
-      {
-        id: 3,
-        code: "PIQ-003",
-        nid: "A33333333C",
-        status: "public",
-        description: "Afishim publik",
-      },
-    ],
-  },
-
-  {
-    id: 2,
-    zk: "3131",
-    dv: "Vlorë",
-    bashkia: "Himarë",
-    fshati: "Palasë",
-    zoneStatus: "review",
-    startDate: "09.09.2026",
-    endDate: "17.09.2026",
-
-    applications: [
-      {
-        id: 1,
-        code: "PAL-001",
-        nid: "J12345678A",
-        status: "missing",
-        description: "Deklaratë noteriale",
-      },
-      {
-        id: 2,
-        code: "PAL-002",
-        nid: "K98765432B",
-        status: "approved",
-        description: "Pajisur me vendim",
-      },
-      {
-        id: 3,
-        code: "PAL-003",
-        nid: "L23456789C",
-        status: "public",
-        description: "Afishim publik",
-      },
-      {
-        id: 4,
-        code: "PAL-004",
-        nid: "M34567890D",
-        status: "no-access",
-        description: "Banesë pa akses",
-      },
-      {
-        id: 5,
-        code: "PAL-005",
-        nid: "N45678901E",
-        status: "approved",
-        description: "Pajisur me vendim",
-      },
-      {
-        id: 6,
-        code: "PAL-006",
-        nid: "P56789012F",
-        status: "public",
-        description: "Afishim publik",
-      },
-    ],
-  },
-
-  {
-    id: 3,
-    zk: "3067",
-    dv: "Korçë",
-    bashkia: "Korçë",
-    fshati: "Shembull",
-    zoneStatus: "review",
-    startDate: "20.09.2026",
-    endDate: "04.10.2026",
-
-    applications: [
-      {
-        id: 1,
-        code: "3067-001",
-        nid: "B11111111A",
-        status: "missing",
-        description: "Dëshmi trashëgimie",
-      },
-      {
-        id: 2,
-        code: "3067-002",
-        nid: "B22222222B",
-        status: "missing",
-        description: "Dokumentacion plotësues",
-      },
-      {
-        id: 3,
-        code: "3067-003",
-        nid: "B33333333C",
-        status: "public",
-        description: "Afishim publik",
-      },
-    ],
-  },
-
-  {
-    id: 4,
-    zk: "5001",
-    dv: "Berat",
-    bashkia: "Berat",
-    fshati: "Shembull Berat",
-    zoneStatus: "planned",
-    startDate: "05.10.2026",
-    endDate: "20.10.2026",
-
-    applications: [],
-  },
-];
 
 /* =========================================================
    HELPERS
@@ -171,8 +19,7 @@ const normalize = (value = "") =>
 const parseDate = (value) => {
   if (!value) return new Date(0);
 
-  const [day, month, year] =
-    value.split(".");
+  const [day, month, year] = value.split(".");
 
   return new Date(
     Number(year),
@@ -182,32 +29,23 @@ const parseDate = (value) => {
 };
 
 const getCounts = (zone) => {
-  const applications =
-    zone.applications || [];
+  const applications = zone.applications || [];
 
-  const approved =
-    applications.filter(
-      (item) =>
-        item.status === "approved"
-    ).length;
+  const approved = applications.filter(
+    (item) => item.status === "approved"
+  ).length;
 
-  const publicDisplay =
-    applications.filter(
-      (item) =>
-        item.status === "public"
-    ).length;
+  const publicDisplay = applications.filter(
+    (item) => item.status === "public"
+  ).length;
 
-  const missing =
-    applications.filter(
-      (item) =>
-        item.status === "missing"
-    ).length;
+  const missing = applications.filter(
+    (item) => item.status === "missing"
+  ).length;
 
-  const noAccess =
-    applications.filter(
-      (item) =>
-        item.status === "no-access"
-    ).length;
+  const noAccess = applications.filter(
+    (item) => item.status === "no-access"
+  ).length;
 
   return {
     total: applications.length,
@@ -225,24 +63,17 @@ const getCounts = (zone) => {
 export default function PublicDashboard() {
   const navigate = useNavigate();
 
-  const [
-    search,
-    setSearch,
-  ] = useState("");
-
-  const [
-    statusFilter,
-    setStatusFilter,
-  ] = useState("all");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] =
+    useState("all");
 
   /*
-    null =
-    lista e ZK-ve nuk shfaqet.
+    Ruajmë rreshtin e zgjedhur nga calendar.json,
+    jo vetëm emrin e bashkisë.
   */
-
   const [
-    selectedBashkia,
-    setSelectedBashkia,
+    selectedCalendar,
+    setSelectedCalendar,
   ] = useState(null);
 
   const [
@@ -274,39 +105,35 @@ export default function PublicDashboard() {
 
       completedZones: 0,
       reviewZones: 0,
+      plannedZones: 0,
     };
 
     ZONES.forEach((zone) => {
-      const counts =
-        getCounts(zone);
+      const counts = getCounts(zone);
 
-      result.applications +=
-        counts.total;
-
-      result.approved +=
-        counts.approved;
-
+      result.applications += counts.total;
+      result.approved += counts.approved;
       result.publicDisplay +=
         counts.publicDisplay;
-
-      result.missing +=
-        counts.missing;
-
-      result.noAccess +=
-        counts.noAccess;
+      result.missing += counts.missing;
+      result.noAccess += counts.noAccess;
 
       if (
-        zone.zoneStatus ===
-        "completed"
+        zone.zoneStatus === "completed"
       ) {
         result.completedZones += 1;
       }
 
       if (
-        zone.zoneStatus ===
-        "review"
+        zone.zoneStatus === "review"
       ) {
         result.reviewZones += 1;
+      }
+
+      if (
+        zone.zoneStatus === "planned"
+      ) {
+        result.plannedZones += 1;
       }
     });
 
@@ -314,256 +141,108 @@ export default function PublicDashboard() {
   }, []);
 
   /* ======================================================
-     AGJENDA SIPAS BASHKIVE
+     KALENDAR NGA calendar.json
 
-     LOGJIKA:
-
-     1. Grupohen ZK sipas bashkisë.
-     2. Renditen bashkitë sipas datës së fillimit.
-     3. Bashkia konsiderohet e përfunduar
-        vetëm nëse TË GJITHA ZK-të e saj
-        janë completed.
-     4. Vetëm bashkia e parë që nuk ka
-        përfunduar bëhet ACTIVE.
-     5. Të gjitha pas saj janë WAITING.
+     Çdo rekord i calendar.json qëndron më vete.
+     Nuk grupojmë më sipas bashkisë.
      ====================================================== */
 
-  const municipalityAgenda =
-    useMemo(() => {
-      const groups = new Map();
+  const municipalityAgenda = useMemo(() => {
+    return [...CALENDAR]
+      .sort(
+        (a, b) =>
+          parseDate(a.startDate) -
+          parseDate(b.startDate)
+      )
+      .map((calendarItem) => {
+        const locations =
+          calendarItem.locations || [];
 
-      ZONES.forEach((zone) => {
-        if (
-          !groups.has(
-            zone.bashkia
-          )
-        ) {
-          groups.set(
-            zone.bashkia,
-            {
-              bashkia:
-                zone.bashkia,
-
-              dv: zone.dv,
-
-              zones: [],
-            }
-          );
-        }
-
-        groups
-          .get(zone.bashkia)
-          .zones.push(zone);
-      });
-
-      const agenda =
-        Array.from(
-          groups.values()
-        )
-          .map((group) => {
-            /*
-              Data e parë e
-              evidentimit
-            */
-
-            const sortedStart = [
-              ...group.zones,
-            ].sort(
-              (a, b) =>
-                parseDate(
-                  a.startDate
-                ) -
-                parseDate(
-                  b.startDate
-                )
-            );
-
-            /*
-              Data e fundit
-              e evidentimit
-            */
-
-            const sortedEnd = [
-              ...group.zones,
-            ].sort(
-              (a, b) =>
-                parseDate(
-                  b.endDate
-                ) -
-                parseDate(
-                  a.endDate
-                )
-            );
-
-            /*
-              Bashkia ka
-              përfunduar vetëm
-              kur çdo ZK është
-              completed.
-            */
-
-            const allCompleted =
-              group.zones.length >
-                0 &&
-              group.zones.every(
-                (zone) =>
-                  zone.zoneStatus ===
-                  "completed"
-              );
-
-            return {
-              ...group,
-
-              startDate:
-                sortedStart[0]
-                  ?.startDate,
-
-              endDate:
-                sortedEnd[0]
-                  ?.endDate,
-
-              allCompleted,
-            };
-          })
-          .sort(
-            (a, b) =>
-              parseDate(
-                a.startDate
-              ) -
-              parseDate(
-                b.startDate
-              )
-          );
-
-      /*
-        Gjej bashkinë e parë
-        që nuk ka përfunduar.
-      */
-
-      const activeIndex =
-        agenda.findIndex(
-          (item) =>
-            !item.allCompleted
+        /*
+          Lidhim locations të calendar.json
+          me fshati të zones.json.
+        */
+        const zones = ZONES.filter(
+          (zone) =>
+            locations.some(
+              (location) =>
+                normalize(location) ===
+                normalize(zone.fshati)
+            )
         );
 
-      return agenda.map(
-        (item, index) => {
-          /*
-            PËRFUNDUAR
-          */
+        return {
+          ...calendarItem,
 
-          if (
-            item.allCompleted
-          ) {
-            return {
-              ...item,
+          zones,
 
-              agendaStatus:
-                "completed",
+          agendaStatus:
+            calendarItem.status ||
+            "waiting",
 
-              canOpen: true,
-            };
-          }
-
-          /*
-            BASHKIA AKTIVE
-          */
-
-          if (
-            index ===
-            activeIndex
-          ) {
-            return {
-              ...item,
-
-              agendaStatus:
-                "active",
-
-              canOpen: true,
-            };
-          }
-
-          /*
-            BASHKITË QË
-            PRESIN RADHËN
-          */
-
-          return {
-            ...item,
-
-            agendaStatus:
-              "waiting",
-
-            canOpen: false,
-          };
-        }
-      );
-    }, []);
+          canOpen:
+            calendarItem.status ===
+              "active" ||
+            calendarItem.status ===
+              "completed",
+        };
+      });
+  }, []);
 
   /* ======================================================
      FILTER ZONES
-
-     Lista shfaqet vetëm pasi
-     është zgjedhur bashkia.
      ====================================================== */
 
-  const filteredZones =
-    useMemo(() => {
-      if (!selectedBashkia) {
-        return [];
-      }
+  const filteredZones = useMemo(() => {
+    if (!selectedCalendar) {
+      return [];
+    }
 
-      const q =
-        normalize(search);
+    const q = normalize(search);
 
-      return ZONES.filter(
-        (zone) => {
-          const searchText =
-            normalize(`
-              ${zone.zk}
-              ${zone.fshati}
-              ${zone.bashkia}
-              ${zone.dv}
-              ${zone.startDate}
-              ${zone.endDate}
-            `);
+    const locations =
+      selectedCalendar.locations || [];
 
-          const matchesBashkia =
-            zone.bashkia ===
-            selectedBashkia;
+    return ZONES.filter((zone) => {
+      const belongsToCalendar =
+        locations.some(
+          (location) =>
+            normalize(location) ===
+            normalize(zone.fshati)
+        );
 
-          const matchesSearch =
-            !q ||
-            searchText.includes(
-              q
-            );
+      const searchText = normalize(`
+        ${zone.zk || ""}
+        ${zone.fshati || ""}
+        ${zone.bashkia || ""}
+        ${zone.dv || ""}
+        ${zone.startDate || ""}
+        ${zone.endDate || ""}
+      `);
 
-          const matchesStatus =
-            statusFilter ===
-              "all" ||
-            zone.zoneStatus ===
-              statusFilter;
+      const matchesSearch =
+        !q ||
+        searchText.includes(q);
 
-          return (
-            matchesBashkia &&
-            matchesSearch &&
-            matchesStatus
-          );
-        }
+      const matchesStatus =
+        statusFilter === "all" ||
+        zone.zoneStatus ===
+          statusFilter;
+
+      return (
+        belongsToCalendar &&
+        matchesSearch &&
+        matchesStatus
       );
-    }, [
-      selectedBashkia,
-      search,
-      statusFilter,
-    ]);
+    });
+  }, [
+    selectedCalendar,
+    search,
+    statusFilter,
+  ]);
 
   /* ======================================================
      SEARCH SIPAS NID
-
-     NID PËRDORET VETËM PËR
-     KËRKIM.
-
-     NUK AFISHOHET.
      ====================================================== */
 
   const filteredListItems =
@@ -591,40 +270,18 @@ export default function PublicDashboard() {
     ]);
 
   /* ======================================================
-     CLICK BASHKIA
+     CLICK KALENDAR
      ====================================================== */
 
-  const handleAgendaClick = (
-    item
-  ) => {
-    /*
-      Nëse është waiting,
-      nuk hapet.
-    */
-
+  const handleAgendaClick = (item) => {
     if (!item.canOpen) {
       return;
     }
 
-    setSelectedBashkia(
-      item.bashkia
-    );
-
-    /*
-      Kur zgjedhim bashkinë,
-      pastrojmë filtrat që të
-      duken të gjitha ZK-të
-      e saj.
-    */
+    setSelectedCalendar(item);
 
     setSearch("");
-
     setStatusFilter("all");
-
-    /*
-      Pas renderimit,
-      zbresim te lista.
-    */
 
     setTimeout(() => {
       document
@@ -642,48 +299,49 @@ export default function PublicDashboard() {
      OPEN APPLICATION LIST
      ====================================================== */
 
-const openApplicationsList = (
-  zone,
-  category,
-  title
-) => {
-  const items = zone.applications.filter(
-    (item) => item.status === category
-  );
-
-  // MOS e humb zonën
-  setSelectedZone(zone);
-
-  setNidSearch("");
-
-  setListModal({
+  const openApplicationsList = (
     zone,
     category,
-    title,
-    items,
-  });
-};
+    title
+  ) => {
+    const applications =
+      zone.applications || [];
+
+    const items =
+      applications.filter(
+        (item) =>
+          item.status === category
+      );
+
+    setSelectedZone(zone);
+
+    setNidSearch("");
+
+    setListModal({
+      zone,
+      category,
+      title,
+      items,
+    });
+  };
 
   /* ======================================================
      CLOSE LIST MODAL
      ====================================================== */
 
+  const closeListModal = () => {
+    const zoneToRestore =
+      listModal?.zone;
 
-const closeListModal = () => {
-  // Ruajmë zonën që kishte hapur listën
-  const zoneToRestore = listModal?.zone;
+    setListModal(null);
+    setNidSearch("");
 
-  setListModal(null);
-  setNidSearch("");
-
-  // Rikthe modalin e Zonës Kadastrale
-  if (zoneToRestore) {
-    setSelectedZone(zoneToRestore);
-  }
-};
-
-
-
+    if (zoneToRestore) {
+      setSelectedZone(
+        zoneToRestore
+      );
+    }
+  };
 
   /* ======================================================
      OPEN MAP
@@ -696,7 +354,11 @@ const closeListModal = () => {
     setSelectedZone(null);
 
     navigate(
-      `/doortodoor?zk=${zone.zk}&category=${category}`
+      `/doortodoor?zk=${encodeURIComponent(
+        zone.zk || ""
+      )}&category=${encodeURIComponent(
+        category
+      )}`
     );
   };
 
@@ -706,6 +368,7 @@ const closeListModal = () => {
 
   return (
     <div className="public-dashboard">
+
       {/* =================================================
           HEADER
           ================================================= */}
@@ -713,28 +376,33 @@ const closeListModal = () => {
       <header className="dashboard-header">
         <div className="dashboard-header-main">
           <h1>
-            Platforma e Evidentimit
-            në Terren
+            Aksioni  Derë më Derë
           </h1>
 
           <p>
-            Derë më Derë
+            Platforma e Evidentimit
+            në Terren
           </p>
         </div>
 
-         <img
-                src={`${import.meta.env.BASE_URL}images/logo1.jpg`}
-                alt="Agjencia Shtetërore e Kadastrës"
-                className="doortodoor-logo-img"
-                style={{ width: "150px", height: "auto" }}
-                />
+        <img
+          src={`${import.meta.env.BASE_URL}images/logo_ashk_2.png`}
+          alt="Agjencia Shtetërore e Kadastrës"
+          className="doortodoor-logo-img"
+          style={{
+            width: "110px",
+            height: "auto",
+          }}
+        />
       </header>
 
       <main className="dashboard-content">
+
         {/* =================================================
             SEARCH
             ================================================= */}
-
+{false && (
+  <>
         <section className="top-search">
           <div className="top-search-copy">
             <span className="eyebrow">
@@ -742,23 +410,20 @@ const closeListModal = () => {
             </span>
 
             <h2>
-              Gjeni zonën
-              kadastrale
+              Gjeni zonën kadastrale
             </h2>
 
             <p>
               Kërkoni sipas ZK,
-              fshatit, bashkisë
-              ose drejtorisë
-              vendore.
+              fshatit, bashkisë ose
+              drejtorisë vendore.
             </p>
           </div>
 
           <div className="main-search-controls">
+
             <div className="main-search-input">
-              <span>
-                ⌕
-              </span>
+              <span>⌕</span>
 
               <input
                 type="text"
@@ -785,9 +450,7 @@ const closeListModal = () => {
             </div>
 
             <select
-              value={
-                statusFilter
-              }
+              value={statusFilter}
               onChange={(e) =>
                 setStatusFilter(
                   e.target.value
@@ -805,7 +468,12 @@ const closeListModal = () => {
               <option value="review">
                 Në shqyrtim
               </option>
+
+              <option value="planned">
+                Të planifikuara
+              </option>
             </select>
+
           </div>
         </section>
 
@@ -814,6 +482,7 @@ const closeListModal = () => {
             ================================================= */}
 
         <section className="main-kpis">
+
           <button
             type="button"
             className={`main-kpi completed ${
@@ -833,8 +502,7 @@ const closeListModal = () => {
           >
             <div>
               <span>
-                Zona të
-                përfunduara
+                Zona të përfunduara
               </span>
 
               <small>
@@ -843,9 +511,7 @@ const closeListModal = () => {
             </div>
 
             <strong>
-              {
-                totals.completedZones
-              }
+              {totals.completedZones}
             </strong>
           </button>
 
@@ -877,16 +543,15 @@ const closeListModal = () => {
             </div>
 
             <strong>
-              {
-                totals.reviewZones
-              }
+              {totals.reviewZones}
             </strong>
           </button>
 
           <div className="main-kpi total">
             <div>
               <span>
-                Zona gjithsej të trajtuara 
+                Zona gjithsej të
+                trajtuara
               </span>
 
               <small>
@@ -894,10 +559,12 @@ const closeListModal = () => {
               </small>
             </div>
 
-           <strong>
-          {totals.completedZones + totals.reviewZones}
-        </strong>
+            <strong>
+              {totals.completedZones +
+                totals.reviewZones}
+            </strong>
           </div>
+
         </section>
 
         {/* =================================================
@@ -905,16 +572,14 @@ const closeListModal = () => {
             ================================================= */}
 
         <section className="application-kpis">
+
           <div>
             <strong>
-              {
-                totals.applications
-              }
+              {totals.applications}
             </strong>
 
             <span>
-              Aplikime të
-              verifikuara
+              Aplikime të verifikuara
             </span>
           </div>
 
@@ -930,9 +595,7 @@ const closeListModal = () => {
 
           <div>
             <strong>
-              {
-                totals.publicDisplay
-              }
+              {totals.publicDisplay}
             </strong>
 
             <span>
@@ -946,8 +609,7 @@ const closeListModal = () => {
             </strong>
 
             <span>
-              Mungesë
-              dokumentacioni
+              Mungesë dokumentacioni
             </span>
           </div>
 
@@ -960,33 +622,35 @@ const closeListModal = () => {
               Pa akses
             </span>
           </div>
-        </section>
 
+        </section>
+</>
+)}
         {/* =================================================
-            AGJENDA E BASHKIVE
+            KALENDAR
             ================================================= */}
 
         <section className="agenda-section">
+
           <div className="agenda-header">
             <div>
               <span className="eyebrow">
-                Bashkitë dhe
-                periudhat e
-                evidentimit
+                Bashkitë dhe periudhat
+                e evidentimit
               </span>
 
               <h2>
-                Kalendar i evidentimit në terren
+                Kalendar i evidentimit
+                në terren
               </h2>
-
             </div>
 
-            {selectedBashkia && (
+            {selectedCalendar && (
               <button
                 type="button"
                 className="agenda-reset"
                 onClick={() =>
-                  setSelectedBashkia(
+                  setSelectedCalendar(
                     null
                   )
                 }
@@ -997,14 +661,14 @@ const closeListModal = () => {
           </div>
 
           <div className="agenda-board">
+
             <div className="agenda-table-head">
               <span>
                 Bashkia
               </span>
 
               <span>
-                Periudha e
-                evidentimit
+                Periudha e evidentimit
               </span>
 
               <span>
@@ -1022,15 +686,13 @@ const closeListModal = () => {
               (item) => (
                 <button
                   type="button"
-                  key={
-                    item.bashkia
-                  }
+                  key={item.id}
                   disabled={
                     !item.canOpen
                   }
                   className={`agenda-row ${
-                    selectedBashkia ===
-                    item.bashkia
+                    selectedCalendar?.id ===
+                    item.id
                       ? "selected"
                       : ""
                   } ${
@@ -1044,6 +706,7 @@ const closeListModal = () => {
                     )
                   }
                 >
+
                   {/* BASHKIA */}
 
                   <div className="agenda-bashkia">
@@ -1052,36 +715,36 @@ const closeListModal = () => {
                     </small>
 
                     <strong>
-                      {
-                        item.bashkia
-                      }
+                      {item.bashkia}
                     </strong>
 
                     <span>
-                      DV {item.dv}
+                      DV{" "}
+                      {Array.isArray(item.dv)
+                        ? item.drejtoriteVendore.join(" · ")
+                        : item.drejtoriteVendore}
                     </span>
+
+                   
                   </div>
 
                   {/* PERIUDHA */}
 
                   <div className="agenda-period">
+
                     <div className="agenda-date">
                       <small>
                         FILLIMI
                       </small>
 
                       <strong>
-                        {
-                          item.startDate
-                        }
+                        {item.startDate}
                       </strong>
                     </div>
 
                     <div className="agenda-line">
                       <i />
-
                       <span />
-
                       <i />
                     </div>
 
@@ -1091,11 +754,10 @@ const closeListModal = () => {
                       </small>
 
                       <strong>
-                        {
-                          item.endDate
-                        }
+                        {item.endDate}
                       </strong>
                     </div>
+
                   </div>
 
                   {/* STATUS */}
@@ -1114,14 +776,11 @@ const closeListModal = () => {
                     </span>
                   </div>
 
-                  {/* NUMRI ZK */}
+                  {/* NUMRI I ZONAVE */}
 
                   <div className="agenda-count">
                     <strong>
-                      {
-                        item.zones
-                          .length
-                      }
+                      {item.zones.length}
                     </strong>
 
                     <span>
@@ -1136,24 +795,24 @@ const closeListModal = () => {
                       ? "↓"
                       : "🔒"}
                   </span>
+
                 </button>
               )
             )}
+
           </div>
         </section>
 
         {/* =================================================
             LISTA E ZONAVE
-
-            SHFAQET VETËM PAS
-            KLIKIMIT MBI AGJENDË
             ================================================= */}
 
-        {selectedBashkia && (
+        {selectedCalendar && (
           <section
             className="zones-section"
             id="zones-list"
           >
+
             <div className="zones-heading">
               <div>
                 <span className="eyebrow">
@@ -1163,48 +822,28 @@ const closeListModal = () => {
                 <h2>
                   Bashkia{" "}
                   {
-                    selectedBashkia
+                    selectedCalendar.bashkia
                   }
                 </h2>
-
-                <p>
-                  Zonat e
-                  evidentimit në
-                  terren për këtë
-                  bashki.
-                </p>
               </div>
 
               <span>
-                {
-                  filteredZones.length
-                }{" "}
-                zona
+                {filteredZones.length}{" "}
+                {filteredZones.length ===
+                1
+                  ? "zonë"
+                  : "zona"}
               </span>
             </div>
 
             <div className="zones-table">
+
               <div className="zones-table-head">
-                <span>
-                  ZK
-                </span>
-
-                <span>
-                  Fshati
-                </span>
-
-                <span>
-                  Bashkia
-                </span>
-
-                <span>
-                  Statusi
-                </span>
-
-                <span>
-                  Afati
-                </span>
-
+                <span>ZK</span>
+                <span>Fshati</span>
+                <span>Bashkia</span>
+                <span>Statusi</span>
+                <span>Afati</span>
                 <span />
               </div>
 
@@ -1214,19 +853,22 @@ const closeListModal = () => {
                     type="button"
                     className="zone-row"
                     key={zone.id}
+                    /*
                     onClick={() =>
                       setSelectedZone(
                         zone
                       )
                     }
+                      */
                   >
+
                     <div className="zone-cell">
                       <small>
                         ZK
                       </small>
 
                       <strong>
-                        {zone.zk}
+                        {zone.zk || "—"}
                       </strong>
                     </div>
 
@@ -1236,9 +878,7 @@ const closeListModal = () => {
                       </small>
 
                       <span>
-                        {
-                          zone.fshati
-                        }
+                        {zone.fshati}
                       </span>
                     </div>
 
@@ -1248,9 +888,7 @@ const closeListModal = () => {
                       </small>
 
                       <span>
-                        {
-                          zone.bashkia
-                        }
+                        {zone.bashkia}
                       </span>
                     </div>
 
@@ -1278,19 +916,20 @@ const closeListModal = () => {
                       </small>
 
                       <span>
-                        {
-                          zone.startDate
-                        }
+                        {zone.startDate ||
+                          selectedCalendar.startDate}
+
                         {" — "}
-                        {
-                          zone.endDate
-                        }
+
+                        {zone.endDate ||
+                          selectedCalendar.endDate}
                       </span>
                     </div>
 
                     <span className="zone-arrow">
                       →
                     </span>
+
                   </button>
                 )
               )}
@@ -1298,15 +937,16 @@ const closeListModal = () => {
               {filteredZones.length ===
                 0 && (
                 <div className="zones-empty">
-                  Nuk u gjet
-                  asnjë zonë për
-                  filtrat e
+                  Nuk u gjet asnjë zonë
+                  për periudhën e
                   zgjedhur.
                 </div>
               )}
+
             </div>
           </section>
         )}
+
       </main>
 
       {/* =================================================
@@ -1326,6 +966,7 @@ const closeListModal = () => {
               e.stopPropagation()
             }
           >
+
             <button
               type="button"
               className="modal-close"
@@ -1342,22 +983,20 @@ const closeListModal = () => {
 
             <h2>
               ZK{" "}
-              {selectedZone.zk}
+              {selectedZone.zk ||
+                "—"}
             </h2>
 
             <p className="zone-location">
-              {
-                selectedZone.fshati
-              }
+              {selectedZone.fshati}
               {" · "}
-              {
-                selectedZone.bashkia
-              }
+              {selectedZone.bashkia}
               {" · "}
               {selectedZone.dv}
             </p>
 
             <div className="zone-modal-summary">
+
               <div>
                 <span>
                   Periudha e
@@ -1365,13 +1004,15 @@ const closeListModal = () => {
                 </span>
 
                 <strong>
-                  {
-                    selectedZone.startDate
-                  }
+                  {selectedZone.startDate ||
+                    selectedCalendar
+                      ?.startDate}
+
                   {" — "}
-                  {
-                    selectedZone.endDate
-                  }
+
+                  {selectedZone.endDate ||
+                    selectedCalendar
+                      ?.endDate}
                 </strong>
               </div>
 
@@ -1388,9 +1029,11 @@ const closeListModal = () => {
                   }
                 </strong>
               </div>
+
             </div>
 
             <div className="zone-options">
+
               {/* PAJISUR ME VENDIM */}
 
               <button
@@ -1424,9 +1067,7 @@ const closeListModal = () => {
                   }
                 </b>
 
-                <i>
-                  →
-                </i>
+                <i>→</i>
               </button>
 
               {/* AFISHIM PUBLIK */}
@@ -1458,14 +1099,11 @@ const closeListModal = () => {
                   {
                     getCounts(
                       selectedZone
-                    )
-                      .publicDisplay
+                    ).publicDisplay
                   }
                 </b>
 
-                <i>
-                  →
-                </i>
+                <i>→</i>
               </button>
 
               {/* MUNGESË DOKUMENTACIONI */}
@@ -1502,12 +1140,10 @@ const closeListModal = () => {
                   }
                 </b>
 
-                <i>
-                  →
-                </i>
+                <i>→</i>
               </button>
 
-              {/* PA AKSES */}
+              {/* BANESË PA AKSES */}
 
               <button
                 type="button"
@@ -1540,10 +1176,9 @@ const closeListModal = () => {
                   }
                 </b>
 
-                <i>
-                  →
-                </i>
+                <i>→</i>
               </button>
+
             </div>
           </div>
         </div>
@@ -1566,6 +1201,7 @@ const closeListModal = () => {
               e.stopPropagation()
             }
           >
+
             <button
               type="button"
               className="modal-close"
@@ -1577,11 +1213,11 @@ const closeListModal = () => {
             </button>
 
             <div className="applications-modal-title">
+
               <span className="eyebrow">
                 ZK{" "}
-                {
-                  listModal.zone.zk
-                }
+                {listModal.zone.zk ||
+                  "—"}
                 {" · "}
                 {
                   listModal.zone
@@ -1590,30 +1226,25 @@ const closeListModal = () => {
               </span>
 
               <h2>
-                {
-                  listModal.title
-                }
+                {listModal.title}
               </h2>
 
               <p>
-                Kërkoni sipas
-                NID për të gjetur
+                Kërkoni sipas NID
+                për të gjetur
                 aplikimin.
               </p>
+
             </div>
 
             {/* SEARCH NID */}
 
             <div className="nid-search">
-              <span>
-                ⌕
-              </span>
+              <span>⌕</span>
 
               <input
                 type="text"
-                value={
-                  nidSearch
-                }
+                value={nidSearch}
                 onChange={(e) =>
                   setNidSearch(
                     e.target.value
@@ -1637,6 +1268,7 @@ const closeListModal = () => {
             </div>
 
             <div className="applications-meta">
+
               <span>
                 <strong>
                   {
@@ -1650,22 +1282,25 @@ const closeListModal = () => {
               </span>
 
               <span>
-                {
-                  listModal.zone
-                    .startDate
-                }
+                {listModal.zone
+                  .startDate ||
+                  selectedCalendar
+                    ?.startDate}
+
                 {" — "}
-                {
-                  listModal.zone
-                    .endDate
-                }
+
+                {listModal.zone
+                  .endDate ||
+                  selectedCalendar
+                    ?.endDate}
               </span>
+
             </div>
 
-            {/* LISTA
-                NID NUK AFISHOHET */}
+            {/* LISTA */}
 
             <div className="applications-list">
+
               <div className="applications-list-head">
                 <span>
                   Nr. aplikimi
@@ -1687,9 +1322,7 @@ const closeListModal = () => {
                     key={item.id}
                   >
                     <strong className="app-code">
-                      {
-                        item.code
-                      }
+                      {item.code}
                     </strong>
 
                     <span
@@ -1698,7 +1331,16 @@ const closeListModal = () => {
                       {item.status ===
                       "approved"
                         ? "Pajisur me vendim"
-                        : "Afishim publik"}
+                        : item.status ===
+                          "public"
+                        ? "Afishim publik"
+                        : item.status ===
+                          "missing"
+                        ? "Mungesë dokumentacioni"
+                        : item.status ===
+                          "no-access"
+                        ? "Banesë pa akses"
+                        : item.status}
                     </span>
 
                     <span className="app-description">
@@ -1714,21 +1356,21 @@ const closeListModal = () => {
                 0 && (
                 <div className="applications-empty">
                   <strong>
-                    Nuk u gjet
-                    aplikim
+                    Nuk u gjet aplikim
                   </strong>
 
                   <span>
                     Kontrolloni NID
-                    dhe provoni
-                    përsëri.
+                    dhe provoni përsëri.
                   </span>
                 </div>
               )}
+
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }

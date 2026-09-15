@@ -1,0 +1,321 @@
+[
+  {
+    "id": 1,
+    "zk": "3131",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Palasë",
+    "zoneStatus": "review",
+    "startDate": "10.09.2026",
+    "endDate": "18.09.2026",
+    "applications": [
+      {
+        "id": 1,
+        "code": "PAL-001",
+        "nid": "J12345678A",
+        "status": "missing",
+        "description": "Deklaratë noteriale"
+      },
+      {
+        "id": 2,
+        "code": "PAL-002",
+        "nid": "K98765432B",
+        "status": "approved",
+        "description": "Pajisur me vendim"
+      },
+      {
+        "id": 3,
+        "code": "PAL-003",
+        "nid": "L23456789C",
+        "status": "public",
+        "description": "Afishim publik"
+      },
+      {
+        "id": 4,
+        "code": "PAL-004",
+        "nid": "M34567890D",
+        "status": "no-access",
+        "description": "Banesë pa akses"
+      },
+      {
+        "id": 5,
+        "code": "PAL-005",
+        "nid": "N45678901E",
+        "status": "approved",
+        "description": "Pajisur me vendim"
+      },
+      {
+        "id": 6,
+        "code": "PAL-006",
+        "nid": "P56789012F",
+        "status": "public",
+        "description": "Afishim publik"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "zk": "1739",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Gjilekë",
+    "zoneStatus": "planned",
+    "startDate": "21.09.2026",
+    "endDate": "05.10.2026",
+    "applications": []
+  },
+  {
+    "id": 3,
+    "zk": "1481",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Dhërmi",
+    "zoneStatus": "planned",
+    "startDate": "21.09.2026",
+    "endDate": "05.10.2026",
+    "applications": []
+  },
+  {
+    "id": 4,
+    "zk": "1982",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Iliaz",
+    "zoneStatus": "planned",
+    "startDate": "21.09.2026",
+    "endDate": "05.10.2026",
+    "applications": []
+  },
+  {
+    "id": 5,
+    "zk": "3844",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Vuno",
+    "zoneStatus": "planned",
+    "startDate": "21.09.2026",
+    "endDate": "05.10.2026",
+    "applications": []
+  },
+  {
+    "id": 6,
+    "zk": "1952",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Himarë",
+    "zoneStatus": "planned",
+    "startDate": "21.09.2026",
+    "endDate": "25.11.2026",
+    "applications": []
+  },
+  {
+    "id": 7,
+    "zk": "2960",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Pilur",
+    "zoneStatus": "planned",
+    "startDate": "06.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  },
+  {
+    "id": 8,
+    "zk": "2311",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Kudhës",
+    "zoneStatus": "planned",
+    "startDate": "06.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  },
+  {
+    "id": 9,
+    "zk": "3094",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Qeparo Fshat",
+    "zoneStatus": "planned",
+    "startDate": "06.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  },
+   {
+    "id": 10,
+    "zk": "3095",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Qeparo Fushë",
+    "zoneStatus": "planned",
+    "startDate": "06.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  },
+  {
+    "id": 11,
+    "zk": "2046",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Kallarat",
+    "zoneStatus": "planned",
+    "startDate": "19.10.2026",
+    "endDate": "26.10.2026",
+    "applications": []
+  },
+  {
+    "id": 12,
+    "zk": "3823",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Vranisht",
+    "zoneStatus": "planned",
+    "startDate": "19.10.2026",
+    "endDate": "26.10.2026",
+    "applications": []
+  },
+  {
+    "id": 13,
+    "zk": "3576",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Tërbaç",
+    "zoneStatus": "planned",
+    "startDate": "19.10.2026",
+    "endDate": "26.10.2026",
+    "applications": []
+  },
+  {
+    "id": 14,
+    "zk": "1241",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Bolenë",
+    "zoneStatus": "planned",
+    "startDate": "19.10.2026",
+    "endDate": "26.10.2026",
+    "applications": []
+  },
+  {
+    "id": 15,
+    "zk": "2306",
+    "dv": "Vlorë",
+    "bashkia": "Himarë",
+    "fshati": "Kuç",
+    "zoneStatus": "planned",
+    "startDate": "19.10.2026",
+    "endDate": "26.10.2026",
+    "applications": []
+  },
+  {
+    "id": 16,
+    "zk": "1253",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Borsh",
+    "zoneStatus": "planned",
+    "startDate": "27.10.2026",
+    "endDate": "09.11.2026",
+    "applications": []
+  },
+  {
+    "id": 17,
+    "zk": "1650",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Fterrë",
+    "zoneStatus": "planned",
+    "startDate": "27.10.2026",
+    "endDate": "09.11.2026",
+    "applications": []
+  },
+  {
+    "id": 18,
+    "zk": "1421",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Çorraj",
+    "zoneStatus": "planned",
+    "startDate": "27.10.2026",
+    "endDate": "09.11.2026",
+    "applications": []
+  },
+  {
+    "id": 19,
+    "zk": "2963",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Piqeras",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+  {
+    "id": 20,
+    "zk": "3265",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Bunec",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+    
+  {
+    "id": 21,
+    "zk": "3265",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Sasaj",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+  {
+    "id": 22,
+    "zk": "2518",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Lukovë",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+  {
+    "id": 23,
+    "zk": "3338",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Shën Vasil",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+  {
+    "id": 24,
+    "zk": "2806",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Nivicë",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  },
+    {
+    "id": 25,
+    "zk": "2806",
+    "dv": "Sarandë",
+    "bashkia": "Himarë",
+    "fshati": "Heremec",
+    "zoneStatus": "planned",
+    "startDate": "10.11.2026",
+    "endDate": "20.11.2026",
+    "applications": []
+  }
+]
