@@ -1664,7 +1664,7 @@ updateHouseMarkers();
             <div className="dashboard-section-title">
 
               <h3>
-                Aplikime të trajtuara
+                Objekte pa vendim 
               </h3>
 
               <span>

@@ -642,39 +642,48 @@ export default function PublicDashboard() {
      OPEN APPLICATION LIST
      ====================================================== */
 
-  const openApplicationsList = (
+const openApplicationsList = (
+  zone,
+  category,
+  title
+) => {
+  const items = zone.applications.filter(
+    (item) => item.status === category
+  );
+
+  // MOS e humb zonën
+  setSelectedZone(zone);
+
+  setNidSearch("");
+
+  setListModal({
     zone,
     category,
-    title
-  ) => {
-    const items =
-      zone.applications.filter(
-        (item) =>
-          item.status ===
-          category
-      );
-
-    setSelectedZone(null);
-
-    setNidSearch("");
-
-    setListModal({
-      zone,
-      category,
-      title,
-      items,
-    });
-  };
+    title,
+    items,
+  });
+};
 
   /* ======================================================
      CLOSE LIST MODAL
      ====================================================== */
 
-  const closeListModal = () => {
-    setListModal(null);
 
-    setNidSearch("");
-  };
+const closeListModal = () => {
+  // Ruajmë zonën që kishte hapur listën
+  const zoneToRestore = listModal?.zone;
+
+  setListModal(null);
+  setNidSearch("");
+
+  // Rikthe modalin e Zonës Kadastrale
+  if (zoneToRestore) {
+    setSelectedZone(zoneToRestore);
+  }
+};
+
+
+
 
   /* ======================================================
      OPEN MAP
@@ -713,10 +722,12 @@ export default function PublicDashboard() {
           </p>
         </div>
 
-        <div className="dashboard-agency">
-          Agjencia Shtetërore
-          e Kadastrës
-        </div>
+         <img
+                src={`${import.meta.env.BASE_URL}images/logo1.jpg`}
+                alt="Agjencia Shtetërore e Kadastrës"
+                className="doortodoor-logo-img"
+                style={{ width: "150px", height: "auto" }}
+                />
       </header>
 
       <main className="dashboard-content">
@@ -875,7 +886,7 @@ export default function PublicDashboard() {
           <div className="main-kpi total">
             <div>
               <span>
-                Zona gjithsej
+                Zona gjithsej të trajtuara 
               </span>
 
               <small>
@@ -883,9 +894,9 @@ export default function PublicDashboard() {
               </small>
             </div>
 
-            <strong>
-              {ZONES.length}
-            </strong>
+           <strong>
+          {totals.completedZones + totals.reviewZones}
+        </strong>
           </div>
         </section>
 
@@ -959,23 +970,15 @@ export default function PublicDashboard() {
           <div className="agenda-header">
             <div>
               <span className="eyebrow">
-                AGJENDA E SHTRIRJES
-                NË TERREN
-              </span>
-
-              <h2>
                 Bashkitë dhe
                 periudhat e
                 evidentimit
+              </span>
+
+              <h2>
+                Kalendar i evidentimit në terren
               </h2>
 
-              <p>
-                Procesi kalon nga
-                një bashki te
-                tjetra vetëm pasi
-                bashkia aktive ka
-                përfunduar.
-              </p>
             </div>
 
             {selectedBashkia && (
