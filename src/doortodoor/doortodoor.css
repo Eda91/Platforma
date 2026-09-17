@@ -965,6 +965,49 @@ body {
     0 -1px 0 #fff;
   white-space: nowrap;
 }
+
+.polygon-info-label {
+  background: rgba(255, 255, 255, 0.97);
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  padding: 9px 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  white-space: normal;
+  max-width: 270px;
+}
+
+.polygon-info-label::before {
+  border-top-color: rgba(255, 255, 255, 0.97);
+}
+
+/* NUMRAT E PASURIVE - GJITHMONË TË DUKSHËM */
+
+.leaflet-tooltip.parcel-number-label {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  background: transparent !important;
+  color: #111827 !important;
+
+  border: 0px solid #64748b !important;
+  border-radius: 0px !important;
+
+  padding: 2px 5px !important;
+
+  font-size: 12px !important;
+  font-weight: 700 !important;
+
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+.leaflet-tooltip.parcel-number-label::before {
+  display: none !important;
+}
+
 /* =========================================================
    RESPONSIVE
 ========================================================= */

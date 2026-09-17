@@ -308,6 +308,68 @@ function createPopup(properties, title, status) {
   return container;
 }
 
+
+function createPolygonLabel(properties) {
+  const status = getStatus(properties);
+
+  const adresa = getProperty(properties, [
+    "adresa",
+    "ADRESA",
+  ]) || "—";
+
+  const nrPasurie = getProperty(properties, [
+    "nr_pasuris",
+    "nr_pasurie",
+    "NR_PASURIE",
+    "Nr_Pas",
+    "NR_PAS",
+  ]) || "—";
+
+  const zonaKadastrale = getProperty(properties, [
+    "zona_kadas",
+    "zona_kadastrale",
+    "ZK",
+    "NR_ZK",
+  ]) || "—";
+
+  const siperfaqja = getProperty(properties, [
+    "sip_parcel",
+    "sip_nderti",
+    "Shape_Area",
+    "sip2",
+  ]) || "—";
+
+  const container = document.createElement("div");
+
+  container.style.minWidth = "210px";
+
+  const fields = [
+    ["Statusi", status],
+    ["Adresa", adresa],
+    ["Nr. pasurie", nrPasurie],
+    ["Zona kadastrale", zonaKadastrale],
+    ["Sipërfaqja", siperfaqja],
+  ];
+
+  fields.forEach(([label, value]) => {
+    const row = document.createElement("div");
+
+    row.style.padding = "4px 0";
+    row.style.fontSize = "12px";
+    row.style.borderBottom = "1px solid #e5e7eb";
+
+    const strong = document.createElement("strong");
+    strong.textContent = `${label}: `;
+
+    const span = document.createElement("span");
+    span.textContent = String(value);
+
+    row.append(strong, span);
+    container.appendChild(row);
+  });
+
+  return container;
+}
 /* =========================================================
    KOMPONENTI KRYESOR
 ========================================================= */
@@ -328,6 +390,14 @@ export default function DoorToDoor() {
   const [error, setError] = useState("");
 
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const [clickMode, setClickMode] = useState("parcel");
+
+    const clickModeRef = useRef("parcel");
+
+    const changeClickMode = (mode) => {
+      clickModeRef.current = mode;
+      setClickMode(mode);
+    };
 
   /* =======================================================
      STATISTIKAT
@@ -412,6 +482,26 @@ export default function DoorToDoor() {
       maxBoundsViscosity: 1,
     });
 
+    // Numrat shfaqen vetëm kur zoom-i është mbi 12.
+    // Kontrolli kryhet edhe pasi ngarkohen GeoJSON-et asinkronisht.
+    const updatePropertyLabels = () => {
+      if (disposed || mapRef.current !== map) return;
+
+      const showLabels = map.getZoom() > 16;
+
+      Object.values(featureLayersRef.current).forEach((layer) => {
+        if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
+
+        if (showLabels) {
+          layer.openTooltip();
+        } else {
+          layer.closeTooltip();
+        }
+      });
+    };
+
+    map.on("zoomend", updatePropertyLabels);
+
     mapRef.current = map;
 
     map.fitBounds(ALBANIA_BOUNDS, {
@@ -437,6 +527,14 @@ export default function DoorToDoor() {
     map.createPane("buildingPane");
 
     map.getPane("buildingPane").style.zIndex = 430;
+
+       const updateClickMode = (mode) => {
+            map.getPane("parcelPane").style.pointerEvents =
+              mode === "parcel" ? "auto" : "none";
+
+            map.getPane("buildingPane").style.pointerEvents =
+              mode === "building" ? "auto" : "none";
+          };
 
     /* =====================================================
        HARTA SATELITORE
@@ -591,6 +689,8 @@ export default function DoorToDoor() {
               });
             },
 
+         
+
             /* ===============================================
                NGJYRAT DHE TRANSPARENCA
             =============================================== */
@@ -602,212 +702,280 @@ export default function DoorToDoor() {
               );
             },
 
+
+
             /* ===============================================
                INFORMACIONI PËR ÇDO OBJEKT
             =============================================== */
 
-            onEachFeature: (feature, polygonLayer) => {
-              const properties =
-                feature.properties || {};
+              onEachFeature: (feature, polygonLayer) => {
+                const properties = feature.properties || {};
 
-              const center = getFeatureCenter(
-                feature,
-                polygonLayer
-              );
+                const center = getFeatureCenter(feature, polygonLayer);
 
-              if (!center) {
-                console.warn(
-                  "Objekt pa qendër të vlefshme:",
-                  feature
-                );
+                if (!center) {
+                  console.warn(
+                    "Objekt pa qendër të vlefshme:",
+                    feature
+                  );
+                  return;
+                }
 
-                return;
-              }
+                generatedId += 1;
 
-              generatedId += 1;
+                const id = `${source.file}-${generatedId}`;
 
-              const id =
-                `${source.file}-${generatedId}`;
+                /* =====================================================
+                  TË DHËNAT NGA GEOJSON
+                ===================================================== */
 
-              const nrAplikimi =
-                getProperty(properties, [
-                  "nrAplikimi",
-                  "NR_APLIKIMI",
-                  "NR_UNIK",
-                  "OBJECTID",
-                  "ID",
-                ]) ||
-                `PAL-${String(generatedId).padStart(
-                  3,
-                  "0"
-                )}`;
-
-              const nrPasurie =
-                getProperty(properties, [
-                  "Nr_Pas",
-                  "NR_PAS",
-                  "NR_PASURIE",
-                  "NrPas",
-                  "nr_pasurie",
-                  "pasuria",
-                ]) || "";
-
-              const status = getStatus(properties);
-
-              const isNoAccess =
-                isBuilding &&
-                status === NO_ACCESS_STATUS;
-
-              const record = {
-                id,
-
-                nrAplikimi: String(nrAplikimi),
-
-                nrPasurie: String(nrPasurie),
-
-                NID:
+                const nrAplikimi =
                   getProperty(properties, [
-                    "NID",
-                    "NR_PERSONAL",
-                  ]) || "",
+                    "nrAplikimi",
+                    "NR_APLIKIMI",
+                    "NR_UNIK",
+                    "OBJECTID",
+                    "ID",
+                  ]) || `PAL-${String(generatedId).padStart(3, "0")}`;
 
-                emer:
+                // E njëjta logjikë për parcelat DHE ndërtesat.
+                const nrPasurie =
                   getProperty(properties, [
-                    "EMER",
-                    "emer",
-                  ]) || "",
+                    "nr_pasuris",
+                    "nr_pasurie",
+                    "NR_PASURIE",
+                    "Nr_Pas",
+                    "NR_PAS",
+                    "NrPas",
+                    "pasuria",
+                  ]) ?? "";
 
-                mbiemer:
+                const adresa =
                   getProperty(properties, [
-                    "MBIEMER",
-                    "mbiemer",
-                  ]) || "",
+                    "adresa",
+                    "ADRESA",
+                  ]) ?? "—";
 
-                status,
+                const zonaKadastrale =
+                  getProperty(properties, [
+                    "zona_kadas",
+                    "zona_kadastrale",
+                    "ZK",
+                    "NR_ZK",
+                  ]) ?? "—";
 
-                source: source.name,
+                const siperfaqja = isBuilding
+                  ? getProperty(properties, [
+                      "sip_nderti",
+                      "sip_banim",
+                      "Shape_Area",
+                      "sip2",
+                    ])
+                  : getProperty(properties, [
+                      "sip_parcel",
+                      "Shape_Area",
+                      "sip2",
+                    ]);
 
-                type: source.type,
+                const status = getStatus(properties);
 
-                lat: center.lat,
+                /* =====================================================
+                  REGJISTRIMI PËR DASHBOARD
+                ===================================================== */
 
-                lng: center.lng,
+                const record = {
+                  id,
 
-                properties,
-              };
+                  nrAplikimi: String(nrAplikimi),
 
-              allRecords.push(record);
+                  nrPasurie: String(nrPasurie),
 
-              featureLayersRef.current[id] =
-                polygonLayer;
+                  NID:
+                    getProperty(properties, [
+                      "NID",
+                      "NR_PERSONAL",
+                    ]) ?? "",
 
-              /* =============================================
-                 POPUP: PARCELË OSE NDËRTESË
-              ============================================= */
+                  emer:
+                    getProperty(properties, [
+                      "EMER",
+                      "emer",
+                    ]) ?? "",
 
-              const popupTitle = isBuilding
-                ? `Ndërtesa – ${nrAplikimi}`
-                : `Parcela – ${
-                    nrPasurie || nrAplikimi
-                  }`;
+                  mbiemer:
+                    getProperty(properties, [
+                      "MBIEMER",
+                      "mbiemer",
+                    ]) ?? "",
 
-              polygonLayer.bindPopup(
-                createPopup(
+                  status,
+
+                  source: source.name,
+
+                  type: source.type,
+
+                  lat: center.lat,
+
+                  lng: center.lng,
+
                   properties,
-                  popupTitle,
-                  status
-                ),
-                {
-                  maxWidth: 380,
+                };
+
+                allRecords.push(record);
+
+                featureLayersRef.current[id] = polygonLayer;
+
+                /* =====================================================
+                  TOOLTIP: NR. I PASURISË PËR TË DY SHTRESAT
+                  SHFAQET VETËM NË ZOOM > 12
+                ===================================================== */
+
+                const hasNrPasurie =
+                  nrPasurie !== null &&
+                  nrPasurie !== undefined &&
+                  String(nrPasurie).trim() !== "";
+
+                if (hasNrPasurie) {
+                  polygonLayer.bindTooltip(String(nrPasurie), {
+                    permanent: true,
+                    sticky: false,
+                    direction: "center",
+                    opacity: 1,
+                    interactive: false,
+                    className: "parcel-number-label",
+                  });
+                }
+
+                /* =====================================================
+                  POPUP
+                  VETËM 5 FUSHAT, PAS KLIKIMIT
+                ===================================================== */
+
+                const popupContainer = document.createElement("div");
+
+                popupContainer.className = "doortodoor-popup";
+
+                popupContainer.style.minWidth = "230px";
+
+                const popupTitle = document.createElement("strong");
+
+                popupTitle.textContent = isBuilding
+                  ? "Informacion mbi ndërtesën"
+                  : "Informacion mbi parcelën";
+
+                popupTitle.style.display = "block";
+                popupTitle.style.marginBottom = "10px";
+                popupTitle.style.fontSize = "14px";
+                popupTitle.style.color = "#0f172a";
+
+                popupContainer.appendChild(popupTitle);
+
+                const popupFields = [
+                  ["Statusi", status],
+                  ["Adresa", adresa],
+                  ["Nr. i pasurisë", hasNrPasurie ? nrPasurie : "—"],
+                  ["Zona kadastrale", zonaKadastrale],
+                  [
+                    "Sipërfaqja",
+                    siperfaqja !== null &&
+                    siperfaqja !== undefined &&
+                    String(siperfaqja).trim() !== ""
+                      ? siperfaqja
+                      : "—",
+                  ],
+                ];
+
+                popupFields.forEach(([label, value]) => {
+                  const row = document.createElement("div");
+
+                  row.style.display = "flex";
+                  row.style.justifyContent = "space-between";
+                  row.style.alignItems = "flex-start";
+                  row.style.gap = "12px";
+                  row.style.padding = "6px 0";
+                  row.style.borderBottom = "1px solid #e5e7eb";
+                  row.style.fontSize = "12px";
+
+                  const labelElement = document.createElement("span");
+
+                  labelElement.textContent = label;
+                  labelElement.style.color = "#64748b";
+                  labelElement.style.flexShrink = "0";
+
+                  const valueElement = document.createElement("strong");
+
+                  valueElement.textContent = String(value);
+                  valueElement.style.color = "#0f172a";
+                  valueElement.style.textAlign = "right";
+                  valueElement.style.overflowWrap = "anywhere";
+
+                  row.append(labelElement, valueElement);
+
+                  popupContainer.appendChild(row);
+                });
+
+                polygonLayer.bindPopup(popupContainer, {
+                  maxWidth: 320,
                   autoPan: true,
                   closeButton: true,
-                }
-              );
+                });
 
-              /* =============================================
-                 THEKSIMI ME MAUS
-              ============================================= */
+                /* =====================================================
+                  STILI ORIGJINAL
+                ===================================================== */
 
-              const originalStyle =
-                getFeatureStyle(
+                const originalStyle = getFeatureStyle(
                   isBuilding,
                   properties
                 );
 
-              polygonLayer.on("mouseover", () => {
-                if (
-                  typeof polygonLayer.setStyle !==
-                  "function"
-                ) {
-                  return;
-                }
+                /* =====================================================
+                  MOUSEOVER
+                ===================================================== */
 
-                polygonLayer.setStyle({
-                  ...originalStyle,
+                polygonLayer.on("mouseover", () => {
+                  if (typeof polygonLayer.setStyle !== "function") {
+                    return;
+                  }
 
-                  weight:
-                    originalStyle.weight + 1,
-
-                  fillOpacity: Math.min(
-                    originalStyle.fillOpacity + 0.12,
-                    0.48
-                  ),
-                });
-              });
-
-              polygonLayer.on("mouseout", () => {
-                if (
-                  typeof polygonLayer.setStyle !==
-                  "function"
-                ) {
-                  return;
-                }
-
-                polygonLayer.setStyle({
-                  ...originalStyle,
-                });
-              });
-
-              /* =============================================
-                 KLIKIMI MBI PARCELËN / NDËRTESËN
-              ============================================= */
-
-              polygonLayer.on("click", (event) => {
-                setSelectedRecord(record);
-
-                // Leaflet e hap vetë popup-in nga bindPopup.
-                // Nuk thërrasim openPopup dy herë.
-
-                if (
-                  typeof polygonLayer.setStyle ===
-                  "function"
-                ) {
                   polygonLayer.setStyle({
                     ...originalStyle,
 
-                    weight: 3.5,
+                    weight: originalStyle.weight + 1,
 
                     fillOpacity: Math.min(
-                      originalStyle.fillOpacity + 0.1,
-                      0.45
+                      originalStyle.fillOpacity + 0.12,
+                      0.48
                     ),
                   });
-                }
-              });
+                });
 
-              /* =============================================
-                 NUK KRIJOJMË MARKERA
-                 SHFAQEN VETËM GJEOMETRITË GEOJSON
-              ============================================= */
+                /* =====================================================
+                  MOUSEOUT
+                ===================================================== */
 
-              if (isNoAccess) {
-                console.debug(
-                  "Banesë pa akses:",
-                  nrAplikimi
-                );
-              }
-            },
-          });
+                polygonLayer.on("mouseout", () => {
+                  if (typeof polygonLayer.setStyle !== "function") {
+                    return;
+                  }
+
+                  polygonLayer.setStyle({
+                    ...originalStyle,
+                  });
+                });
+
+                /* =====================================================
+                  KLIKIMI
+                  HAP INFORMACIONIN E PARCELËS OSE NDËRTESËS
+                ===================================================== */
+
+                polygonLayer.on("click", (event) => {
+                  setSelectedRecord(record);
+
+                  // Popup-i hapet vetëm pas klikimit.
+                  polygonLayer.openPopup(event.latlng);
+                });
+              },      });
 
           /* =================================================
              RUAJMË SHTRESAT, POR I SHTOJMË NË RADHË
@@ -871,6 +1039,9 @@ export default function DoorToDoor() {
         layerControl.addOverlay(layer, name);
       });
 
+      // Shtresat tani janë në hartë: zbato pragun e zoom-it.
+      updatePropertyLabels();
+
       /* =====================================================
          DASHBOARD
       ===================================================== */
@@ -898,6 +1069,9 @@ export default function DoorToDoor() {
           animate: false,
         });
       }
+
+      // Sigurohu që etiketat përputhen me zoom-in përfundimtar.
+      updatePropertyLabels();
 
       console.log("GEOJSON:", {
         total: allRecords.length,
@@ -1026,6 +1200,7 @@ export default function DoorToDoor() {
 
       featureLayersRef.current = {};
 
+      map.off("zoomend", updatePropertyLabels);
       map.off();
 
       try {
@@ -1090,6 +1265,24 @@ export default function DoorToDoor() {
       }
     });
   };
+
+useEffect(() => {
+  const map = mapRef.current;
+
+  if (!map) return;
+
+  const parcelPane = map.getPane("parcelPane");
+  const buildingPane = map.getPane("buildingPane");
+
+  if (!parcelPane || !buildingPane) return;
+
+  parcelPane.style.pointerEvents =
+    clickMode === "parcel" ? "auto" : "none";
+
+  buildingPane.style.pointerEvents =
+    clickMode === "building" ? "auto" : "none";
+}, [clickMode]);
+
 
   /* =======================================================
      JSX
@@ -1236,6 +1429,51 @@ export default function DoorToDoor() {
 
             </div>
 
+          </section>
+
+
+          <section className="dashboard-section">
+            <div className="dashboard-section-title">
+              <h3>Zgjidh objektin në hartë</h3>
+            </div>
+
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                type="button"
+                onClick={() => changeClickMode("parcel")}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  cursor: "pointer",
+                  background:
+                    clickMode === "parcel" ? "#f97316" : "#fff",
+                  color:
+                    clickMode === "parcel" ? "#fff" : "#334155",
+                  border: "1px solid #f97316",
+                  borderRadius: "8px",
+                }}
+              >
+                Parcelat
+              </button>
+
+              <button
+                type="button"
+                onClick={() => changeClickMode("building")}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  cursor: "pointer",
+                  background:
+                    clickMode === "building" ? "#16a34a" : "#fff",
+                  color:
+                    clickMode === "building" ? "#fff" : "#334155",
+                  border: "1px solid #16a34a",
+                  borderRadius: "8px",
+                }}
+              >
+                Ndërtesat
+              </button>
+            </div>
           </section>
 
           {/* LEGJENDA */}
