@@ -11,35 +11,29 @@ const BASE_URL = import.meta.env.BASE_URL || "/";
 
 const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 
-const GEOJSON_FILES = [
-  {
-    file: "palas_gjilek.geojson",
-    name: "Palasë – Gjilek",
-    type: "parcel",
+const ZONES = {
+  palase: {
+    name: "Palasë",
+    dv: "Vlorë",
+    bashkia: "Himarë",
+    periudha: "09.09.2026 - 17.09.2026",
   },
-  {
-    file: "palas_gjilek_nd.geojson",
-    name: "Palasë – Gjilek ND",
-    type: "building",
+  dhermi: {
+    name: "Dhërmi",
+    dv: "Vlorë",
+    bashkia: "Himarë",
+    periudha: "—", // Plotësoje kur të konfirmohet periudha.
   },
-  {
-    file: "palas_gjilek_shtes.geojson",
-    name: "Palasë – Gjilek shtesë",
-    type: "parcel",
-  },
-  {
-    file: "palas_gjilek_nd_shtes.geojson",
-    name: "Palasë – Gjilek ND shtesë",
-    type: "building",
-  },
-];
-
-const PALASE = {
-  name: "Palasë",
-  dv: "Vlorë",
-  bashkia: "Himarë",
-  periudha: "09.09.2026 - 17.09.2026",
 };
+
+const GEOJSON_FILES = [
+  { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
+  { file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
+  { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
+  { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
+  { file: "PARCELA1.geojson", name: "Dhërmi – Parcelat", zone: "dhermi", type: "parcel" },
+  { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
+];
 
 const ALBANIA_BOUNDS = L.latLngBounds(
   [39.55, 19.05],
@@ -380,6 +374,10 @@ export default function DoorToDoor() {
 
   // Referencat e poligoneve për klikimin nga dashboard-i.
   const featureLayersRef = useRef({});
+  const zoneLayersRef = useRef({ palase: [], dhermi: [] });
+  const zoneBoundsRef = useRef({});
+  const [selectedZone, setSelectedZone] = useState("palase");
+  const activeZone = ZONES[selectedZone];
 
   const [search, setSearch] = useState("");
 
@@ -406,26 +404,32 @@ export default function DoorToDoor() {
   const noAccessRecords = useMemo(() => {
     return records.filter(
       (item) =>
+        item.zone === selectedZone &&
         item.type === "building" &&
         item.status === NO_ACCESS_STATUS
     );
-  }, [records]);
+  }, [records, selectedZone]);
+
+  const zoneRecords = useMemo(
+    () => records.filter((item) => item.zone === selectedZone),
+    [records, selectedZone]
+  );
 
   const statistics = useMemo(() => {
     return {
-      total: records.length,
+      total: zoneRecords.length,
 
-      parcels: records.filter(
+      parcels: zoneRecords.filter(
         (item) => item.type === "parcel"
       ).length,
 
-      buildings: records.filter(
+      buildings: zoneRecords.filter(
         (item) => item.type === "building"
       ).length,
 
       paAkses: noAccessRecords.length,
     };
-  }, [records, noAccessRecords]);
+  }, [zoneRecords, noAccessRecords]);
 
   const filteredRecords = useMemo(() => {
     const query = normalize(search);
@@ -487,7 +491,7 @@ export default function DoorToDoor() {
     const updatePropertyLabels = () => {
       if (disposed || mapRef.current !== map) return;
 
-      const showLabels = map.getZoom() > 16;
+      const showLabels = map.getZoom() > 12;
 
       Object.values(featureLayersRef.current).forEach((layer) => {
         if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
@@ -598,7 +602,7 @@ export default function DoorToDoor() {
 
     const allRecords = [];
 
-    const allBounds = L.latLngBounds([]);
+    const boundsByZone = {};
 
     const parcelLayers = [];
 
@@ -785,6 +789,7 @@ export default function DoorToDoor() {
 
                 const record = {
                   id,
+                  zone: source.zone,
 
                   nrAplikimi: String(nrAplikimi),
 
@@ -982,22 +987,27 @@ export default function DoorToDoor() {
              PASI TË NGARKOHEN TË GJITHA
           ================================================= */
 
+          const layerEntry = {
+            layer: geojsonLayer,
+            name: source.name,
+            zone: source.zone,
+          };
+
+          zoneLayersRef.current[source.zone].push(layerEntry);
+
           if (isBuilding) {
-            buildingLayers.push({
-              layer: geojsonLayer,
-              name: source.name,
-            });
+            buildingLayers.push(layerEntry);
           } else {
-            parcelLayers.push({
-              layer: geojsonLayer,
-              name: source.name,
-            });
+            parcelLayers.push(layerEntry);
           }
 
           const bounds = geojsonLayer.getBounds();
 
           if (bounds.isValid()) {
-            allBounds.extend(bounds);
+            if (!boundsByZone[source.zone]) {
+              boundsByZone[source.zone] = L.latLngBounds([]);
+            }
+            boundsByZone[source.zone].extend(bounds);
           }
         } catch (loadError) {
           if (loadError.name === "AbortError") {
@@ -1023,21 +1033,19 @@ export default function DoorToDoor() {
          PARCELAT POSHTË
       ===================================================== */
 
-      parcelLayers.forEach(({ layer, name }) => {
-        layer.addTo(map);
-
-        layerControl.addOverlay(layer, name);
+      parcelLayers.forEach(({ layer, zone }) => {
+        if (zone === "palase") layer.addTo(map);
       });
 
       /* =====================================================
          NDËRTESAT SIPËR PARCELAVE
       ===================================================== */
 
-      buildingLayers.forEach(({ layer, name }) => {
-        layer.addTo(map);
-
-        layerControl.addOverlay(layer, name);
+      buildingLayers.forEach(({ layer, zone }) => {
+        if (zone === "palase") layer.addTo(map);
       });
+
+      zoneBoundsRef.current = boundsByZone;
 
       // Shtresat tani janë në hartë: zbato pragun e zoom-it.
       updatePropertyLabels();
@@ -1062,8 +1070,9 @@ export default function DoorToDoor() {
          ZOOM TE PALASA NGA GEOJSON
       ===================================================== */
 
-      if (allBounds.isValid()) {
-        map.fitBounds(allBounds, {
+      const initialBounds = boundsByZone.palase;
+      if (initialBounds?.isValid()) {
+        map.fitBounds(initialBounds, {
           padding: [45, 45],
           maxZoom: 16,
           animate: false,
@@ -1199,6 +1208,8 @@ export default function DoorToDoor() {
       controller.abort();
 
       featureLayersRef.current = {};
+      zoneLayersRef.current = { palase: [], dhermi: [] };
+      zoneBoundsRef.current = {};
 
       map.off("zoomend", updatePropertyLabels);
       map.off();
@@ -1218,6 +1229,39 @@ export default function DoorToDoor() {
     };
   }, []);
 
+  // Ndërrimi i zonës: shtresat dhe kufijtë merren vetëm nga GeoJSON.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || loading) return;
+
+    Object.entries(zoneLayersRef.current).forEach(([zone, entries]) => {
+      entries.forEach(({ layer }) => {
+        if (zone === selectedZone) {
+          if (!map.hasLayer(layer)) layer.addTo(map);
+        } else if (map.hasLayer(layer)) {
+          map.removeLayer(layer);
+        }
+      });
+    });
+
+    const bounds = zoneBoundsRef.current[selectedZone];
+    if (bounds?.isValid()) {
+      map.fitBounds(bounds, {
+        padding: [45, 45],
+        maxZoom: 16,
+        animate: false,
+      });
+    }
+
+    // Etiketat permanente të shtresave të reja respektojnë zoom-in.
+    Object.values(featureLayersRef.current).forEach((layer) => {
+      if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
+      if (map.getZoom() > 12) layer.openTooltip();
+      else layer.closeTooltip();
+    });
+    setSelectedRecord(null);
+  }, [selectedZone, loading]);
+
   /* =======================================================
      HAP OBJEKTIN NGA DASHBOARD-I
   ======================================================= */
@@ -1225,7 +1269,7 @@ export default function DoorToDoor() {
   const openApplicationOnMap = (item) => {
     const map = mapRef.current;
 
-    if (!map) return;
+    if (!map || item.zone !== selectedZone) return;
 
     const polygonLayer =
       featureLayersRef.current[item.id];
@@ -1312,12 +1356,13 @@ useEffect(() => {
         </div>
 
         <img
-          src={`${BASE_URL}images/logo1.jpg`}
+          src={`${BASE_URL}images/logo_ashk_1.png`}
           alt="Agjencia Shtetërore e Kadastrës"
           className="doortodoor-logo-img"
           style={{
-            width: "150px",
+            width: "90px",
             height: "auto",
+            marginBottom:"30px",
           }}
         />
 
@@ -1342,6 +1387,82 @@ useEffect(() => {
         {/* DASHBOARD */}
 
         <aside className="doortodoor-dashboard">
+          {/* ZONAT E VEÇANTA - GATI PËR DASHBOARD-IN E PËRGJITHSHËM */}
+       {/* ZGJEDHJA E ZONËS - DROPDOWN */}
+
+        <section className="dashboard-section">
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1px solid #e2e8f0",
+              borderRadius: "14px",
+              padding: "16px",
+              boxShadow: "0 4px 16px rgba(15, 23, 42, 0.04)",
+            }}
+          >
+            <label
+              htmlFor="zone-select"
+              style={{
+                display: "block",
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "#64748b",
+                marginBottom: "9px",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+              }}
+            >
+              Zgjidh zonën
+            </label>
+
+            <div style={{ position: "relative" }}>
+              <select
+                id="zone-select"
+                value={selectedZone}
+                onChange={(event) => {
+                  setSelectedZone(event.target.value);
+                  setSearch("");
+                  setSelectedRecord(null);
+                }}
+                style={{
+                  width: "100%",
+                  height: "48px",
+                  padding: "0 42px 0 14px",
+                  border: "1px solid #cbd5e1",
+                  borderRadius: "10px",
+                  background: "#f8fafc",
+                  color: "#0f172a",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  outlineColor: "#0f766e",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                }}
+              >
+                {Object.entries(ZONES).map(([zoneId, zone]) => (
+                  <option key={zoneId} value={zoneId}>
+                    {zone.name}
+                  </option>
+                ))}
+              </select>
+
+              <span
+                style={{
+                  position: "absolute",
+                  right: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none",
+                  color: "#0f766e",
+                  fontSize: "13px",
+                }}
+              >
+                ▼
+              </span>
+            </div>
+          </div>
+        </section>
 
           {/* ZONA */}
 
@@ -1354,19 +1475,19 @@ useEffect(() => {
               </span>
 
               <h2>
-                {PALASE.name}
+                {activeZone.name}
               </h2>
 
               <div className="area-location">
 
                 <span>
-                  {PALASE.dv}
+                  {activeZone.dv}
                 </span>
 
                 <span>•</span>
 
                 <span>
-                  {PALASE.bashkia}
+                  {activeZone.bashkia}
                 </span>
 
               </div>
@@ -1394,7 +1515,7 @@ useEffect(() => {
               </span>
 
               <strong>
-                {PALASE.periudha}
+                {activeZone.periudha}
               </strong>
 
             </div>
