@@ -27,12 +27,14 @@ const ZONES = {
 };
 
 const GEOJSON_FILES = [
-  { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
-  { file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
-  { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
-  { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
+ // { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
+  //{ file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
+ // { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
+ // { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
   { file: "PARCELA1.geojson", name: "Dhërmi – Parcelat", zone: "dhermi", type: "parcel" },
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
+  { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
+  { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
 ];
 
 const ALBANIA_BOUNDS = L.latLngBounds(
@@ -230,14 +232,14 @@ function createPopup(properties, title, status) {
   const container = document.createElement("div");
 
   container.className = "doortodoor-popup";
-
-  container.style.minWidth = "230px";
-  container.style.maxWidth = "350px";
+  container.style.minWidth = "280px";
+  container.style.maxWidth = "420px";
+  container.style.maxHeight = "450px";
+  container.style.overflowY = "auto";
 
   const heading = document.createElement("strong");
 
   heading.textContent = title;
-
   heading.style.display = "block";
   heading.style.fontSize = "15px";
   heading.style.marginBottom = "10px";
@@ -251,8 +253,8 @@ function createPopup(properties, title, status) {
     row.style.display = "flex";
     row.style.justifyContent = "space-between";
     row.style.alignItems = "flex-start";
-    row.style.gap = "12px";
-    row.style.padding = "5px 0";
+    row.style.gap = "15px";
+    row.style.padding = "6px 0";
     row.style.borderBottom = "1px solid #e5e7eb";
 
     const labelElement = document.createElement("span");
@@ -260,11 +262,17 @@ function createPopup(properties, title, status) {
     labelElement.textContent = label;
     labelElement.style.color = "#64748b";
     labelElement.style.fontSize = "12px";
+    labelElement.style.fontWeight = "500";
     labelElement.style.flexShrink = "0";
 
-    const valueElement = document.createElement("b");
+    const valueElement = document.createElement("strong");
 
-    valueElement.textContent = String(value ?? "—");
+    valueElement.textContent =
+      value !== null &&
+      value !== undefined &&
+      String(value).trim() !== ""
+        ? String(value)
+        : "—";
 
     valueElement.style.fontSize = "12px";
     valueElement.style.color = "#0f172a";
@@ -272,12 +280,13 @@ function createPopup(properties, title, status) {
     valueElement.style.overflowWrap = "anywhere";
 
     row.append(labelElement, valueElement);
-
     container.appendChild(row);
   };
 
+  // Statusi
   addRow("Statusi", status);
 
+  // TË GJITHA properties nga GeoJSON
   const entries = Object.entries(properties || {});
 
   if (entries.length === 0) {
@@ -311,13 +320,23 @@ function createPolygonLabel(properties) {
     "ADRESA",
   ]) || "—";
 
-  const nrPasurie = getProperty(properties, [
-    "nr_pasuris",
-    "nr_pasurie",
-    "NR_PASURIE",
-    "Nr_Pas",
-    "NR_PAS",
-  ]) || "—";
+const nrPasurie = isBuilding
+  ? getProperty(properties, [
+      "NR_PASURIE",
+      "nr_pasurie",
+      "nr_pas",
+      "Nr_Pas",
+      "NR_PAS",
+      "NrPas",
+    ]) ?? ""
+  : getProperty(properties, [
+      "nr_pas",
+      "NR_PASURIE",
+      "nr_pasurie",
+      "Nr_Pas",
+      "NR_PAS",
+      "NrPas",
+    ]) ?? "";
 
   const zonaKadastrale = getProperty(properties, [
     "zona_kadas",
@@ -392,10 +411,28 @@ export default function DoorToDoor() {
 
     const clickModeRef = useRef("parcel");
 
-    const changeClickMode = (mode) => {
-      clickModeRef.current = mode;
-      setClickMode(mode);
-    };
+   const changeClickMode = (mode) => {
+  clickModeRef.current = mode;
+  setClickMode(mode);
+
+  const map = mapRef.current;
+
+  if (!map) return;
+
+  const showLabels = map.getZoom() > 12;
+
+  Object.values(featureLayersRef.current).forEach((layer) => {
+    const tooltip = layer.getTooltip?.();
+
+    if (!tooltip || !map.hasLayer(layer)) return;
+
+    if (showLabels && layer._doorToDoorType === mode) {
+      layer.openTooltip();
+    } else {
+      layer.closeTooltip();
+    }
+  });
+};
 
   /* =======================================================
      STATISTIKAT
@@ -488,22 +525,26 @@ export default function DoorToDoor() {
 
     // Numrat shfaqen vetëm kur zoom-i është mbi 12.
     // Kontrolli kryhet edhe pasi ngarkohen GeoJSON-et asinkronisht.
-    const updatePropertyLabels = () => {
-      if (disposed || mapRef.current !== map) return;
+      const updatePropertyLabels = () => {
+        if (disposed || mapRef.current !== map) return;
 
-      const showLabels = map.getZoom() > 12;
+        const currentMode = clickModeRef.current;
+        const showLabels = map.getZoom() > 12;
 
-      Object.values(featureLayersRef.current).forEach((layer) => {
-        if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
+        Object.values(featureLayersRef.current).forEach((layer) => {
+          if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
 
-        if (showLabels) {
-          layer.openTooltip();
-        } else {
-          layer.closeTooltip();
-        }
-      });
-    };
+          const layerType = layer._doorToDoorType;
 
+          if (showLabels && layerType === currentMode) {
+            layer.openTooltip();
+          } else {
+            layer.closeTooltip();
+          }
+        });
+      };
+
+map.on("zoomend", updatePropertyLabels);
     map.on("zoomend", updatePropertyLabels);
 
     mapRef.current = map;
@@ -835,95 +876,147 @@ export default function DoorToDoor() {
                   SHFAQET VETËM NË ZOOM > 12
                 ===================================================== */
 
-                const hasNrPasurie =
-                  nrPasurie !== null &&
-                  nrPasurie !== undefined &&
-                  String(nrPasurie).trim() !== "";
+                polygonLayer._doorToDoorType = isBuilding
+                    ? "building"
+                    : "parcel";
 
-                if (hasNrPasurie) {
-                  polygonLayer.bindTooltip(String(nrPasurie), {
-                    permanent: true,
-                    sticky: false,
-                    direction: "center",
-                    opacity: 1,
-                    interactive: false,
-                    className: "parcel-number-label",
-                  });
-                }
+             const hasNrPasurie =
+              nrPasurie !== null &&
+              nrPasurie !== undefined &&
+              String(nrPasurie).trim() !== "";
+
+            if (hasNrPasurie) {
+              polygonLayer.bindTooltip(String(nrPasurie), {
+                permanent: true,
+                sticky: false,
+                direction: "center",
+                opacity: 1,
+                interactive: false,
+                className: "parcel-number-label",
+              });
+            }
 
                 /* =====================================================
                   POPUP
                   VETËM 5 FUSHAT, PAS KLIKIMIT
                 ===================================================== */
 
-                const popupContainer = document.createElement("div");
+               const popupContainer = document.createElement("div");
 
-                popupContainer.className = "doortodoor-popup";
+popupContainer.className = "doortodoor-popup";
+popupContainer.style.minWidth = "280px";
+popupContainer.style.maxWidth = "400px";
 
-                popupContainer.style.minWidth = "230px";
+const popupTitle = document.createElement("strong");
 
-                const popupTitle = document.createElement("strong");
+popupTitle.textContent = isBuilding
+  ? "Informacion mbi ndërtesën"
+  : "Informacion mbi parcelën";
 
-                popupTitle.textContent = isBuilding
-                  ? "Informacion mbi ndërtesën"
-                  : "Informacion mbi parcelën";
+popupTitle.style.display = "block";
+popupTitle.style.marginBottom = "10px";
+popupTitle.style.fontSize = "14px";
+popupTitle.style.color = "#0f172a";
 
-                popupTitle.style.display = "block";
-                popupTitle.style.marginBottom = "10px";
-                popupTitle.style.fontSize = "14px";
-                popupTitle.style.color = "#0f172a";
+popupContainer.appendChild(popupTitle);
 
-                popupContainer.appendChild(popupTitle);
 
-                const popupFields = [
-                  ["Statusi", status],
-                  ["Adresa", adresa],
-                  ["Nr. i pasurisë", hasNrPasurie ? nrPasurie : "—"],
-                  ["Zona kadastrale", zonaKadastrale],
-                  [
-                    "Sipërfaqja",
-                    siperfaqja !== null &&
-                    siperfaqja !== undefined &&
-                    String(siperfaqja).trim() !== ""
-                      ? siperfaqja
-                      : "—",
-                  ],
-                ];
+/* =========================================
+   TË GJITHA FUSHAT
+========================================= */
 
-                popupFields.forEach(([label, value]) => {
-                  const row = document.createElement("div");
+const popupFields = [
+  ["Tipi", isBuilding ? "Ndërtesë" : "Parcelë"],
 
-                  row.style.display = "flex";
-                  row.style.justifyContent = "space-between";
-                  row.style.alignItems = "flex-start";
-                  row.style.gap = "12px";
-                  row.style.padding = "6px 0";
-                  row.style.borderBottom = "1px solid #e5e7eb";
-                  row.style.fontSize = "12px";
+  [
+    isBuilding
+      ? "Nr. pasurie ndërtesë"
+      : "Nr. pasurie parcelë",
+    nrPasurie || "—",
+  ],
 
-                  const labelElement = document.createElement("span");
+  [
+    "Sipërfaqja",
+    getProperty(properties, ["SIP", "sip"]) ?? "—",
+  ],
 
-                  labelElement.textContent = label;
-                  labelElement.style.color = "#64748b";
-                  labelElement.style.flexShrink = "0";
+  [
+    "Bashkia",
+    getProperty(properties, ["BASHKIA", "bashkia"]) ?? "—",
+  ],
 
-                  const valueElement = document.createElement("strong");
+  [
+    "Zona kadastrale",
+    getProperty(properties, ["ZK", "zk"]) ?? "—",
+  ],
 
-                  valueElement.textContent = String(value);
-                  valueElement.style.color = "#0f172a";
-                  valueElement.style.textAlign = "right";
-                  valueElement.style.overflowWrap = "anywhere";
+  [
+    "Adresa",
+    getProperty(properties, ["ADRESA", "adresa"]) ?? "—",
+  ],
 
-                  row.append(labelElement, valueElement);
+  [
+    "Poseduesi",
+    getProperty(properties, ["POSEDUESI", "poseduesi"]) ?? "—",
+  ],
 
-                  popupContainer.appendChild(row);
-                });
+  [
+    "Nr. unik",
+    getProperty(properties, ["NR_UNIK", "nr_unik"]) ?? "—",
+  ],
 
-                polygonLayer.bindPopup(popupContainer, {
-                  maxWidth: 320,
-                  autoPan: true,
-                  closeButton: true,
-                });
+  [
+    "Zona",
+    getProperty(properties, ["ZONA", "zona"]) ?? "—",
+  ],
+];
+
+
+/* =========================================
+   KRIJO RRESHTAT
+========================================= */
+
+popupFields.forEach(([label, value]) => {
+  const row = document.createElement("div");
+
+  row.style.display = "flex";
+  row.style.justifyContent = "space-between";
+  row.style.alignItems = "flex-start";
+  row.style.gap = "12px";
+  row.style.padding = "6px 0";
+  row.style.borderBottom = "1px solid #e5e7eb";
+  row.style.fontSize = "12px";
+
+  const labelElement = document.createElement("span");
+
+  labelElement.textContent = label;
+  labelElement.style.color = "#64748b";
+  labelElement.style.flexShrink = "0";
+
+  const valueElement = document.createElement("strong");
+
+  valueElement.textContent = String(value);
+  valueElement.style.color = "#0f172a";
+  valueElement.style.textAlign = "right";
+  valueElement.style.overflowWrap = "anywhere";
+
+  row.append(labelElement, valueElement);
+  popupContainer.appendChild(row);
+});
+
+
+/* =========================================
+   POPUP
+========================================= */
+
+polygonLayer.bindPopup(popupContainer, {
+  maxWidth: 400,
+  autoPan: true,
+  closeButton: true,
+});
+
+              
+               
 
                 /* =====================================================
                   STILI ORIGJINAL
