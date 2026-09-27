@@ -1,0 +1,769 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 1",
+        "description": "Koordinata origjinale: N 40*10'02\"  E 19*37'28\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.624444444,
+          40.167222222,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 2",
+        "description": "Koordinata origjinale: N 40*09'59.09\"   E 19*37'27.35\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.624263889,
+          40.166413889,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 3",
+        "description": "Koordinata origjinale: N 40.1672282   E 19.6250548",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6250548,
+          40.1672282,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 8",
+        "description": "Koordinata origjinale: N 40*10'00.86\"  E 19*37'30\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625,
+          40.166905556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 9",
+        "description": "Koordinata origjinale: N 40*10'00.86\"  E 19*37'30\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625,
+          40.166905556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 10",
+        "description": "Koordinata origjinale: N 40*10'00.86\"  E 19*37'30\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625,
+          40.166905556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 11",
+        "description": "Koordinata origjinale: N 40*10'00.86\"  E 19*37'30\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625,
+          40.166905556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 14",
+        "description": "Koordinata origjinale: N 40.1671452  E 19.6254059",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6254059,
+          40.1671452,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 15",
+        "description": "Koordinata origjinale: N 40.1671452  E 19.6254060",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625406,
+          40.1671452,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 16",
+        "description": "Koordinata origjinale: N 40.1671452  E 19.6254061",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6254061,
+          40.1671452,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 17",
+        "description": "Koordinata origjinale: N 40.1645631  E 19.625302",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625302,
+          40.1645631,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 18",
+        "description": "Koordinata origjinale: N 40.1629430  E 19.6275869",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6275869,
+          40.162943,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 19",
+        "description": "Koordinata origjinale: N 40.16646948  E 19.6251976",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6251976,
+          40.16646948,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 20",
+        "description": "Koordinata origjinale: N40.1665303  E 19.6254756",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6254756,
+          40.1665303,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 21",
+        "description": "Koordinata origjinale: N 40.1665303  E 19.6254756",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6254756,
+          40.1665303,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 24",
+        "description": "Koordinata origjinale: N 40*10'02\"  E 19*37'32\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625555556,
+          40.167222222,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 25",
+        "description": "Koordinata origjinale: N 40*10'3.30\"  E 19*37'29.07\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.624741667,
+          40.167583333,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 26",
+        "description": "Koordinata origjinale: N  40*10'51\"  E 19*37'27\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.624166667,
+          40.180833333,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 27",
+        "description": "Koordinata origjinale: N 40*10'01\"   E 19*37'25\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.623611111,
+          40.166944444,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 28",
+        "description": "Koordinata origjinale: N  40.1672851  E 19.6248905",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6248905,
+          40.1672851,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 29",
+        "description": "Koordinata origjinale: N  40.1672851  E 19.6248906",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6248906,
+          40.1672851,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 30",
+        "description": "Koordinata origjinale: N  40.1672851  E 19.6248907",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6248907,
+          40.1672851,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 31",
+        "description": "Koordinata origjinale: N 40.1671880  E 19.6254250",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625425,
+          40.167188,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 33",
+        "description": "Koordinata origjinale: N 40*9'52.5\"  E 19*37'30.7\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625194444,
+          40.164583333,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 35",
+        "description": "Koordinata origjinale: N 40*10'3.3\"   E 19*37'21.7\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622694444,
+          40.167583333,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 36",
+        "description": "Koordinata origjinale: N 40*10'0.1\"  E 19*37'21.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622611111,
+          40.166694444,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 37",
+        "description": "Koordinata origjinale: N 40*10'2.8\"  E 19*37'21.9\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.62275,
+          40.167444444,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 38",
+        "description": "Koordinata origjinale: N 40*10'0.7\"  E 19*37'23.9\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.623305556,
+          40.166861111,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 39",
+        "description": "Koordinata origjinale: N 40*10'0.7\"  E 19*37'30.3\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625083333,
+          40.166861111,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 42",
+        "description": "Koordinata origjinale: N 40*10'29.7\"  E 19*36'36.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.610111111,
+          40.174916667,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 43",
+        "description": "Koordinata origjinale: 40*10'2.2\"  E 19*37'30.2\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625055556,
+          40.167277778,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 44",
+        "description": "Koordinata origjinale: N 40*10'3.9\"   E 19*37'25.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.623722222,
+          40.16775,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 45",
+        "description": "Koordinata origjinale: N 40*9'56.9\"  E 19*39'27.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.657611111,
+          40.165805556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 46",
+        "description": "Koordinata origjinale: N 40*9'57.1\"   E 19*37'28.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.624555556,
+          40.165861111,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 47",
+        "description": "Koordinata origjinale: N 40*10'2.2\"   E 19*37'21.6\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622666667,
+          40.167277778,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 48",
+        "description": "Koordinata origjinale: N 40*10'3\"   E 19*37'32.5\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625694444,
+          40.1675,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 49",
+        "description": "Koordinata origjinale: N 40*10'2.5\"  E 19*37'22.1\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622805556,
+          40.167361111,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 50",
+        "description": "Koordinata origjinale: N 40*10'2\"   E 19*37'21.4\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622611111,
+          40.167222222,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 51",
+        "description": "Koordinata origjinale: N 40*10'2.4\"   E 19*37\"32.7\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.62575,
+          40.167333333,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 52",
+        "description": "Koordinata origjinale: N 40*10'2.3\"   E 19*37'22.6\"",
+        "styleUrl": "#normal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622944444,
+          40.167305556,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 13",
+        "description": "Koordinata origjinale: N 40.1668032 S 19.6247725 | SHËNIM: S në vend të E për gjatësinë gjeografike; interpretuar si E",
+        "styleUrl": "#review"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6247725,
+          40.1668032,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 22 — pa koordinatë të sigurt",
+        "description": "Origjinali: N 40*10'0130\"  E 19*37'27.70\" | Sekonda të paqarta: 0130",
+        "styleUrl": "",
+        "coordinates_assumed": true,
+        "coordinate_note": "Koordinata të hamendësuara nga teksti origjinal; kërkojnë verifikim.",
+        "interpreted_dms": "N 40°10′1.3″ E 19°37′27.7″"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.62436111111111,
+          40.167027777777776,
+          0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 23",
+        "description": "Koordinata origjinale: N 40*09'28\"  E 19*17'30\" | SHËNIM: Jashtë grupimit kryesor të koordinatave; kontrollo shifrën",
+        "styleUrl": "#review"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.291666667,
+          40.157777778,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 32 — pa koordinatë të sigurt",
+        "description": "Origjinali: N 40*10'034\"   E 19*37'50\" | Sekonda të paqarta: 034",
+        "styleUrl": "",
+        "coordinates_assumed": true,
+        "coordinate_note": "Koordinata të hamendësuara nga teksti origjinal; kërkojnë verifikim.",
+        "interpreted_dms": "N 40°10′3.4″ E 19°37′50″"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.630555555555556,
+          40.16761111111111,
+          0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 34 — pa koordinatë të sigurt",
+        "description": "Origjinali: N 40*9'559.5\"  E 19*37'20.7\" | Sekonda të paqarta: 559.5",
+        "styleUrl": "",
+        "coordinates_assumed": true,
+        "coordinate_note": "Koordinata të hamendësuara nga teksti origjinal; kërkojnë verifikim.",
+        "interpreted_dms": "N 40°9′59.5″ E 19°37′20.7″"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.622416666666666,
+          40.16652777777777,
+          0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 40 — pa koordinatë të sigurt",
+        "description": "Origjinali: N 40*10'1.9\"  E 19.37'32.2\" | Shkrim jo standard",
+        "styleUrl": "",
+        "coordinates_assumed": true,
+        "coordinate_note": "Koordinata të hamendësuara nga teksti origjinal; kërkojnë verifikim.",
+        "interpreted_dms": "N 40°10′1.9″ E 19°37′32.2″"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625611111111112,
+          40.16719444444444,
+          0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pika 41",
+        "description": "Koordinata origjinale: N 40*10'  E 19*37'30.4\" | SHËNIM: Sekondat mungojnë; supozuar 0",
+        "styleUrl": "#review"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.625111111,
+          40.166666667,
+          0.0
+        ]
+      }
+    }
+  ]
+}
