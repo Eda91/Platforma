@@ -11,21 +11,6 @@ const BASE_URL = import.meta.env.BASE_URL || "/";
 
 const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 
-const ZONES = {
-  palase: {
-    name: "Palasë",
-    dv: "Vlorë",
-    bashkia: "Himarë",
-    periudha: "09.09.2026 - 17.09.2026",
-  },
-  dhermi: {
-    name: "Dhërmi",
-    dv: "Vlorë",
-    bashkia: "Himarë",
-    periudha: "—", // Plotësoje kur të konfirmohet periudha.
-  },
-};
-
 const GEOJSON_FILES = [
  // { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
   //{ file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
@@ -35,7 +20,28 @@ const GEOJSON_FILES = [
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
   { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
   { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
+  { file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
+  { file: "palase_google_earth.geojson",  name: "Palasë – Pika", zone: "palase-pika",type: "parcel",},
+
 ];
+
+const ZONES = GEOJSON_FILES.reduce((zones, item) => {
+  const zone = (zones[item.zone] ??= {
+    name: item.zone,
+    dv: "—",
+    bashkia: "—",
+    periudha: "—",
+  });
+
+  if (item.zoneName) zone.name = item.zoneName;
+  if (item.dv) zone.dv = item.dv;
+  if (item.bashkia) zone.bashkia = item.bashkia;
+  if (item.periudha) zone.periudha = item.periudha;
+
+  return zones;
+}, {});
+
+
 
 const ALBANIA_BOUNDS = L.latLngBounds(
   [39.55, 19.05],
@@ -393,7 +399,7 @@ export default function DoorToDoor() {
 
   // Referencat e poligoneve për klikimin nga dashboard-i.
   const featureLayersRef = useRef({});
-  const zoneLayersRef = useRef({ palase: [], dhermi: [] });
+  const zoneLayersRef = useRef({});
   const zoneBoundsRef = useRef({});
   const [selectedZone, setSelectedZone] = useState("palase");
   const activeZone = ZONES[selectedZone];
@@ -1086,7 +1092,10 @@ polygonLayer.bindPopup(popupContainer, {
             zone: source.zone,
           };
 
-          zoneLayersRef.current[source.zone].push(layerEntry);
+          // Krijojmë listën e zonës nëse nuk ekziston.
+            zoneLayersRef.current[source.zone] ??= [];
+
+            zoneLayersRef.current[source.zone].push(layerEntry);
 
           if (isBuilding) {
             buildingLayers.push(layerEntry);
@@ -1301,7 +1310,7 @@ polygonLayer.bindPopup(popupContainer, {
       controller.abort();
 
       featureLayersRef.current = {};
-      zoneLayersRef.current = { palase: [], dhermi: [] };
+      zoneLayersRef.current = {};
       zoneBoundsRef.current = {};
 
       map.off("zoomend", updatePropertyLabels);
