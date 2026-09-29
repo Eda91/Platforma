@@ -471,10 +471,22 @@
   },
 
       "2494": {
-    "name": "LOZHAN I RI - MALIQ",
+        "name": "LOZHAN I RI - MALIQ",
       "start": "2026-09-10",
        "end": "2026-10-24"
-  }
+  },
+
+        "1826": {
+        "name": "GRABIAN",
+        "start": "2026-09-24",
+        "end": "2026-11-07"
+      },
+
+      "2504": {
+        "name": "LUBONJË",
+        "start": "2026-09-29",
+        "end": "2026-11-12"
+      }
 
   
   
