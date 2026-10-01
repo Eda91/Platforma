@@ -206,6 +206,8 @@ const afatet= {
   2494: { start: "2026-09-10", end: "2026-10-24" },
   1826: { start: "2026-09-24", end: "2026-11-07" },
   2504: { start: "2026-09-29", end: "2026-11-12" },
+  1552: { start: "2026-10-01", end: "2026-11-14" },
+
 };
 
 function isWithinDateRange(zkNumer) {
@@ -527,6 +529,15 @@ const cityStyle = {
 
     {
       url: import.meta.env.BASE_URL + "geojson/VL2504LU_P.geojson",
+      type: "parcel",
+    },
+     {
+      url: import.meta.env.BASE_URL + "geojson/VL1552DR_N.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/VL1552DR_P.geojson",
       type: "parcel",
     },
 
