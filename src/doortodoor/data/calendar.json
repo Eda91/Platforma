@@ -42,24 +42,21 @@
     "bashkia": "Vlorë",
     "drejtoriteVendore": [
       "Vlorë"
-      
     ],
-    "locations": [] ,
+    "locations": [],
     "startDate": "-",
     "endDate": "-",
-    "status": "pending"
+    "status": "waiting"
   },
-    {
+  {
     "id": 3,
     "bashkia": "Sarandë",
     "drejtoriteVendore": [
       "Sarandë"
-      
     ],
-    "locations": [] ,
+    "locations": [],
     "startDate": "-",
     "endDate": "-",
-    "status": "pending"
+    "status": "waiting"
   }
-
 ]

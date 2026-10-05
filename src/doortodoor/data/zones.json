@@ -5,7 +5,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Palasë",
-    "zoneStatus": "review",
+   
     "startDate": "10.09.2026",
     "endDate": "18.09.2026",
     "applications": [
@@ -59,7 +59,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Gjilekë",
-    "zoneStatus": "planned",
+   
     "startDate": "21.09.2026",
     "endDate": "05.10.2026",
     "applications": []
@@ -70,7 +70,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Dhërmi",
-    "zoneStatus": "planned",
+   
     "startDate": "21.09.2026",
     "endDate": "05.10.2026",
     "applications": []
@@ -81,7 +81,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Iliaz",
-    "zoneStatus": "planned",
+   
     "startDate": "21.09.2026",
     "endDate": "05.10.2026",
     "applications": []
@@ -92,7 +92,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Vuno",
-    "zoneStatus": "planned",
+   
     "startDate": "21.09.2026",
     "endDate": "05.10.2026",
     "applications": []
@@ -103,7 +103,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Himarë",
-    "zoneStatus": "planned",
+   
     "startDate": "21.09.2026",
     "endDate": "25.11.2026",
     "applications": []
@@ -114,7 +114,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Pilur",
-    "zoneStatus": "planned",
+   
     "startDate": "06.10.2026",
     "endDate": "16.10.2026",
     "applications": []
@@ -125,7 +125,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Kudhës",
-    "zoneStatus": "planned",
+   
     "startDate": "06.10.2026",
     "endDate": "16.10.2026",
     "applications": []
@@ -136,7 +136,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Qeparo Fshat",
-    "zoneStatus": "planned",
+   
     "startDate": "06.10.2026",
     "endDate": "16.10.2026",
     "applications": []
@@ -147,7 +147,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Qeparo Fushë",
-    "zoneStatus": "planned",
+   
     "startDate": "06.10.2026",
     "endDate": "16.10.2026",
     "applications": []
@@ -158,7 +158,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Kallarat",
-    "zoneStatus": "planned",
+   
     "startDate": "19.10.2026",
     "endDate": "26.10.2026",
     "applications": []
@@ -169,7 +169,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Vranisht",
-    "zoneStatus": "planned",
+   
     "startDate": "19.10.2026",
     "endDate": "26.10.2026",
     "applications": []
@@ -180,7 +180,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Tërbaç",
-    "zoneStatus": "planned",
+   
     "startDate": "19.10.2026",
     "endDate": "26.10.2026",
     "applications": []
@@ -191,7 +191,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Bolenë",
-    "zoneStatus": "planned",
+   
     "startDate": "19.10.2026",
     "endDate": "26.10.2026",
     "applications": []
@@ -202,7 +202,7 @@
     "dv": "Vlorë",
     "bashkia": "Himarë",
     "fshati": "Kuç",
-    "zoneStatus": "planned",
+   
     "startDate": "19.10.2026",
     "endDate": "26.10.2026",
     "applications": []
@@ -213,7 +213,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Borsh",
-    "zoneStatus": "planned",
+   
     "startDate": "27.10.2026",
     "endDate": "09.11.2026",
     "applications": []
@@ -224,7 +224,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Fterrë",
-    "zoneStatus": "planned",
+   
     "startDate": "27.10.2026",
     "endDate": "09.11.2026",
     "applications": []
@@ -235,7 +235,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Çorraj",
-    "zoneStatus": "planned",
+   
     "startDate": "27.10.2026",
     "endDate": "09.11.2026",
     "applications": []
@@ -246,7 +246,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Piqeras",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -257,7 +257,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Bunec",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -269,7 +269,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Sasaj",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -280,7 +280,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Lukovë",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -291,7 +291,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Shën Vasil",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -302,7 +302,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Nivicë",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
@@ -313,7 +313,7 @@
     "dv": "Sarandë",
     "bashkia": "Himarë",
     "fshati": "Heremec",
-    "zoneStatus": "planned",
+   
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
