@@ -86,7 +86,8 @@ const getZoneStatus = (zone) => {
 
   if (today > end) {
 
-    return "completed";
+    //return "completed";
+     return "review";
 
   }
 
