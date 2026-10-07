@@ -1519,65 +1519,57 @@ button.main-kpi:hover {
 
 .applications-list {
   flex: 1;
-
   min-height: 0;
-
   overflow-y: auto;
-
-  border:
-    1px solid #e2e8f0;
-
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
   border-radius: 9px;
-
   background: #ffffff;
 }
 
+/* 5 KOLONA - NJË RRESHT PËR ÇDO REKORD */
 .applications-list-head,
 .applications-list-row {
+  width: 100%;
   display: grid;
 
   grid-template-columns:
-    190px
-    240px
-    minmax(0, 1fr);
+    60px
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(170px, 1fr)
+    minmax(330px, 1.8fr);
 
-  gap: 20px;
-
+  column-gap: 16px;
   align-items: center;
 }
 
+/* HEADER */
 .applications-list-head {
-  min-height: 43px;
-
-  padding: 0 17px;
+  min-height: 48px;
+  padding: 0 18px;
 
   position: sticky;
-
   top: 0;
-
   z-index: 2;
 
   background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
 
-  border-bottom:
-    1px solid #e2e8f0;
-
-  font-size: 9px;
-
+  font-size: 12px;
   font-weight: 800;
-
   text-transform: uppercase;
-
   color: #64748b;
 }
 
+/* ÇDO REKORD */
 .applications-list-row {
-  min-height: 62px;
+  min-height: 64px;
+  padding: 10px 18px;
 
-  padding: 9px 17px;
+  border-bottom: 1px solid #edf0f4;
 
-  border-bottom:
-    1px solid #edf0f4;
+  background: #ffffff;
 }
 
 .applications-list-row:last-child {
@@ -1588,63 +1580,82 @@ button.main-kpi:hover {
   background: #f8fafc;
 }
 
-.app-code {
-  font-size: 12px;
-
-  color: #0f172a;
+/* Mos lejo që kolonat të dalin nga grid */
+.applications-list-head > *,
+.applications-list-row > * {
+  min-width: 0;
 }
 
-.application-status {
-  width: fit-content;
+/* NR */
+.app-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
 
-  padding: 6px 10px;
+/* EMËR / ATËSI / MBIEMËR */
+.app-name,
+.app-father-name,
+.app-last-name {
+  font-size: 14px;
+  color: #1e293b;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* STATUS */
+.application-status {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+  max-width: 100%;
+
+  padding: 7px 11px;
 
   border-radius: 999px;
 
-  font-size: 9px;
-
+  font-size: 11px;
   font-weight: 800;
+  line-height: 1.2;
 
   white-space: nowrap;
 }
 
 .application-status.approved {
   background: #ecfdf3;
-
   color: #15803d;
 }
 
 .application-status.public {
   background: #eff6ff;
-
   color: #2563eb;
 }
 
-.app-description {
-  min-width: 0;
-
-  font-size: 11px;
-
-  line-height: 1.4;
-
-  color: #64748b;
+.application-status.missing {
+  background: #fff7e6;
+  color: #b45309;
 }
 
+.application-status.no-access {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* EMPTY */
 .applications-empty {
   min-height: 230px;
-
   padding: 25px;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
-
   color: #64748b;
 }
 
@@ -1654,7 +1665,6 @@ button.main-kpi:hover {
 
 .applications-empty span {
   margin-top: 4px;
-
   font-size: 10px;
 }
 
