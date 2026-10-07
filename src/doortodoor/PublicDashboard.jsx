@@ -318,11 +318,17 @@ export default function PublicDashboard() {
   /* ======================================================
      OPEN MAP
      ====================================================== */
-  const openMap = (zone) => {
-    if (!zone?.fshati) return;
-    setSelectedZone(null);
-    navigate(`/doortodoor/${createZoneSlug(zone.fshati)}`);
-  };
+const openMap = (zone) => {
+  if (!zone) return;
+
+  setSelectedZone(null);
+
+  navigate(
+    `/doortodoor?zone=${encodeURIComponent(
+      normalize(zone.fshati)
+    )}&zk=${encodeURIComponent(zone.zk || "")}`
+  );
+};
 
   /* ======================================================
      JSX
@@ -953,18 +959,20 @@ export default function PublicDashboard() {
                 <i>→</i>
               </button>
               {/* HARTA E ZONËS */}
-              <button
-                type="button"
-                className="zone-option map"
-                onClick={() => openMap(selectedZone)}
-              >
-                <span className="option-dot" />
-                <div>
-                  <strong>Shiko të dhënat në hartë</strong>
-                  <small>{selectedZone.fshati}</small>
-                </div>
-                <i>→</i>
-              </button>
+            <button
+  type="button"
+  className="zone-option map"
+  onClick={() => openMap(selectedZone)}
+>
+  <span className="option-dot" />
+
+  <div>
+    <strong>Shiko të dhënat në hartë</strong>
+    <small>{selectedZone.fshati}</small>
+  </div>
+
+  <i>→</i>
+</button>
             </div>
           </div>
         </div>
