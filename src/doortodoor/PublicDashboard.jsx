@@ -361,7 +361,7 @@ const openMap = (zone) => {
       <main className="dashboard-content">
         {/* =================================================
             SEARCH
-            \\================================================= */}
+            \\================================================= 
         <>
           <section className="top-search">
             <div className="top-search-copy">
@@ -425,9 +425,9 @@ const openMap = (zone) => {
               </select>
             </div>
           </section>
-          {/* =================================================
-            KPI ZONA
-            \\================================================= */}
+
+
+
           <section className="main-kpis">
             <button
               type="button"
@@ -501,9 +501,7 @@ const openMap = (zone) => {
               </strong>
             </div>
           </section>
-          {/* =================================================
-            KPI APLIKIME
-            \\================================================= */}
+      
           <section className="application-kpis">
             <div>
               <strong>
@@ -539,6 +537,8 @@ const openMap = (zone) => {
             </div>
           </section>
         </>
+
+        */}
         {/* =================================================
             KALENDAR
             \\================================================= */}
@@ -720,14 +720,16 @@ const openMap = (zone) => {
                 (zone) => (
                   <button
                     type="button"
-                    className={`zone-row ${normalize(zone.fshati) === "palase" ? "clickable" : "disabled"}`}
-                    key={zone.id}
-                    disabled={normalize(zone.fshati) !== "palase"}
-                    onClick={() => {
-                      if (normalize(zone.fshati) === "palase") {
-                        setSelectedZone(zone);
-                      }
-                    }}
+                   // className={`zone-row ${normalize(zone.fshati) === "palase" ? "clickable" : "disabled"}`}
+                    className="zone-row disabled"
+                   key={zone.id}
+                  //  disabled={normalize(zone.fshati) !== "palase"}
+                    disabled
+                  //  onClick={() => {
+                   //   if (normalize(zone.fshati) === "palase") {
+                   //     setSelectedZone(zone);
+                    //  }
+                  //  }}
                   >
                     <div className="zone-cell">
                       <small>
