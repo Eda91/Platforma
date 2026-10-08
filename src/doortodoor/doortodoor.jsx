@@ -675,39 +675,31 @@ function createPolygonLabel(properties, isBuilding = false) {
 
 
 
-  const nrPasurie = isBuilding
 
-    ? getProperty(properties, [
-
+const nrPasurie = isBuilding
+  ? getProperty(properties, [
       "NR_PASURIE",
-
       "nr_pasurie",
-
       "nr_pas",
-
       "Nr_Pas",
-
       "NR_PAS",
-
       "NrPas",
-
+      "property_n",
+      "Numri_i_pa",
+      "label",
     ]) ?? ""
-
-    : getProperty(properties, [
-
+  : getProperty(properties, [
       "nr_pas",
-
       "NR_PASURIE",
-
       "nr_pasurie",
-
       "Nr_Pas",
-
       "NR_PAS",
-
       "NrPas",
-
+      "property_n",
+      "Numri_i_pa",
+      "label",
     ]) ?? "";
+
 
 
 
@@ -1091,41 +1083,27 @@ export default function DoorToDoor() {
 
     // Kontrolli kryhet edhe pasi ngarkohen GeoJSON-et asinkronisht.
 
-    const updatePropertyLabels = () => {
+  const updatePropertyLabels = () => {
+  if (disposed || mapRef.current !== map) return;
 
-      if (disposed || mapRef.current !== map) return;
+  const showLabels = map.getZoom() > 12;
+  const currentMode = clickModeRef.current;
 
+  Object.values(featureLayersRef.current).forEach((layer) => {
+    if (!layer.getTooltip?.()) return;
 
+    const isRegistered = layer._doorToDoorRegistered === true;
+    const shouldShow =
+      showLabels &&
+      (isRegistered || layer._doorToDoorType === currentMode);
 
-      const currentMode = clickModeRef.current;
-
-      const showLabels = map.getZoom() > 12;
-
-
-
-      Object.values(featureLayersRef.current).forEach((layer) => {
-
-        if (!layer.getTooltip?.() || !map.hasLayer(layer)) return;
-
-
-
-        const layerType = layer._doorToDoorType;
-
-
-
-        if (showLabels && layerType === currentMode) {
-
-          layer.openTooltip();
-
-        } else {
-
-          layer.closeTooltip();
-
-        }
-
-      });
-
-    };
+    if (shouldShow) {
+      layer.openTooltip();
+    } else {
+      layer.closeTooltip();
+    }
+  });
+};
 
 
 
@@ -1645,6 +1623,12 @@ export default function DoorToDoor() {
 
                   "pasuria",
 
+                  "STRING",
+
+                  "Numri_i_pa",
+
+                 
+
                 ]) ?? "";
 
 
@@ -1822,6 +1806,9 @@ export default function DoorToDoor() {
 
                 : "parcel";
 
+
+
+                polygonLayer._doorToDoorRegistered =  source.colorType === "regjistruar";
 
 
               const hasNrPasurie =
