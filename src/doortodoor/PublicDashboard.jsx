@@ -1,18 +1,18 @@
 import { useMemo, useRef, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import ZONES from "../doortodoor/data/zones.json";
+
 import CALENDAR from "../doortodoor/data/calendar.json";
+
 import "./PublicDashboard.css";
-
-
 
 /* =========================================================
 
    HELPERS
 
    ========================================================= */
-
-
 
 const normalize = (value = "") =>
 
@@ -28,8 +28,6 @@ const normalize = (value = "") =>
 
     .trim();
 
-
-
 const createZoneSlug = (name = "") =>
 
   normalize(name)
@@ -37,8 +35,6 @@ const createZoneSlug = (name = "") =>
     .replace(/\s+/g, "-")
 
     .replace(/[^a-z0-9-]/g, "");
-
-
 
 const parseDate = (value) => {
 
@@ -58,43 +54,85 @@ const parseDate = (value) => {
 
 };
 
-
-
 const getZoneStatus = (zone) => {
+
   if (Array.isArray(zone.applications) && zone.applications.length > 0) return "completed";
+
   const today = new Date();
+
   today.setHours(0, 0, 0, 0);
+
   if (!zone.startDate || !zone.endDate) return "planned";
+
   const start = parseDate(zone.startDate);
+
   const end = parseDate(zone.endDate);
+
   if (today < start) return "planned";
+
   return "review";
+
 };
+
+const STATUS_OPTIONS = [
+
+  { key: "approved", label: "Pajisur me vendim" },
+
+  { key: "public", label: "Afishim publik" },
+
+  { key: "missing", label: "Mungesë dokumentacioni" },
+
+  { key: "noAccess", label: "I paaksesueshëm" },
+
+  { key: "inProcess", label: "Në proces" },
+
+  { key: "other", label: "Tjetër" },
+
+];
+
+
 
 const getApplicationStatus = (item) => {
+
+  const category = normalize(item.Kategoria || item.kategoria || item.category || "");
+
   const status = normalize(item.Statusi || item.status || "");
-  if (status.includes("me vendim") || status.includes("pajisur me vendim")) return "approved";
-  if (status.includes("afishim publik")) return "public";
-  if (status.includes("mungese dokumentacioni") ||
-      (status.includes("evidentuar ne terren") && (status.includes("ska dosje") || status.includes("s'ka dosje") || status.includes("pa dosje")))) return "missing";
+
+  const value = category || status;
+
+
+
+  if (value.includes("pajisur me vendim") || value.includes("me vendim") || value.includes("vkm")) return "approved";
+
+  if (value.includes("afishim publik") || value.includes("ne afishim")) return "public";
+
+  if (value.includes("mungese dokumentacioni") || value.includes("mungon") || value.includes("ska dosje") || value.includes("s'ka dosje") || value.includes("pa dosje")) return "missing";
+
+  if (value.includes("paaksesueshem") || value.includes("pa akses") || value.includes("nuk ka qen ne objekt")) return "noAccess";
+
+  if (value.includes("ne proces") || value.includes("pa matje")) return "inProcess";
+
   return "other";
+
 };
+
+
 
 const getCounts = (zone) => {
 
-  const applications = zone.applications || [];
+  const applications = Array.isArray(zone.applications) ? zone.applications : [];
 
-  return {
+  const counts = { total: applications.length };
 
-    total: applications.length,
+  STATUS_OPTIONS.forEach(({ key }) => {
 
-    approved: applications.filter((item) => getApplicationStatus(item) === "approved").length,
+    counts[key] = applications.filter((item) => getApplicationStatus(item) === key).length;
 
-    publicDisplay: applications.filter((item) => getApplicationStatus(item) === "public").length,
+  });
 
-    missing: applications.filter((item) => getApplicationStatus(item) === "missing").length,
+  counts.publicDisplay = counts.public;
 
-  };
+  return counts;
 
 };
 
@@ -106,11 +144,10 @@ const getCounts = (zone) => {
 
    ========================================================= */
 
-
-
 export default function PublicDashboard() {
 
   const navigate = useNavigate();
+
   const zoneRefs = useRef({});
 
   const [search, setSearch] = useState("");
@@ -159,8 +196,6 @@ export default function PublicDashboard() {
 
   ] = useState("");
 
-
-
   /* ======================================================
 
      GLOBAL TOTALS
@@ -168,23 +203,41 @@ export default function PublicDashboard() {
      ====================================================== */
 
    const searchZone = () => {
+
     const query = normalize(search);
+
     if (!query) return 0;
+
     const zone = ZONES.find((z) => normalize(z.zk) === query) ||
+
       ZONES.find((z) => normalize(z.fshati) === query);
+
     if (!zone) return 0;
+
     const calendar = municipalityAgenda.find((c) => c.zones.some((z) => z.id === zone.id));
+
     if (calendar) setSelectedCalendar(calendar);
+
     setStatusFilter("all");
+
     if (getZoneStatus(zone) === "completed") {
+
       setSelectedZone(zone);
+
       return 1;
+
     }
+
     requestAnimationFrame(() => requestAnimationFrame(() => {
+
       const el = zoneRefs.current[String(zone.id)];
+
       el?.scrollIntoView({ behavior: "smooth", block: "center" });
+
     }));
+
     return 1;
+
   };
 
  const totals = useMemo(() => {
@@ -198,6 +251,9 @@ export default function PublicDashboard() {
       publicDisplay: 0,
 
       missing: 0,
+    noAccess: 0,
+    inProcess: 0,
+    other: 0,
 
       completedZones: 0,
 
@@ -220,6 +276,12 @@ export default function PublicDashboard() {
         counts.publicDisplay;
 
       result.missing += counts.missing;
+
+    result.noAccess += counts.noAccess;
+
+    result.inProcess += counts.inProcess;
+
+    result.other += counts.other;
 
       const zoneStatus = getZoneStatus(zone);
 
@@ -297,8 +359,6 @@ export default function PublicDashboard() {
 
   };
 
-
-
   /* ======================================================
 
      KALENDAR NGA calendar.json
@@ -352,8 +412,6 @@ export default function PublicDashboard() {
     });
 
   }, []);
-
-
 
   /* ======================================================
 
@@ -441,8 +499,6 @@ export default function PublicDashboard() {
 
   ]);
 
-
-
   /* ======================================================
 
      SEARCH LISTA
@@ -473,7 +529,7 @@ export default function PublicDashboard() {
 
         (item) =>
 
-          normalize(`${item["Emër"] || ""} ${item["Atësi"] || ""} ${item["Mbiemër"] || ""} ${item.Statusi || item.status || ""}`).includes(q)
+          normalize(`${item["Emër"] || ""} ${item["Atësi"] || ""} ${item["Mbiemër"] || ""} ${item.Statusi || item.status || ""} ${item.Kategoria || item.kategoria || ""}`).includes(q)
 
       );
 
@@ -484,8 +540,6 @@ export default function PublicDashboard() {
       listSearch,
 
     ]);
-
-
 
   /* ======================================================
 
@@ -528,8 +582,6 @@ export default function PublicDashboard() {
     }, 80);
 
   };
-
-
 
   /* ======================================================
 
@@ -579,8 +631,6 @@ export default function PublicDashboard() {
 
   };
 
-
-
   /* ======================================================
 
      CLOSE LIST MODAL
@@ -609,8 +659,6 @@ export default function PublicDashboard() {
 
   };
 
-
-
   /* ======================================================
 
      OPEN MAP
@@ -621,11 +669,7 @@ const openMap = (zone) => {
 
   if (!zone) return;
 
-
-
   setSelectedZone(null);
-
-
 
   navigate(
 
@@ -638,8 +682,6 @@ const openMap = (zone) => {
   );
 
 };
-
-
 
   /* ======================================================
 
@@ -655,7 +697,7 @@ const openMap = (zone) => {
 
           HEADER
 
-          \================================================= */}
+          \\\\================================================= */}
 
       <header className="dashboard-header">
 
@@ -744,6 +786,7 @@ const openMap = (zone) => {
                 <input
 
                   type="text"
+
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); searchZone(); } }}
 
                   value={search}
@@ -763,6 +806,7 @@ const openMap = (zone) => {
                 />
 
                 <button type="button" onClick={searchZone} aria-label="Kërko zonën" title="Kërko" style={{ fontSize: 26, lineHeight: 1, minWidth: 40, minHeight: 40, cursor: "pointer" }}>⌕</button>
+
               {search && (
 
                   <button
@@ -776,7 +820,9 @@ const openMap = (zone) => {
                     }
 
                     aria-label="Pastro kërkimin"
+
                     style={{ fontSize: 26, lineHeight: 1, minWidth: 40, minHeight: 40, cursor: "pointer" }}
+
                   >
 
                     ×
@@ -832,12 +878,6 @@ const openMap = (zone) => {
             </div>
 
           </section>
-
-
-
-
-
-
 
           <section className="main-kpis">
 
@@ -986,82 +1026,22 @@ const openMap = (zone) => {
           </section>
 
           <section className="application-kpis">
-
-            <div>
-
-              <strong>
-
-                {totals.applications}
-
-              </strong>
-
-              <span>
-
-                Aplikime të verifikuara
-
-              </span>
-
+          <div className="total"><strong>{totals.applications}</strong><span>Aplikime të verifikuara</span></div>
+          {STATUS_OPTIONS.map(({ key, label }) => (
+            <div key={key} className={key}>
+              <strong>{totals[key === "public" ? "publicDisplay" : key]}</strong>
+              <span>{label}</span>
             </div>
-
-            <div>
-
-              <strong>
-
-                {totals.approved}
-
-              </strong>
-
-              <span>
-
-                Pajisur me vendim
-
-              </span>
-
-            </div>
-
-            <div>
-
-              <strong>
-
-                {totals.publicDisplay}
-
-              </strong>
-
-              <span>
-
-                Afishim publik
-
-              </span>
-
-            </div>
-
-            <div>
-
-              <strong>
-
-                {totals.missing}
-
-              </strong>
-
-              <span>
-
-                Mungesë dokumentacioni
-
-              </span>
-
-            </div>
-
-          </section>
+          ))}
+        </section>
 
         </>
-
-
 
         {/* =================================================
 
             KALENDAR
 
-            \================================================= */}
+            \\\\================================================= */}
 
         <section className="agenda-section">
 
@@ -1341,7 +1321,7 @@ const openMap = (zone) => {
 
             LISTA E ZONAVE
 
-            \================================================= */}
+            \\\\================================================= */}
 
         {selectedCalendar && (
 
@@ -1424,6 +1404,7 @@ const openMap = (zone) => {
                    // className="zone-row disabled"
 
                    key={zone.id}
+
                   ref={(el) => { zoneRefs.current[String(zone.id)] = el; }}
 
                     disabled={getZoneStatus(zone) !== "completed"}
@@ -1582,7 +1563,7 @@ const openMap = (zone) => {
 
           MODAL ZONE
 
-          \================================================= */}
+          \\\\================================================= */}
 
       {selectedZone && (
 
@@ -1900,7 +1881,33 @@ const openMap = (zone) => {
 
               </button>
 
-              {/* HARTA E ZONËS */}
+              {STATUS_OPTIONS.filter(({ key }) => ["noAccess", "inProcess", "other"].includes(key)).map(({ key, label }) => (
+
+              <button
+
+                key={key}
+
+                type="button"
+
+                className={`zone-option ${key}`}
+
+                onClick={() => openApplicationsList(selectedZone, key, label)}
+
+              >
+
+                <span className="option-dot" />
+
+                <div><strong>{label}</strong><small>Shiko listën</small></div>
+
+                <b>{getCounts(selectedZone)[key]}</b>
+
+                <i>→</i>
+
+              </button>
+
+            ))}
+
+            {/* HARTA E ZONËS */}
 
             <button
 
@@ -1914,8 +1921,6 @@ const openMap = (zone) => {
 
   <span className="option-dot" />
 
-
-
   <div>
 
     <strong>Shiko të dhënat në hartë</strong>
@@ -1923,8 +1928,6 @@ const openMap = (zone) => {
     <small>{selectedZone.fshati}</small>
 
   </div>
-
-
 
   <i>→</i>
 
@@ -1942,7 +1945,7 @@ const openMap = (zone) => {
 
           MODAL LISTA APLIKIMEVE
 
-          \================================================= */}
+          \\\\================================================= */}
 
       {listModal && (
 
@@ -2160,23 +2163,9 @@ const openMap = (zone) => {
 
                     <span className={`application-status ${applicationStatus}`}>
 
-                      {item.Statusi ||
+                      {item.Statusi || item.status || item.Kategoria || "—"}
 
-                        (applicationStatus === "approved"
-
-                          ? "Pajisur me vendim"
-
-                          : applicationStatus === "public"
-
-                            ? "Afishim publik"
-
-                            : applicationStatus === "missing"
-
-                              ? "Mungesë dokumentacioni"
-
-                                : item.status || "—")}
-
-                    </span>
+                  </span>
 
                   </div>
 

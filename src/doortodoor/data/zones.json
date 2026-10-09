@@ -8,7 +8,7 @@
    
     "startDate": "09.09.2026",
     "endDate": "17.09.2026",
-     "applications": [
+    "applications": [
       {
         "id": 1,
         "DV": "Vlorë",
@@ -19,7 +19,8 @@
         "Emër": "Arber,Maj",
         "Atësi": "Dhimitrov",
         "Mbiemër": "Papuçiu",
-        "Statusi": "Pajisur me Vendim"
+        "Statusi": "Pajisur me Vendim",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 2,
@@ -31,7 +32,8 @@
         "Emër": "Andrea",
         "Atësi": "Aleks",
         "Mbiemër": "Petromilo",
-        "Statusi": "Pajisur me Vendim"
+        "Statusi": "Pajisur me Vendim",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 3,
@@ -43,7 +45,8 @@
         "Emër": "Llambro",
         "Atësi": "Jani",
         "Mbiemër": "Milo",
-        "Statusi": "Afishim Publik DT.01.10.2026"
+        "Statusi": "Afishim Publik DT.01.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 4,
@@ -55,7 +58,8 @@
         "Emër": "Viron",
         "Atësi": "Ilia",
         "Mbiemër": "Çeço",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 5,
@@ -67,7 +71,8 @@
         "Emër": "Dhimiter,Miranda",
         "Atësi": "Ilia",
         "Mbiemër": "Guma,Alushi",
-        "Statusi": "Afishim Publik DT.25.09.2026"
+        "Statusi": "Afishim Publik DT.25.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 6,
@@ -79,7 +84,8 @@
         "Emër": "Petro",
         "Atësi": "Kosta",
         "Mbiemër": "Milo",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 7,
@@ -91,7 +97,8 @@
         "Emër": "Koço",
         "Atësi": "Sokrat",
         "Mbiemër": "Nesturi",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 8,
@@ -103,7 +110,8 @@
         "Emër": "Napolon",
         "Atësi": "Marko",
         "Mbiemër": "Pjero",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 9,
@@ -115,7 +123,8 @@
         "Emër": "Elpiniqi",
         "Atësi": "Spiro",
         "Mbiemër": "Konomi",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 10,
@@ -127,7 +136,8 @@
         "Emër": "Dhimosten",
         "Atësi": "Paskal",
         "Mbiemër": "Kokuri",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 11,
@@ -139,7 +149,8 @@
         "Emër": "Dhimiteraq",
         "Atësi": "Kosta",
         "Mbiemër": "Loli",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 12,
@@ -151,7 +162,8 @@
         "Emër": "Pavlina",
         "Atësi": "Sokrat",
         "Mbiemër": "Bezati",
-        "Statusi": "Afishim Publik DT.30.09.2026"
+        "Statusi": "Afishim Publik DT.30.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 13,
@@ -163,7 +175,8 @@
         "Emër": "Pavlina",
         "Atësi": "Sokrat",
         "Mbiemër": "Bezati",
-        "Statusi": "Afishim Publik DT.30.09.2026"
+        "Statusi": "Afishim Publik DT.30.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 14,
@@ -175,7 +188,8 @@
         "Emër": "Afrodhiti",
         "Atësi": "Pano",
         "Mbiemër": "Bitri",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 15,
@@ -187,7 +201,8 @@
         "Emër": "Aferdita,Kostandinos",
         "Atësi": "Rakip,Ektor",
         "Mbiemër": "Çaçi",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 16,
@@ -199,7 +214,8 @@
         "Emër": "Marko",
         "Atësi": "Dhimitri",
         "Mbiemër": "Billa",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 17,
@@ -211,7 +227,8 @@
         "Emër": "Hektor",
         "Atësi": "Aleks",
         "Mbiemër": "Petromilo",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 18,
@@ -223,7 +240,8 @@
         "Emër": "Vasillaq",
         "Atësi": "Mihal",
         "Mbiemër": "Laluci",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 19,
@@ -235,7 +253,8 @@
         "Emër": "Lena,Areti,Iliafoto",
         "Atësi": "Marko,Stefo",
         "Mbiemër": "Babe",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 20,
@@ -247,7 +266,8 @@
         "Emër": "Stefan",
         "Atësi": "Dhimosten",
         "Mbiemër": "Milo",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 21,
@@ -259,7 +279,8 @@
         "Emër": "Thodhori",
         "Atësi": "Petro",
         "Mbiemër": "Çaçi",
-        "Statusi": "Afishim Publik DT.29.09.2026"
+        "Statusi": "Afishim Publik DT.29.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 22,
@@ -271,7 +292,8 @@
         "Emër": "Marko",
         "Atësi": "Anastas",
         "Mbiemër": "Nika",
-        "Statusi": "Afishim Publik DT.30.09.2026"
+        "Statusi": "Afishim Publik DT.30.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 23,
@@ -283,7 +305,8 @@
         "Emër": "Helidon",
         "Atësi": "Filip",
         "Mbiemër": "Mako",
-        "Statusi": "Pajisur me Vendim"
+        "Statusi": "Pajisur me Vendim",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 24,
@@ -295,7 +318,8 @@
         "Emër": "Polikron,Paskal",
         "Atësi": "Thoma",
         "Mbiemër": "Dhimolea",
-        "Statusi": "Afishim Publik DT.14.09.2026"
+        "Statusi": "Afishim Publik DT.14.09.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 25,
@@ -307,7 +331,8 @@
         "Emër": "Sotiraq",
         "Atësi": "Andrea",
         "Mbiemër": "Vera",
-        "Statusi": "Afishim Publik DT.19.12.2024"
+        "Statusi": "Afishim Publik DT.19.12.2024",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 26,
@@ -319,7 +344,8 @@
         "Emër": "Kristofor",
         "Atësi": "Niko",
         "Mbiemër": "Joshi",
-        "Statusi": "Afishim Publik DT.30.09.2024"
+        "Statusi": "Afishim Publik DT.30.09.2024",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 27,
@@ -331,7 +357,8 @@
         "Emër": "Ksenofon",
         "Atësi": "Spiro",
         "Mbiemër": "Billa",
-        "Statusi": "Afishim Publik DT.07.10.2026"
+        "Statusi": "Afishim Publik DT.07.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 28,
@@ -343,7 +370,8 @@
         "Emër": "Petro,Foto,Liri,Agrapina,Dhimosten",
         "Atësi": "Ilia",
         "Mbiemër": "Çaçi,Gjici,Çobo",
-        "Statusi": "Afishim Publik DT.07.10.2026"
+        "Statusi": "Afishim Publik DT.07.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 29,
@@ -355,7 +383,8 @@
         "Emër": "Irakli",
         "Atësi": "Jorgji",
         "Mbiemër": "Paço",
-        "Statusi": "Afishim Publik DT.07.10.2026"
+        "Statusi": "Afishim Publik DT.07.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 30,
@@ -367,7 +396,8 @@
         "Emër": "Jani",
         "Atësi": "Aristotel",
         "Mbiemër": "Caci",
-        "Statusi": "Pajisur me Vendim"
+        "Statusi": "Pajisur me Vendim",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 31,
@@ -379,7 +409,8 @@
         "Emër": "Thoma",
         "Atësi": "Thanas",
         "Mbiemër": "Mehilli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 32,
@@ -391,7 +422,8 @@
         "Emër": "Kasiani",
         "Atësi": "Jorgji",
         "Mbiemër": "Koci",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 33,
@@ -403,7 +435,8 @@
         "Emër": "Viron",
         "Atësi": "Pandeli",
         "Mbiemër": "Gjergji",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 34,
@@ -415,7 +448,8 @@
         "Emër": "Kozma",
         "Atësi": "Nikolla",
         "Mbiemër": "Billa",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 35,
@@ -427,7 +461,8 @@
         "Emër": "Eduart",
         "Atësi": "Llambro",
         "Mbiemër": "Milo",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 36,
@@ -439,7 +474,8 @@
         "Emër": "Thoma",
         "Atësi": "Thanas",
         "Mbiemër": "Mehilli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 37,
@@ -451,7 +487,8 @@
         "Emër": "Zaho",
         "Atësi": "Dhimiter",
         "Mbiemër": "Nesturi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 38,
@@ -463,7 +500,8 @@
         "Emër": "Emiljano",
         "Atësi": "Foto",
         "Mbiemër": "Nesturi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 39,
@@ -475,7 +513,8 @@
         "Emër": "Emiljano",
         "Atësi": "Foto",
         "Mbiemër": "Nesturi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 40,
@@ -487,7 +526,8 @@
         "Emër": "Elvis",
         "Atësi": "Enver",
         "Mbiemër": "Pasholli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 41,
@@ -499,7 +539,8 @@
         "Emër": "Paskal",
         "Atësi": "Kico",
         "Mbiemër": "Nesturi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 42,
@@ -511,7 +552,8 @@
         "Emër": "Ksenofon",
         "Atësi": "Vangjel",
         "Mbiemër": "Gjergji",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 43,
@@ -523,7 +565,8 @@
         "Emër": "Petro",
         "Atësi": "Kosta",
         "Mbiemër": "Kashta",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 44,
@@ -535,7 +578,8 @@
         "Emër": "Qirjako",
         "Atësi": "Ilia",
         "Mbiemër": "Kuci",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 45,
@@ -547,7 +591,8 @@
         "Emër": "Filip",
         "Atësi": "Nikolla",
         "Mbiemër": "Kuci",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 46,
@@ -559,7 +604,8 @@
         "Emër": "Thodhori",
         "Atësi": "Klio",
         "Mbiemër": "Gjikokaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 47,
@@ -571,7 +617,8 @@
         "Emër": "Marianthi",
         "Atësi": "Stefo",
         "Mbiemër": "Veizi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 48,
@@ -583,7 +630,8 @@
         "Emër": "Edison",
         "Atësi": "Perikli",
         "Mbiemër": "Konomi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 49,
@@ -595,7 +643,8 @@
         "Emër": "Leonard",
         "Atësi": "Perikli",
         "Mbiemër": "Konomi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 50,
@@ -607,7 +656,8 @@
         "Emër": "Elpiniqi",
         "Atësi": "Spiro",
         "Mbiemër": "Ikonomi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 51,
@@ -619,7 +669,8 @@
         "Emër": "Leonidha",
         "Atësi": "Thodhori",
         "Mbiemër": "Kostajani",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 52,
@@ -631,7 +682,8 @@
         "Emër": "Thoma",
         "Atësi": "Thanas",
         "Mbiemër": "Mehilli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 53,
@@ -643,7 +695,8 @@
         "Emër": "Dhimitrulla",
         "Atësi": "Foto",
         "Mbiemër": "Hyso",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 54,
@@ -655,7 +708,8 @@
         "Emër": "Gialb",
         "Atësi": "Agim",
         "Mbiemër": "Aliaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 55,
@@ -667,7 +721,8 @@
         "Emër": "Irakli",
         "Atësi": "Harilla",
         "Mbiemër": "Thodhorjani",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 56,
@@ -679,7 +734,8 @@
         "Emër": "Kaliro,Eftalia",
         "Atësi": "Lluka",
         "Mbiemër": "Jorgji,Koci",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 57,
@@ -691,7 +747,8 @@
         "Emër": "Dhimitri",
         "Atësi": "Harilla",
         "Mbiemër": "Thodhorjani",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 58,
@@ -703,7 +760,8 @@
         "Emër": "Kozma",
         "Atësi": "Vasil",
         "Mbiemër": "Bifsha",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 59,
@@ -715,7 +773,8 @@
         "Emër": "Llambro",
         "Atësi": "Milo",
         "Mbiemër": "Guveli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 60,
@@ -727,7 +786,8 @@
         "Emër": "Rufela",
         "Atësi": "Milto",
         "Mbiemër": "Çaçi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 61,
@@ -739,7 +799,8 @@
         "Emër": "Marko",
         "Atësi": "Thoma",
         "Mbiemër": "Vera",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 62,
@@ -751,7 +812,8 @@
         "Emër": "Vangjel",
         "Atësi": "Dhimomidhi",
         "Mbiemër": "Babe",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 63,
@@ -761,9 +823,10 @@
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
         "Emër": "Kozma",
-        "Atësi": null,
+        "Atësi": "",
         "Mbiemër": "Thodhorjani",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 64,
@@ -775,7 +838,8 @@
         "Emër": "Arjiro",
         "Atësi": "Lluk",
         "Mbiemër": "Gjoka",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 65,
@@ -787,7 +851,8 @@
         "Emër": "Llambro",
         "Atësi": "Milo",
         "Mbiemër": "Guveli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 66,
@@ -799,7 +864,8 @@
         "Emër": "Albert",
         "Atësi": "Foto",
         "Mbiemër": "Paco",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 67,
@@ -811,7 +877,8 @@
         "Emër": "Albert",
         "Atësi": "Foto",
         "Mbiemër": "Paco",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 68,
@@ -823,7 +890,8 @@
         "Emër": "Alfred",
         "Atësi": "Jorgji",
         "Mbiemër": "Guma",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 69,
@@ -835,7 +903,8 @@
         "Emër": "Evangjelia",
         "Atësi": "Mihal",
         "Mbiemër": "Paco",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 70,
@@ -847,7 +916,8 @@
         "Emër": "Kico",
         "Atësi": "Vasil",
         "Mbiemër": "Konomaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 71,
@@ -859,7 +929,8 @@
         "Emër": "Spiro",
         "Atësi": "Paskal",
         "Mbiemër": "Kokuri",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 72,
@@ -871,7 +942,8 @@
         "Emër": "Kristaq",
         "Atësi": "Jani",
         "Mbiemër": "Kashta",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 73,
@@ -883,7 +955,8 @@
         "Emër": "Aleksandra",
         "Atësi": "Sokrat",
         "Mbiemër": "Pjero",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 74,
@@ -895,7 +968,8 @@
         "Emër": "Thoma",
         "Atësi": "Thanas",
         "Mbiemër": "Mehilli",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 75,
@@ -907,7 +981,8 @@
         "Emër": "Qirjako",
         "Atësi": "Dino",
         "Mbiemër": "Alikaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 76,
@@ -917,9 +992,10 @@
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
         "Emër": "Vasil",
-        "Atësi": null,
+        "Atësi": "",
         "Mbiemër": "Gjikokaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 77,
@@ -931,7 +1007,8 @@
         "Emër": "Vasil",
         "Atësi": "Ilia",
         "Mbiemër": "Ceco",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 78,
@@ -943,7 +1020,8 @@
         "Emër": "Sotiraq",
         "Atësi": "Vangjel",
         "Mbiemër": "Sholla",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 79,
@@ -955,7 +1033,8 @@
         "Emër": "Aristotel",
         "Atësi": "Dhimitri",
         "Mbiemër": "Caci",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 80,
@@ -967,7 +1046,8 @@
         "Emër": "Qirjako",
         "Atësi": "Vangjel",
         "Mbiemër": "Nika",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 81,
@@ -979,7 +1059,8 @@
         "Emër": "Kostandina",
         "Atësi": "Aristotel",
         "Mbiemër": "Kokuri",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 82,
@@ -991,7 +1072,8 @@
         "Emër": "Lluke",
         "Atësi": "Foto",
         "Mbiemër": "Konomaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 83,
@@ -1003,7 +1085,8 @@
         "Emër": "Kico",
         "Atësi": "Foto",
         "Mbiemër": "Konomaj",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 84,
@@ -1015,7 +1098,8 @@
         "Emër": "Afroviti",
         "Atësi": "Pano",
         "Mbiemër": "Pano",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 85,
@@ -1027,7 +1111,8 @@
         "Emër": "Edmond",
         "Atësi": "Shaban",
         "Mbiemër": "Bitri",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 86,
@@ -1039,7 +1124,8 @@
         "Emër": "Timotheo",
         "Atësi": "Petro",
         "Mbiemër": "Dhimolea",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 87,
@@ -1051,7 +1137,8 @@
         "Emër": "Edmond",
         "Atësi": "Andon",
         "Mbiemër": "Babe",
-        "Statusi": "Mosmarrëveshje për Parcelën Ndërtimore"
+        "Statusi": "Mosmarrëveshje për Parcelën Ndërtimore",
+        "Kategoria": "Tjetër"
       },
       {
         "id": 88,
@@ -1063,7 +1150,8 @@
         "Emër": "Kristaq,Minella",
         "Atësi": "Paskal",
         "Mbiemër": "Paço",
-        "Statusi": "Mungon Leja e Ndërtimit"
+        "Statusi": "Mungon Leja e Ndërtimit",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 89,
@@ -1075,7 +1163,8 @@
         "Emër": "Foto",
         "Atësi": "Vangjel",
         "Mbiemër": "Nesturi",
-        "Statusi": "Mungon Leja e Ndërtimit"
+        "Statusi": "Mungon Leja e Ndërtimit",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 90,
@@ -1087,7 +1176,8 @@
         "Emër": "Roland",
         "Atësi": "Kico",
         "Mbiemër": "Nesturi",
-        "Statusi": "Mungon Deklarata Noteriale"
+        "Statusi": "Mungon Deklarata Noteriale",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 91,
@@ -1099,7 +1189,8 @@
         "Emër": "Aleksandra",
         "Atësi": "Kristo",
         "Mbiemër": "Shkurti",
-        "Statusi": "Në Proces Gjyqësor"
+        "Statusi": "Në Proces Gjyqësor",
+        "Kategoria": "Në proces"
       },
       {
         "id": 92,
@@ -1111,7 +1202,8 @@
         "Emër": "Petraq",
         "Atësi": "Akile",
         "Mbiemër": "Milo",
-        "Statusi": "Në Proces Gjyqësor"
+        "Statusi": "Në Proces Gjyqësor",
+        "Kategoria": "Në proces"
       },
       {
         "id": 93,
@@ -1123,7 +1215,8 @@
         "Emër": "Zaho",
         "Atësi": "Dhimitri",
         "Mbiemër": "Nesturi",
-        "Statusi": "Në Proces Gjyqësor"
+        "Statusi": "Në Proces Gjyqësor",
+        "Kategoria": "Në proces"
       },
       {
         "id": 94,
@@ -1135,7 +1228,8 @@
         "Emër": "Thodhori",
         "Atësi": "Paskal",
         "Mbiemër": "Kokuri",
-        "Statusi": "Mungon Deklarata Noteriale"
+        "Statusi": "Mungon Deklarata Noteriale",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 95,
@@ -1147,7 +1241,8 @@
         "Emër": "Vasilika",
         "Atësi": "Kristo",
         "Mbiemër": "Sterio",
-        "Statusi": "Mungon Dëshmia e Trashëgimisë"
+        "Statusi": "Mungon Dëshmia e Trashëgimisë",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 96,
@@ -1159,7 +1254,8 @@
         "Emër": "Enkeleda",
         "Atësi": "Lluka",
         "Mbiemër": "Zani",
-        "Statusi": "QENDER HISTORIKE"
+        "Statusi": "QENDER HISTORIKE",
+        "Kategoria": "Tjetër"
       },
       {
         "id": 97,
@@ -1171,7 +1267,8 @@
         "Emër": "Pano",
         "Atësi": "Sterio",
         "Mbiemër": "Zani",
-        "Statusi": "QENDER HISTORIKE"
+        "Statusi": "QENDER HISTORIKE",
+        "Kategoria": "Tjetër"
       },
       {
         "id": 98,
@@ -1183,7 +1280,8 @@
         "Emër": "Jurgen",
         "Atësi": "Thoma",
         "Mbiemër": "Loli",
-        "Statusi": "Mungon Dëshmia e Trashëgimisë"
+        "Statusi": "Mungon Dëshmia e Trashëgimisë",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 99,
@@ -1195,7 +1293,8 @@
         "Emër": "Hektor",
         "Atësi": "Arqile",
         "Mbiemër": "Shishka",
-        "Statusi": "Mungon Deklarata Noteriale"
+        "Statusi": "Mungon Deklarata Noteriale",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 100,
@@ -1207,7 +1306,8 @@
         "Emër": "Dhisea",
         "Atësi": "Foto",
         "Mbiemër": "Vera",
-        "Statusi": "Ka Mosmarrëveshje"
+        "Statusi": "Ka Mosmarrëveshje",
+        "Kategoria": "Tjetër"
       },
       {
         "id": 101,
@@ -1219,7 +1319,8 @@
         "Emër": "Lica",
         "Atësi": "Kostandin",
         "Mbiemër": "Kokoneshi",
-        "Statusi": "I Paaksesueshëm"
+        "Statusi": "I Paaksesueshëm",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 102,
@@ -1228,10 +1329,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Banush",
-        "Atësi": "Adif",
-        "Mbiemër": "Rrapaj",
-        "Statusi": "Afishim Publik"
+        "Emër": "Eptan",
+        "Atësi": "Bashkim",
+        "Mbiemër": "Lohja",
+        "Statusi": "Pajisur me Vendim",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 103,
@@ -1240,10 +1342,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Napolon ",
-        "Atësi": "Marko",
-        "Mbiemër": "Pjero",
-        "Statusi": "Afishim Publik"
+        "Emër": "Roland",
+        "Atësi": "Minella",
+        "Mbiemër": "Petromilo",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 104,
@@ -1252,10 +1355,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Pavllo ",
-        "Atësi": "Asimaq",
-        "Mbiemër": "Koka",
-        "Statusi": "Afishim Publik"
+        "Emër": "Petro",
+        "Atësi": "Dhimiter",
+        "Mbiemër": "Nesturi",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 105,
@@ -1264,10 +1368,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Eptan",
-        "Atësi": "Bashkim",
-        "Mbiemër": "Lohja",
-        "Statusi": "Pajisur me Vendim"
+        "Emër": "Theodhora",
+        "Atësi": "Dhiseo",
+        "Mbiemër": "Loli",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 106,
@@ -1276,10 +1381,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Roland",
-        "Atësi": "Minella",
-        "Mbiemër": "Petromilo",
-        "Statusi": "Në Proces"
+        "Emër": "Kozma",
+        "Atësi": "Lefter",
+        "Mbiemër": "Gjovasho",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 107,
@@ -1288,10 +1394,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Petro",
-        "Atësi": "Dhimiter",
-        "Mbiemër": "Nesturi",
-        "Statusi": "Në Proces"
+        "Emër": "Kristina",
+        "Atësi": "Emin",
+        "Mbiemër": "Kadare",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 108,
@@ -1300,10 +1407,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Theodhora",
-        "Atësi": "Dhiseo",
-        "Mbiemër": "Loli",
-        "Statusi": "Në Proces"
+        "Emër": "Foto,Vangjel",
+        "Atësi": "",
+        "Mbiemër": "Nesturi",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 109,
@@ -1312,10 +1420,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Kozma",
-        "Atësi": "Lefter",
-        "Mbiemër": "Gjovasho",
-        "Statusi": "Në Proces"
+        "Emër": "Vasilika",
+        "Atësi": "Foto",
+        "Mbiemër": "Nesturi",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 110,
@@ -1324,10 +1433,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Kristina",
-        "Atësi": "Emin",
-        "Mbiemër": "Kadare",
-        "Statusi": "Në Proces"
+        "Emër": "Thoma",
+        "Atësi": "Vangjel",
+        "Mbiemër": "Mile",
+        "Statusi": "Në Proces",
+        "Kategoria": "Në proces"
       },
       {
         "id": 111,
@@ -1336,10 +1446,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Foto,Vangjel",
-        "Atësi": null,
-        "Mbiemër": "Nesturi",
-        "Statusi": "Në Proces"
+        "Emër": "Ilia",
+        "Atësi": "Nikolla",
+        "Mbiemër": "Gjergji",
+        "Statusi": "Në Proces Gjyqësor",
+        "Kategoria": "Në proces"
       },
       {
         "id": 112,
@@ -1348,10 +1459,11 @@
         "Nj. Adm": "Palasë",
         "Fshati": "Palasë",
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Vasilika",
-        "Atësi": "Foto",
-        "Mbiemër": "Nesturi",
-        "Statusi": "Në Proces"
+        "Emër": "Jani",
+        "Atësi": "Kosta",
+        "Mbiemër": "Paco",
+        "Statusi": "Afishim Publik",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 113,
@@ -1362,44 +1474,9 @@
         "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
         "Emër": "Thoma",
         "Atësi": "Vangjel",
-        "Mbiemër": "Mile",
-        "Statusi": "Në Proces"
-      },
-      {
-        "id": 114,
-        "DV": "Vlorë",
-        "Bashkia": "Himarë",
-        "Nj. Adm": "Palasë",
-        "Fshati": "Palasë",
-        "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Ilia",
-        "Atësi": "Nikolla",
-        "Mbiemër": "Gjergji",
-        "Statusi": "Në Proces Gjyqësor"
-      },
-      {
-        "id": 115,
-        "DV": "Vlorë",
-        "Bashkia": "Himarë",
-        "Nj. Adm": "Palasë",
-        "Fshati": "Palasë",
-        "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Jani",
-        "Atësi": "Kosta",
-        "Mbiemër": "Paco",
-        "Statusi": "Afishim Publik"
-      },
-      {
-        "id": 116,
-        "DV": "Vlorë",
-        "Bashkia": "Himarë",
-        "Nj. Adm": "Palasë",
-        "Fshati": "Palasë",
-        "Periudha e Evidentimit në Terren": "09.09.2026 - 17.09.2026",
-        "Emër": "Thoma",
-        "Atësi": "Vangjel",
         "Mbiemër": "Milo",
-        "Statusi": "Afishim Publik"
+        "Statusi": "Afishim Publik",
+        "Kategoria": "Afishim publik"
       }
     ]
   },
@@ -1434,7 +1511,7 @@
    
     "startDate": "21.09.2026",
     "endDate": "05.10.2026",
-      "applications": [
+ "applications": [
       {
         "id": 1,
         "DV": "Vlorë",
@@ -1445,7 +1522,8 @@
         "Emër": "Kane",
         "Atësi": "Dhano",
         "Mbiemër": "Balo",
-        "Statusi": "ME VENDIMI 1522 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 1522 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 2,
@@ -1457,7 +1535,8 @@
         "Emër": "Eftihi",
         "Atësi": "Peli",
         "Mbiemër": "Beja",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 3,
@@ -1469,7 +1548,8 @@
         "Emër": "Sofolki",
         "Atësi": "Napolon",
         "Mbiemër": "Bifsha",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 4,
@@ -1481,7 +1561,8 @@
         "Emër": "Andrea",
         "Atësi": "Koco",
         "Mbiemër": "Marku",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 5,
@@ -1493,7 +1574,8 @@
         "Emër": "Entela",
         "Atësi": "Lluke",
         "Mbiemër": "Jorgji",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 6,
@@ -1505,7 +1587,8 @@
         "Emër": "Florjan",
         "Atësi": "Nikollaq",
         "Mbiemër": "Zguro",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 7,
@@ -1517,7 +1600,8 @@
         "Emër": "Cidho",
         "Atësi": "Foto",
         "Mbiemër": "Bifsha",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 8,
@@ -1529,7 +1613,8 @@
         "Emër": "Melpomeni",
         "Atësi": "Petro",
         "Mbiemër": "Gjomemo",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 9,
@@ -1541,7 +1626,8 @@
         "Emër": "Greta",
         "Atësi": "Thimjo",
         "Mbiemër": "Gjoka",
-        "Statusi": "Afishim Publik DT.07.10.2026"
+        "Statusi": "Afishim Publik DT.07.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 10,
@@ -1553,7 +1639,8 @@
         "Emër": "Katerina",
         "Atësi": "Gogo",
         "Mbiemër": "Gjomemo",
-        "Statusi": "QYTETARI NUK KA QEN NE OBJEKT"
+        "Statusi": "QYTETARI NUK KA QEN NE OBJEKT",
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 11,
@@ -1565,7 +1652,8 @@
         "Emër": "Elvana",
         "Atësi": "Lluke",
         "Mbiemër": "Cule",
-        "Statusi": "ME VENDIMI 1524 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 1524 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 12,
@@ -1577,7 +1665,8 @@
         "Emër": "Nikollaq",
         "Atësi": "Vangjel",
         "Mbiemër": "Zguro",
-        "Statusi": "ME VENDIMI 1523 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 1523 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 13,
@@ -1589,7 +1678,8 @@
         "Emër": "Ilia",
         "Atësi": "Thoma",
         "Mbiemër": "Bifsha",
-        "Statusi": "Afishim Publik DT.07.10.2026"
+        "Statusi": "Afishim Publik DT.07.10.2026",
+        "Kategoria": "Afishim publik"
       },
       {
         "id": 14,
@@ -1601,7 +1691,8 @@
         "Emër": "Drita",
         "Atësi": "Dhamo",
         "Mbiemër": "Gjidede",
-        "Statusi": "ME VENDIMI 5733 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 5733 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 15,
@@ -1613,7 +1704,8 @@
         "Emër": "Dhespina",
         "Atësi": "Dhamo",
         "Mbiemër": "Bombaj",
-        "Statusi": "ME VENDIMI 1526 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 1526 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 16,
@@ -1625,7 +1717,8 @@
         "Emër": "Jollanda",
         "Atësi": "Miti",
         "Mbiemër": "Kote",
-        "Statusi": "ME VENDIMI 5732 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 5732 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 17,
@@ -1637,7 +1730,8 @@
         "Emër": "Anastas",
         "Atësi": "Petro",
         "Mbiemër": "Bala",
-        "Statusi": "ME VENDIMI 5730 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 5730 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 18,
@@ -1649,7 +1743,8 @@
         "Emër": "Melpomeni",
         "Atësi": "Petro",
         "Mbiemër": "Hudhra",
-        "Statusi": "ME VENDIMI 5731 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 5731 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 19,
@@ -1661,7 +1756,8 @@
         "Emër": "Petraq",
         "Atësi": "Taso",
         "Mbiemër": "Gjidede",
-        "Statusi": "ME VENDIMI 1521 NE DATEN 07.10.2026"
+        "Statusi": "ME VENDIMI 1521 NE DATEN 07.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 20,
@@ -1673,7 +1769,8 @@
         "Emër": "Eleni",
         "Atësi": "Jorgji",
         "Mbiemër": "Alushi",
-        "Statusi": "ME APLIKIM PA MATJE"
+        "Statusi": "ME APLIKIM PA MATJE",
+        "Kategoria": "Në proces"
       },
       {
         "id": 21,
@@ -1685,7 +1782,8 @@
         "Emër": "Kico",
         "Atësi": "Stefan",
         "Mbiemër": "Bala",
-        "Statusi": "ME VENDIM VKM 1040 DT.08.10.2026"
+        "Statusi": "ME VENDIM VKM 1040 DT.08.10.2026",
+        "Kategoria": "Pajisur me vendim"
       },
       {
         "id": 22,
@@ -1697,7 +1795,8 @@
         "Emër": "Evanthi",
         "Atësi": "Ilia",
         "Mbiemër": "Kapo",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 23,
@@ -1709,7 +1808,8 @@
         "Emër": "Pandeli",
         "Atësi": "Dhiseo",
         "Mbiemër": "Gjomemo",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 24,
@@ -1721,7 +1821,8 @@
         "Emër": "Qirjakulla",
         "Atësi": "Kleanthi",
         "Mbiemër": "Nikolla",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 25,
@@ -1733,7 +1834,8 @@
         "Emër": "Eglantina",
         "Atësi": "Lefter",
         "Mbiemër": "Bajramaj",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 26,
@@ -1745,7 +1847,8 @@
         "Emër": "Najada",
         "Atësi": "Tasho",
         "Mbiemër": "Nallbani",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 27,
@@ -1757,7 +1860,8 @@
         "Emër": "Kane",
         "Atësi": "Dhamo",
         "Mbiemër": "Bala",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 28,
@@ -1769,7 +1873,8 @@
         "Emër": "Jakup",
         "Atësi": "",
         "Mbiemër": "Naxhako",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 29,
@@ -1781,7 +1886,8 @@
         "Emër": "Kane",
         "Atësi": "Dhamo",
         "Mbiemër": "Bala",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 30,
@@ -1793,7 +1899,8 @@
         "Emër": "Leonora",
         "Atësi": "Taso",
         "Mbiemër": "Andoni",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       },
       {
         "id": 31,
@@ -1805,7 +1912,8 @@
         "Emër": "Bajron",
         "Atësi": "Arqile",
         "Mbiemër": "Kondi",
-        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE"
+        "Statusi": "EVIDENTUAR NE TEREN - SKA DOSJE",
+        "Kategoria": "Mungesë dokumentacioni"
       }
     ]
   },
