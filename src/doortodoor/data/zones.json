@@ -1190,7 +1190,7 @@
         "Atësi": "Kristo",
         "Mbiemër": "Shkurti",
         "Statusi": "Në Proces Gjyqësor",
-        "Kategoria": "Në proces"
+        "Kategoria": "Tjetër"
       },
       {
         "id": 92,
@@ -1203,7 +1203,7 @@
         "Atësi": "Akile",
         "Mbiemër": "Milo",
         "Statusi": "Në Proces Gjyqësor",
-        "Kategoria": "Në proces"
+        "Kategoria": "Tjetër"
       },
       {
         "id": 93,
@@ -1216,7 +1216,7 @@
         "Atësi": "Dhimitri",
         "Mbiemër": "Nesturi",
         "Statusi": "Në Proces Gjyqësor",
-        "Kategoria": "Në proces"
+        "Kategoria": "Tjetër"
       },
       {
         "id": 94,
@@ -1346,7 +1346,7 @@
         "Atësi": "Minella",
         "Mbiemër": "Petromilo",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 104,
@@ -1359,7 +1359,7 @@
         "Atësi": "Dhimiter",
         "Mbiemër": "Nesturi",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 105,
@@ -1372,7 +1372,7 @@
         "Atësi": "Dhiseo",
         "Mbiemër": "Loli",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 106,
@@ -1385,7 +1385,7 @@
         "Atësi": "Lefter",
         "Mbiemër": "Gjovasho",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 107,
@@ -1398,7 +1398,7 @@
         "Atësi": "Emin",
         "Mbiemër": "Kadare",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 108,
@@ -1411,7 +1411,7 @@
         "Atësi": "",
         "Mbiemër": "Nesturi",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 109,
@@ -1424,7 +1424,7 @@
         "Atësi": "Foto",
         "Mbiemër": "Nesturi",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 110,
@@ -1437,7 +1437,7 @@
         "Atësi": "Vangjel",
         "Mbiemër": "Mile",
         "Statusi": "Në Proces",
-        "Kategoria": "Në proces"
+        "Kategoria": "Në shqyrtim dokumentacioni"
       },
       {
         "id": 111,
@@ -1450,7 +1450,7 @@
         "Atësi": "Nikolla",
         "Mbiemër": "Gjergji",
         "Statusi": "Në Proces Gjyqësor",
-        "Kategoria": "Në proces"
+        "Kategoria": "Tjetër"
       },
       {
         "id": 112,
@@ -1536,7 +1536,7 @@
         "Atësi": "Peli",
         "Mbiemër": "Beja",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 3,
@@ -1549,7 +1549,7 @@
         "Atësi": "Napolon",
         "Mbiemër": "Bifsha",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 4,
@@ -1562,7 +1562,7 @@
         "Atësi": "Koco",
         "Mbiemër": "Marku",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 5,
@@ -1575,7 +1575,7 @@
         "Atësi": "Lluke",
         "Mbiemër": "Jorgji",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 6,
@@ -1588,7 +1588,7 @@
         "Atësi": "Nikollaq",
         "Mbiemër": "Zguro",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 7,
@@ -1601,7 +1601,7 @@
         "Atësi": "Foto",
         "Mbiemër": "Bifsha",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 8,
@@ -1614,7 +1614,7 @@
         "Atësi": "Petro",
         "Mbiemër": "Gjomemo",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 9,
@@ -1770,7 +1770,7 @@
         "Atësi": "Jorgji",
         "Mbiemër": "Alushi",
         "Statusi": "ME APLIKIM PA MATJE",
-        "Kategoria": "Në proces"
+        "Kategoria": "I paaksesueshëm"
       },
       {
         "id": 21,
