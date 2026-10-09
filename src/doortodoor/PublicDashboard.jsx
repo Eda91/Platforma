@@ -999,9 +999,7 @@ const openMap = (zone) => {
 
                 <span>
 
-                  Zona gjithsej të
-
-                  trajtuara
+                  Zona gjithsej 
 
                 </span>
 
@@ -1026,7 +1024,7 @@ const openMap = (zone) => {
           </section>
 
           <section className="application-kpis">
-          <div className="total"><strong>{totals.applications}</strong><span>Aplikime të verifikuara</span></div>
+          <div className="total"><strong>{totals.applications}</strong><span>Banesa të evidentuara</span></div>
           {STATUS_OPTIONS.map(({ key, label }) => (
             <div key={key} className={key}>
               <strong>{totals[key === "public" ? "publicDisplay" : key]}</strong>
