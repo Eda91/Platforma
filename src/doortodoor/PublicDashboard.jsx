@@ -84,7 +84,7 @@ const STATUS_OPTIONS = [
 
   { key: "noAccess", label: "I paaksesueshëm" },
 
-  { key: "inProcess", label: "Në proces" },
+  { key: "inProcess", label: "Në shqyrtim dokumentacioni" },
 
   { key: "other", label: "Tjetër" },
 
