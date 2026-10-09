@@ -92,29 +92,40 @@ const STATUS_OPTIONS = [
 
 
 
-const getApplicationStatus = (item) => {
 
-  const category = normalize(item.Kategoria || item.kategoria || item.category || "");
+const getApplicationStatus = (item) => {
+  const category = normalize(
+    item.Kategoria || item.kategoria || item.category || ""
+  );
 
   const status = normalize(item.Statusi || item.status || "");
-
   const value = category || status;
 
+  if (value.includes("pajisur me vendim") ||
+      value.includes("me vendim") ||
+      value.includes("vkm")) return "approved";
 
+  if (value.includes("afishim publik") ||
+      value.includes("ne afishim")) return "public";
 
-  if (value.includes("pajisur me vendim") || value.includes("me vendim") || value.includes("vkm")) return "approved";
+  if (value.includes("mungese dokumentacioni") ||
+      value.includes("mungon") ||
+      value.includes("ska dosje") ||
+      value.includes("s'ka dosje") ||
+      value.includes("pa dosje")) return "missing";
 
-  if (value.includes("afishim publik") || value.includes("ne afishim")) return "public";
+  if (value.includes("paaksesueshem") ||
+      value.includes("pa akses") ||
+      value.includes("nuk ka qen ne objekt")) return "noAccess";
 
-  if (value.includes("mungese dokumentacioni") || value.includes("mungon") || value.includes("ska dosje") || value.includes("s'ka dosje") || value.includes("pa dosje")) return "missing";
-
-  if (value.includes("paaksesueshem") || value.includes("pa akses") || value.includes("nuk ka qen ne objekt")) return "noAccess";
-
-  if (value.includes("ne proces") || value.includes("pa matje")) return "inProcess";
+  if (value.includes("ne proces") ||
+      value.includes("ne shqyrtim") ||
+      value.includes("shqyrtim dokumentacioni") ||
+      value.includes("pa matje")) return "inProcess";
 
   return "other";
-
 };
+
 
 
 
