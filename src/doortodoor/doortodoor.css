@@ -1008,6 +1008,17 @@ body {
   display: none !important;
 }
 
+
+.leaflet-tooltip.parcel-number-label {
+  font-size: var(--property-label-size, 8px) !important;
+  line-height: 1.1 !important;
+  padding: 1px 2px !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+
 /* =========================================================
    RESPONSIVE
 ========================================================= */

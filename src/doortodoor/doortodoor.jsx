@@ -6,63 +6,77 @@ import "leaflet/dist/leaflet.css";
 
 import "./doortodoor.css";
 
-
-
 /* =========================================================
 
    KONFIGURIMI
 
-========================================================= */
-
-
+\========================================================= */
 
 const BASE_URL = import.meta.env.BASE_URL || "/";
 
-
-
 const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 
-
-
 // Vetëm këto dy burime lejohen të shfaqen si pika.
+
 const POINT_GEOJSON_FILES = new Set([
+
   "PALASE_Ndertesat_total_POINT1.geojson",
+
   "Jugu_Ndertesat_total_POINT_PALASE.geojson",
+
   "NE AFISHIM.geojson", // Statusi Në afishim: pika blu
+
 ]);
 
 const GEOJSON_FILES = [
 
   // { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
+
   //{ file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
+
   // { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
+
   // { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
+
   { file: "PARCELA1.geojson", name: "Dhërmi – Parcelat", zone: "dhermi", type: "parcel" },
+
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
+
   { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
+
   { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
+
   { file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
+
   // { file: "palase_google_earth.geojson",  name: "Palasë – Pika", zone: "palase-pika",type: "parcel",},
+
   { file: "Jugu_Ndertesat_total_POINT_PALASE.geojson", name: "Palasë – Ndërtesat Jugu", zone: "palase", type: "building", display: "point" },
+
   { file: "PALASE_MATJE_2.geojson", name: "Palasë – Matje", zone: "palase", type: "parcel" },
+
   { file: "PALASE_TE_GJITHA.geojson", name: "Palasë – Të gjitha", zone: "palase", type: "parcel" },
-  { file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point",colorType: "afishim" },
+
+  { file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+
   { file: "PALASE_Ndertesat_total_POINT1.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
+
   { file: "PALASE_TE_GJITHA1.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
+
   { file: "ILIAS_FSHAT_krgjsh.geojson", name: "Ilias – Fshati", zone: "ilias", type: "parcel" },
+
   { file: "ILIAS_NDERTESAT.geojson", name: "Ilias – Ndërtesat", zone: "ilias", type: "building" },
+
   { file: "ILIAS_Ndertesat_total_POINT.geojson", name: "Ilias – Ndërtesat POINT", zone: "ilias", type: "building", display: "point" },
+
   { file: "ILIAS_PARCELAT.geojson", name: "Ilias – Parcelat", zone: "ilias", type: "parcel" },
-{ file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
-{ file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
-{ file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
 
+  { file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
 
+  { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
 
+  { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
 
 ];
-
-
 
 const ZONES = GEOJSON_FILES.reduce((zones, item) => {
 
@@ -78,8 +92,6 @@ const ZONES = GEOJSON_FILES.reduce((zones, item) => {
 
   });
 
-
-
   if (item.zoneName) zone.name = item.zoneName;
 
   if (item.dv) zone.dv = item.dv;
@@ -88,27 +100,14 @@ const ZONES = GEOJSON_FILES.reduce((zones, item) => {
 
   if (item.periudha) zone.periudha = item.periudha;
 
-
-
   return zones;
 
 }, {});
 
-
-
-
-
-
-
 const ALBANIA_BOUNDS = L.latLngBounds(
-
   [39.55, 19.05],
-
   [42.75, 21.15]
-
 );
-
-
 
 const COLORS = {
 
@@ -126,8 +125,6 @@ const COLORS = {
 
   },
 
-
-
   building: {
 
     color: "#15803d",
@@ -142,18 +139,24 @@ const COLORS = {
 
   },
 
-
   regjistruar: {
+
     color: "#7e22ce",
+
     fillColor: "#a855f7",
+
     weight: 2,
+
     opacity: 1,
+
     fillOpacity: 0.45,
+
   },
 
-
   afishim: { color: "#1d4ed8", fillColor: "#3b82f6", weight: 2, opacity: 1, fillOpacity: 0.4 },
+
   point: { color: "#a16207", fillColor: "#facc15", weight: 2, opacity: 1, fillOpacity: 0.9 },
+
   noAccess: {
 
     color: "#b91c1c",
@@ -170,15 +173,23 @@ const COLORS = {
 
 };
 
+const getPropertyLabelSize = (zoom) => {
 
+  if (zoom <= 12) return 0;
+
+  if (zoom <= 14) return 8;
+
+  if (zoom <= 16) return 10;
+
+  return 12;
+
+};
 
 /* =========================================================
 
    FUNKSIONE NDIHMËSE
 
-========================================================= */
-
-
+\========================================================= */
 
 function normalize(value) {
 
@@ -194,13 +205,9 @@ function normalize(value) {
 
 }
 
-
-
 function getProperty(properties, keys) {
 
   const entries = Object.entries(properties || {});
-
-
 
   for (const key of keys) {
 
@@ -211,8 +218,6 @@ function getProperty(properties, keys) {
         normalize(propertyName) === normalize(key)
 
     );
-
-
 
     if (
 
@@ -232,13 +237,9 @@ function getProperty(properties, keys) {
 
   }
 
-
-
   return null;
 
 }
-
-
 
 function getStatus(properties) {
 
@@ -258,11 +259,7 @@ function getStatus(properties) {
 
   ]);
 
-
-
   const status = normalize(rawStatus);
-
-
 
   if (
 
@@ -280,8 +277,6 @@ function getStatus(properties) {
 
   }
 
-
-
   return rawStatus
 
     ? String(rawStatus)
@@ -290,40 +285,47 @@ function getStatus(properties) {
 
 }
 
-
-
 function getFeatureStyle(isBuilding, properties, source = {}) {
+
   if (source.colorType === "afishim") {
+
     return {
+
       ...COLORS.afishim,
+
       fillOpacity: 0.9,
+
     };
+
   }
 
   if (source.colorType === "regjistruar") {
-  return { ...COLORS.regjistruar };
-}
+
+    return { ...COLORS.regjistruar };
+
+  }
 
   if (isBuilding && getStatus(properties) === NO_ACCESS_STATUS) {
+
     return { ...COLORS.noAccess };
+
   }
 
   if (POINT_GEOJSON_FILES.has(source.file)) {
+
     return { ...COLORS.point };
+
   }
 
   return { ...(isBuilding ? COLORS.building : COLORS.parcel) };
+
 }
 
 function isValidGeometry(feature) {
 
   const geometry = feature?.geometry;
 
-
-
   if (!geometry) return false;
-
-
 
   return (
 
@@ -347,8 +349,6 @@ function isValidGeometry(feature) {
 
 }
 
-
-
 function getFeatureCenter(feature, layer) {
 
   try {
@@ -356,8 +356,6 @@ function getFeatureCenter(feature, layer) {
     if (feature?.geometry?.type === "Point") {
 
       const [lng, lat] = feature.geometry.coordinates;
-
-
 
       if (
 
@@ -373,13 +371,9 @@ function getFeatureCenter(feature, layer) {
 
     }
 
-
-
     if (typeof layer.getBounds === "function") {
 
       const bounds = layer.getBounds();
-
-
 
       if (bounds.isValid()) {
 
@@ -388,8 +382,6 @@ function getFeatureCenter(feature, layer) {
       }
 
     }
-
-
 
     if (typeof layer.getLatLng === "function") {
 
@@ -409,19 +401,13 @@ function getFeatureCenter(feature, layer) {
 
   }
 
-
-
   return null;
 
 }
 
-
-
 function getFeatures(data) {
 
   if (!data) return [];
-
-
 
   if (data.type === "FeatureCollection") {
 
@@ -433,15 +419,11 @@ function getFeatures(data) {
 
   }
 
-
-
   if (data.type === "Feature") {
 
     return [data];
 
   }
-
-
 
   if (
 
@@ -463,8 +445,6 @@ function getFeatures(data) {
 
   }
 
-
-
   if (data.type && data.coordinates) {
 
     return [
@@ -483,19 +463,13 @@ function getFeatures(data) {
 
   }
 
-
-
   return [];
 
 }
 
-
-
 function createPopup(properties, title, status) {
 
   const container = document.createElement("div");
-
-
 
   container.className = "doortodoor-popup";
 
@@ -507,11 +481,7 @@ function createPopup(properties, title, status) {
 
   container.style.overflowY = "auto";
 
-
-
   const heading = document.createElement("strong");
-
-
 
   heading.textContent = title;
 
@@ -523,17 +493,11 @@ function createPopup(properties, title, status) {
 
   heading.style.color = "#172554";
 
-
-
   container.appendChild(heading);
-
-
 
   const addRow = (label, value) => {
 
     const row = document.createElement("div");
-
-
 
     row.style.display = "flex";
 
@@ -547,11 +511,7 @@ function createPopup(properties, title, status) {
 
     row.style.borderBottom = "1px solid #e5e7eb";
 
-
-
     const labelElement = document.createElement("span");
-
-
 
     labelElement.textContent = label;
 
@@ -563,11 +523,7 @@ function createPopup(properties, title, status) {
 
     labelElement.style.flexShrink = "0";
 
-
-
     const valueElement = document.createElement("strong");
-
-
 
     valueElement.textContent =
 
@@ -581,8 +537,6 @@ function createPopup(properties, title, status) {
 
         : "—";
 
-
-
     valueElement.style.fontSize = "12px";
 
     valueElement.style.color = "#0f172a";
@@ -591,27 +545,19 @@ function createPopup(properties, title, status) {
 
     valueElement.style.overflowWrap = "anywhere";
 
-
-
     row.append(labelElement, valueElement);
 
     container.appendChild(row);
 
   };
 
-
-
   // Statusi
 
   addRow("Statusi", status);
 
-
-
   // TË GJITHA properties nga GeoJSON
 
   const entries = Object.entries(properties || {});
-
-
 
   if (entries.length === 0) {
 
@@ -624,8 +570,6 @@ function createPopup(properties, title, status) {
     );
 
   }
-
-
 
   entries.forEach(([key, value]) => {
 
@@ -643,27 +587,17 @@ function createPopup(properties, title, status) {
 
     }
 
-
-
     addRow(key, value);
 
   });
-
-
 
   return container;
 
 }
 
-
-
-
-
 function createPolygonLabel(properties, isBuilding = false) {
 
   const status = getStatus(properties);
-
-
 
   const adresa = getProperty(properties, [
 
@@ -673,35 +607,51 @@ function createPolygonLabel(properties, isBuilding = false) {
 
   ]) || "—";
 
+  const nrPasurie = isBuilding
 
+    ? getProperty(properties, [
 
-
-const nrPasurie = isBuilding
-  ? getProperty(properties, [
       "NR_PASURIE",
+
       "nr_pasurie",
+
       "nr_pas",
+
       "Nr_Pas",
+
       "NR_PAS",
+
       "NrPas",
+
       "property_n",
+
       "Numri_i_pa",
+
       "label",
+
     ]) ?? ""
-  : getProperty(properties, [
+
+    : getProperty(properties, [
+
       "nr_pas",
+
       "NR_PASURIE",
+
       "nr_pasurie",
+
       "Nr_Pas",
+
       "NR_PAS",
+
       "NrPas",
+
       "property_n",
+
       "Numri_i_pa",
+
       "label",
+
     ]) ?? "";
-
-
-
 
   const zonaKadastrale = getProperty(properties, [
 
@@ -715,8 +665,6 @@ const nrPasurie = isBuilding
 
   ]) || "—";
 
-
-
   const siperfaqja = getProperty(properties, [
 
     "sip_parcel",
@@ -729,15 +677,9 @@ const nrPasurie = isBuilding
 
   ]) || "—";
 
-
-
   const container = document.createElement("div");
 
-
-
   container.style.minWidth = "210px";
-
-
 
   const fields = [
 
@@ -753,13 +695,9 @@ const nrPasurie = isBuilding
 
   ];
 
-
-
   fields.forEach(([label, value]) => {
 
     const row = document.createElement("div");
-
-
 
     row.style.padding = "4px 0";
 
@@ -767,27 +705,19 @@ const nrPasurie = isBuilding
 
     row.style.borderBottom = "1px solid #e5e7eb";
 
-
-
     const strong = document.createElement("strong");
 
     strong.textContent = `${label}: `;
 
-
-
     const span = document.createElement("span");
 
     span.textContent = String(value);
-
-
 
     row.append(strong, span);
 
     container.appendChild(row);
 
   });
-
-
 
   return container;
 
@@ -797,17 +727,13 @@ const nrPasurie = isBuilding
 
    KOMPONENTI KRYESOR
 
-========================================================= */
-
-
+\========================================================= */
 
 export default function DoorToDoor() {
 
   const mapContainerRef = useRef(null);
 
   const mapRef = useRef(null);
-
-
 
   // Referencat e poligoneve për klikimin nga dashboard-i.
 
@@ -821,33 +747,19 @@ export default function DoorToDoor() {
 
   const activeZone = ZONES[selectedZone];
 
-
-
   const [search, setSearch] = useState("");
-
-
 
   const [records, setRecords] = useState([]);
 
-
-
   const [loading, setLoading] = useState(true);
 
-
-
   const [error, setError] = useState("");
-
-
 
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   const [clickMode, setClickMode] = useState("parcel");
 
-
-
   const clickModeRef = useRef("parcel");
-
-
 
   const changeClickMode = (mode) => {
 
@@ -855,29 +767,17 @@ export default function DoorToDoor() {
 
     setClickMode(mode);
 
-
-
     const map = mapRef.current;
-
-
 
     if (!map) return;
 
-
-
     const showLabels = map.getZoom() > 12;
-
-
 
     Object.values(featureLayersRef.current).forEach((layer) => {
 
       const tooltip = layer.getTooltip?.();
 
-
-
       if (!tooltip || !map.hasLayer(layer)) return;
-
-
 
       if (showLabels && layer._doorToDoorType === mode) {
 
@@ -893,15 +793,11 @@ export default function DoorToDoor() {
 
   };
 
-
-
   /* =======================================================
 
      STATISTIKAT
 
-  ======================================================= */
-
-
+  \======================================================= */
 
   const noAccessRecords = useMemo(() => {
 
@@ -919,8 +815,6 @@ export default function DoorToDoor() {
 
   }, [records, selectedZone]);
 
-
-
   const zoneRecords = useMemo(
 
     () => records.filter((item) => item.zone === selectedZone),
@@ -929,23 +823,17 @@ export default function DoorToDoor() {
 
   );
 
-
-
   const statistics = useMemo(() => {
 
     return {
 
       total: zoneRecords.length,
 
-
-
       parcels: zoneRecords.filter(
 
         (item) => item.type === "parcel"
 
       ).length,
-
-
 
       buildings: zoneRecords.filter(
 
@@ -954,11 +842,15 @@ export default function DoorToDoor() {
       ).length,
 
       afishim: zoneRecords.filter(
+
         (item) => normalize(item.status) === "ne afishim"
+
       ).length,
 
       regjistruar: zoneRecords.filter(
+
         (item) => normalize(item.status) === "regjistruar"
+
       ).length,
 
       paAkses: noAccessRecords.length,
@@ -967,21 +859,15 @@ export default function DoorToDoor() {
 
   }, [zoneRecords, noAccessRecords]);
 
-
-
   const filteredRecords = useMemo(() => {
 
     const query = normalize(search);
-
-
 
     if (!query) {
 
       return noAccessRecords;
 
     }
-
-
 
     return noAccessRecords.filter((item) => {
 
@@ -1003,119 +889,101 @@ export default function DoorToDoor() {
 
       ].join(" ");
 
-
-
       return normalize(searchableText).includes(query);
 
     });
 
   }, [noAccessRecords, search]);
 
-
-
   /* =======================================================
 
      INICIALIZIMI I HARTËS
 
-  ======================================================= */
-
-
+  \======================================================= */
 
   useEffect(() => {
 
     if (!mapContainerRef.current) return;
 
-
-
     if (mapRef.current) return;
-
-
 
     let disposed = false;
 
-
-
     const controller = new AbortController();
-
-
 
     const map = L.map(mapContainerRef.current, {
 
       zoomControl: false,
 
-
-
       preferCanvas: true,
-
-
 
       zoomAnimation: true,
 
-
-
       fadeAnimation: true,
-
-
 
       scrollWheelZoom: true,
 
-
-
       minZoom: 7,
-
-
 
       maxZoom: 20,
 
-
-
       maxBounds: ALBANIA_BOUNDS,
-
-
 
       maxBoundsViscosity: 1,
 
     });
 
-
-
     // Numrat shfaqen vetëm kur zoom-i është mbi 12.
 
     // Kontrolli kryhet edhe pasi ngarkohen GeoJSON-et asinkronisht.
 
-  const updatePropertyLabels = () => {
-  if (disposed || mapRef.current !== map) return;
+    const updatePropertyLabels = () => {
 
-  const showLabels = map.getZoom() > 12;
-  const currentMode = clickModeRef.current;
+      if (disposed || mapRef.current !== map) return;
 
-  Object.values(featureLayersRef.current).forEach((layer) => {
-    if (!layer.getTooltip?.()) return;
+      const showLabels = map.getZoom() > 12;
 
-    const isRegistered = layer._doorToDoorRegistered === true;
-    const shouldShow =
-      showLabels &&
-      (isRegistered || layer._doorToDoorType === currentMode);
+      const fontSize = getPropertyLabelSize(map.getZoom());
 
-    if (shouldShow) {
-      layer.openTooltip();
-    } else {
-      layer.closeTooltip();
-    }
-  });
-};
+          map.getContainer().style.setProperty(
 
+            "--property-label-size",
 
+            `${fontSize}px`
+
+          );
+
+      const currentMode = clickModeRef.current;
+
+      Object.values(featureLayersRef.current).forEach((layer) => {
+
+        if (!layer.getTooltip?.()) return;
+
+        const isRegistered = layer._doorToDoorRegistered === true;
+
+        const shouldShow =
+
+          showLabels &&
+
+          (isRegistered || layer._doorToDoorType === currentMode);
+
+        if (shouldShow) {
+
+          layer.openTooltip();
+
+        } else {
+
+          layer.closeTooltip();
+
+        }
+
+      });
+
+    };
 
     map.on("zoomend", updatePropertyLabels);
-
-    map.on("zoomend", updatePropertyLabels);
-
-
 
     mapRef.current = map;
-
-
 
     map.fitBounds(ALBANIA_BOUNDS, {
 
@@ -1125,45 +993,27 @@ export default function DoorToDoor() {
 
     });
 
-
-
     /* =====================================================
 
        SHTRESAT E HARTËS
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     map.createPane("albaniaBorder");
 
-
-
     map.getPane("albaniaBorder").style.zIndex = 410;
-
-
 
     map.getPane("albaniaBorder").style.pointerEvents =
 
       "none";
 
-
-
     map.createPane("parcelPane");
-
-
 
     map.getPane("parcelPane").style.zIndex = 420;
 
-
-
     map.createPane("buildingPane");
 
-
-
     map.getPane("buildingPane").style.zIndex = 430;
-
-
 
     const updateClickMode = (mode) => {
 
@@ -1171,23 +1021,17 @@ export default function DoorToDoor() {
 
         mode === "parcel" ? "auto" : "none";
 
-
-
       map.getPane("buildingPane").style.pointerEvents =
 
         mode === "building" ? "auto" : "none";
 
     };
 
-
-
     /* =====================================================
 
        HARTA SATELITORE
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     const satelliteLayer = L.tileLayer(
 
@@ -1207,8 +1051,6 @@ export default function DoorToDoor() {
 
     );
 
-
-
     const osmLayer = L.tileLayer(
 
       "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -1225,19 +1067,13 @@ export default function DoorToDoor() {
 
     );
 
-
-
     satelliteLayer.addTo(map);
-
-
 
     /* =====================================================
 
        KONTROLLET
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     L.control
 
@@ -1248,8 +1084,6 @@ export default function DoorToDoor() {
       })
 
       .addTo(map);
-
-
 
     L.control
 
@@ -1262,8 +1096,6 @@ export default function DoorToDoor() {
       })
 
       .addTo(map);
-
-
 
     const layerControl = L.control.layers(
 
@@ -1287,68 +1119,65 @@ export default function DoorToDoor() {
 
     );
 
-
-
     layerControl.addTo(map);
 
     const LegendControl = L.Control.extend({
+
       options: { position: "bottomleft" },
+
       onAdd() {
+
         const div = L.DomUtil.create("div", "doortodoor-map-legend");
+
         div.innerHTML = `
-    
+
 <strong>Legjenda</strong>
+
 <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
+
 <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
+
 <div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div>
+
 <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div>
+
 <div><i class="legend-point" style="background:#facc15;border:2px solid #a16207"></i> Ndërtesat – pika</div>
+
 <div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>`;
 
         L.DomEvent.disableClickPropagation(div);
+
         L.DomEvent.disableScrollPropagation(div);
+
         return div;
+
       },
+
     });
+
     map.addControl(new LegendControl());
-
-
 
     /* =====================================================
 
        KOLEKSIONET
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     const allRecords = [];
 
-
-
     const boundsByZone = {};
-
-
 
     const parcelLayers = [];
 
-
-
     const buildingLayers = [];
 
-
-
     let generatedId = 0;
-
-
 
     /* =====================================================
 
        NGARKIMI I GEOJSON
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     async function loadGeoJSON() {
 
@@ -1356,17 +1185,11 @@ export default function DoorToDoor() {
 
       setError("");
 
-
-
       const failedFiles = [];
-
-
 
       for (const source of GEOJSON_FILES) {
 
         if (disposed) return;
-
-
 
         try {
 
@@ -1374,15 +1197,11 @@ export default function DoorToDoor() {
 
             `${BASE_URL}geojson/newjson/${source.file}`;
 
-
-
           const response = await fetch(url, {
 
             signal: controller.signal,
 
           });
-
-
 
           if (!response.ok) {
 
@@ -1394,17 +1213,11 @@ export default function DoorToDoor() {
 
           }
 
-
-
           let data;
-
-
 
           try {
 
             const text = await response.text();
-
-
 
             data = JSON.parse(text);
 
@@ -1418,40 +1231,45 @@ export default function DoorToDoor() {
 
           }
 
-
-
           if (disposed || mapRef.current !== map) {
 
             return;
 
           }
 
-
-
           const isPointSource = POINT_GEOJSON_FILES.has(source.file);
+
           const allFeatures = getFeatures(data).filter(isValidGeometry);
+
           const allowedGeometries = isPointSource
+
             ? new Set(["Point", "MultiPoint"])
+
             : new Set(["Polygon", "MultiPolygon"]);
+
           const features = allFeatures.filter((feature) =>
+
             allowedGeometries.has(feature.geometry.type)
+
           );
 
           if (features.length === 0) {
+
             const geometryTypes = [...new Set(allFeatures.map((f) => f.geometry.type))];
+
             console.warn(
+
               `[GeoJSON] ${source.file}: nuk ka ${isPointSource ? "pika" : "poligone"} për t'u vizatuar.`,
+
               "Gjeometritë në skedar:", geometryTypes
+
             );
+
           }
-
-
 
           const isBuilding =
 
             source.type === "building";
-
-
 
           console.log(
 
@@ -1459,15 +1277,11 @@ export default function DoorToDoor() {
 
           );
 
-
-
           /* =================================================
 
              KRIJIMI I SHTRESËS
 
-          ================================================= */
-
-
+          \================================================= */
 
           const geojsonLayer = L.geoJSON(features, {
 
@@ -1477,29 +1291,19 @@ export default function DoorToDoor() {
 
               : "parcelPane",
 
-
-
             interactive: true,
 
-
-
             bubblingMouseEvents: false,
-
-
 
             pointToLayer: (feature, latlng) => {
 
               const style = getFeatureStyle(isBuilding, feature.properties || {}, source);
-
-
 
               return L.circleMarker(latlng, {
 
                 ...style,
 
                 radius: 6,
-
-
 
                 pane: isBuilding
 
@@ -1511,17 +1315,11 @@ export default function DoorToDoor() {
 
             },
 
-
-
-
-
             /* ===============================================
 
                NGJYRAT DHE TRANSPARENCA
 
-            =============================================== */
-
-
+            \=============================================== */
 
             style: (feature) => {
 
@@ -1529,29 +1327,17 @@ export default function DoorToDoor() {
 
             },
 
-
-
-
-
-
-
             /* ===============================================
 
                INFORMACIONI PËR ÇDO OBJEKT
 
-            =============================================== */
-
-
+            \=============================================== */
 
             onEachFeature: (feature, polygonLayer) => {
 
               const properties = feature.properties || {};
 
-
-
               const center = getFeatureCenter(feature, polygonLayer);
-
-
 
               if (!center) {
 
@@ -1567,23 +1353,15 @@ export default function DoorToDoor() {
 
               }
 
-
-
               generatedId += 1;
 
-
-
               const id = `${source.file}-${generatedId}`;
-
-
 
               /* =====================================================
 
                 TË DHËNAT NGA GEOJSON
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               const nrAplikimi =
 
@@ -1600,8 +1378,6 @@ export default function DoorToDoor() {
                   "ID",
 
                 ]) || `PAL-${String(generatedId).padStart(3, "0")}`;
-
-
 
               // E njëjta logjikë për parcelat DHE ndërtesat.
 
@@ -1627,11 +1403,7 @@ export default function DoorToDoor() {
 
                   "Numri_i_pa",
 
-                 
-
                 ]) ?? "";
-
-
 
               const adresa =
 
@@ -1642,8 +1414,6 @@ export default function DoorToDoor() {
                   "ADRESA",
 
                 ]) ?? "—";
-
-
 
               const zonaKadastrale =
 
@@ -1658,8 +1428,6 @@ export default function DoorToDoor() {
                   "NR_ZK",
 
                 ]) ?? "—";
-
-
 
               const siperfaqja = isBuilding
 
@@ -1685,24 +1453,23 @@ export default function DoorToDoor() {
 
                 ]);
 
+              const status =
 
+                source.colorType === "afishim"
 
-          const status =
-            source.colorType === "afishim"
-              ? "Në afishim"
-              : source.colorType === "regjistruar"
-                ? "Regjistruar"
-                : getStatus(properties);
+                  ? "Në afishim"
 
+                  : source.colorType === "regjistruar"
 
+                    ? "Regjistruar"
+
+                    : getStatus(properties);
 
               /* =====================================================
 
                 REGJISTRIMI PËR DASHBOARD
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               const record = {
 
@@ -1710,15 +1477,9 @@ export default function DoorToDoor() {
 
                 zone: source.zone,
 
-
-
                 nrAplikimi: String(nrAplikimi),
 
-
-
                 nrPasurie: String(nrPasurie),
-
-
 
                 NID:
 
@@ -1730,8 +1491,6 @@ export default function DoorToDoor() {
 
                   ]) ?? "",
 
-
-
                 emer:
 
                   getProperty(properties, [
@@ -1741,8 +1500,6 @@ export default function DoorToDoor() {
                     "emer",
 
                   ]) ?? "",
-
-
 
                 mbiemer:
 
@@ -1754,41 +1511,23 @@ export default function DoorToDoor() {
 
                   ]) ?? "",
 
-
-
                 status,
-
-
 
                 source: source.name,
 
-
-
                 type: source.type,
-
-
 
                 lat: center.lat,
 
-
-
                 lng: center.lng,
-
-
 
                 properties,
 
               };
 
-
-
               allRecords.push(record);
 
-
-
               featureLayersRef.current[id] = polygonLayer;
-
-
 
               /* =====================================================
 
@@ -1796,9 +1535,7 @@ export default function DoorToDoor() {
 
                 SHFAQET VETËM NË ZOOM > 12
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               polygonLayer._doorToDoorType = isBuilding
 
@@ -1806,10 +1543,7 @@ export default function DoorToDoor() {
 
                 : "parcel";
 
-
-
-                polygonLayer._doorToDoorRegistered =  source.colorType === "regjistruar";
-
+              polygonLayer._doorToDoorRegistered = source.colorType === "regjistruar";
 
               const hasNrPasurie =
 
@@ -1818,8 +1552,6 @@ export default function DoorToDoor() {
                 nrPasurie !== undefined &&
 
                 String(nrPasurie).trim() !== "";
-
-
 
               if (hasNrPasurie) {
 
@@ -1841,21 +1573,15 @@ export default function DoorToDoor() {
 
               }
 
-
-
               /* =====================================================
 
                 POPUP
 
                 VETËM 5 FUSHAT, PAS KLIKIMIT
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               const popupContainer = document.createElement("div");
-
-
 
               popupContainer.className = "doortodoor-popup";
 
@@ -1863,19 +1589,13 @@ export default function DoorToDoor() {
 
               popupContainer.style.maxWidth = "400px";
 
-
-
               const popupTitle = document.createElement("strong");
-
-
 
               popupTitle.textContent = isBuilding
 
                 ? "Informacion mbi ndërtesën"
 
                 : "Informacion mbi parcelën";
-
-
 
               popupTitle.style.display = "block";
 
@@ -1885,27 +1605,17 @@ export default function DoorToDoor() {
 
               popupTitle.style.color = "#0f172a";
 
-
-
               popupContainer.appendChild(popupTitle);
 
-
-
-
-
               /* =========================================
-              
+
                  TË GJITHA FUSHAT
-              
-              ========================================= */
 
-
+              \========================================= */
 
               const popupFields = [
 
                 ["Tipi", isBuilding ? "Ndërtesë" : "Parcelë"],
-
-
 
                 [
 
@@ -1919,8 +1629,6 @@ export default function DoorToDoor() {
 
                 ],
 
-
-
                 [
 
                   "Sipërfaqja",
@@ -1928,8 +1636,6 @@ export default function DoorToDoor() {
                   getProperty(properties, ["SIP", "sip"]) ?? "—",
 
                 ],
-
-
 
                 [
 
@@ -1939,8 +1645,6 @@ export default function DoorToDoor() {
 
                 ],
 
-
-
                 [
 
                   "Zona kadastrale",
@@ -1948,8 +1652,6 @@ export default function DoorToDoor() {
                   getProperty(properties, ["ZK", "zk"]) ?? "—",
 
                 ],
-
-
 
                 [
 
@@ -1959,8 +1661,6 @@ export default function DoorToDoor() {
 
                 ],
 
-
-
                 [
 
                   "Poseduesi",
@@ -1969,8 +1669,6 @@ export default function DoorToDoor() {
 
                 ],
 
-
-
                 [
 
                   "Nr. unik",
@@ -1978,8 +1676,6 @@ export default function DoorToDoor() {
                   getProperty(properties, ["NR_UNIK", "nr_unik"]) ?? "—",
 
                 ],
-
-
 
                 [
 
@@ -1991,23 +1687,15 @@ export default function DoorToDoor() {
 
               ];
 
-
-
-
-
               /* =========================================
-              
+
                  KRIJO RRESHTAT
-              
-              ========================================= */
 
-
+              \========================================= */
 
               popupFields.forEach(([label, value]) => {
 
                 const row = document.createElement("div");
-
-
 
                 row.style.display = "flex";
 
@@ -2023,11 +1711,7 @@ export default function DoorToDoor() {
 
                 row.style.fontSize = "12px";
 
-
-
                 const labelElement = document.createElement("span");
-
-
 
                 labelElement.textContent = label;
 
@@ -2035,11 +1719,7 @@ export default function DoorToDoor() {
 
                 labelElement.style.flexShrink = "0";
 
-
-
                 const valueElement = document.createElement("strong");
-
-
 
                 valueElement.textContent = String(value);
 
@@ -2049,25 +1729,17 @@ export default function DoorToDoor() {
 
                 valueElement.style.overflowWrap = "anywhere";
 
-
-
                 row.append(labelElement, valueElement);
 
                 popupContainer.appendChild(row);
 
               });
 
-
-
-
-
               /* =========================================
-              
+
                  POPUP
-              
-              ========================================= */
 
-
+              \========================================= */
 
               polygonLayer.bindPopup(popupContainer, {
 
@@ -2079,29 +1751,19 @@ export default function DoorToDoor() {
 
               });
 
-
-
-
-
               /* =====================================================
 
                 STILI ORIGJINAL
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               const originalStyle = getFeatureStyle(isBuilding, properties, source);
-
-
 
               /* =====================================================
 
                 MOUSEOVER
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               polygonLayer.on("mouseover", () => {
 
@@ -2111,17 +1773,11 @@ export default function DoorToDoor() {
 
                 }
 
-
-
                 polygonLayer.setStyle({
 
                   ...originalStyle,
 
-
-
                   weight: originalStyle.weight + 1,
-
-
 
                   fillOpacity: Math.min(
 
@@ -2135,15 +1791,11 @@ export default function DoorToDoor() {
 
               });
 
-
-
               /* =====================================================
 
                 MOUSEOUT
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               polygonLayer.on("mouseout", () => {
 
@@ -2153,8 +1805,6 @@ export default function DoorToDoor() {
 
                 }
 
-
-
                 polygonLayer.setStyle({
 
                   ...originalStyle,
@@ -2163,23 +1813,17 @@ export default function DoorToDoor() {
 
               });
 
-
-
               /* =====================================================
 
                 KLIKIMI
 
                 HAP INFORMACIONIN E PARCELËS OSE NDËRTESËS
 
-              ===================================================== */
-
-
+              \===================================================== */
 
               polygonLayer.on("click", (event) => {
 
                 setSelectedRecord(record);
-
-
 
                 // Popup-i hapet vetëm pas klikimit.
 
@@ -2188,9 +1832,8 @@ export default function DoorToDoor() {
               });
 
             },
+
           });
-
-
 
           /* =================================================
 
@@ -2198,9 +1841,7 @@ export default function DoorToDoor() {
 
              PASI TË NGARKOHEN TË GJITHA
 
-          ================================================= */
-
-
+          \================================================= */
 
           const layerEntry = {
 
@@ -2212,17 +1853,11 @@ export default function DoorToDoor() {
 
           };
 
-
-
           // Krijojmë listën e zonës nëse nuk ekziston.
 
           zoneLayersRef.current[source.zone] ??= [];
 
-
-
           zoneLayersRef.current[source.zone].push(layerEntry);
-
-
 
           if (isBuilding) {
 
@@ -2234,11 +1869,7 @@ export default function DoorToDoor() {
 
           }
 
-
-
           const bounds = geojsonLayer.getBounds();
-
-
 
           if (bounds.isValid()) {
 
@@ -2260,8 +1891,6 @@ export default function DoorToDoor() {
 
           }
 
-
-
           console.error(
 
             `Gabim te ${source.file}:`,
@@ -2269,8 +1898,6 @@ export default function DoorToDoor() {
             loadError
 
           );
-
-
 
           failedFiles.push(
 
@@ -2282,23 +1909,17 @@ export default function DoorToDoor() {
 
       }
 
-
-
       if (disposed || mapRef.current !== map) {
 
         return;
 
       }
 
-
-
       /* =====================================================
 
          PARCELAT POSHTË
 
-      ===================================================== */
-
-
+      \===================================================== */
 
       parcelLayers.forEach(({ layer, zone }) => {
 
@@ -2306,15 +1927,11 @@ export default function DoorToDoor() {
 
       });
 
-
-
       /* =====================================================
 
          NDËRTESAT SIPËR PARCELAVE
 
-      ===================================================== */
-
-
+      \===================================================== */
 
       buildingLayers.forEach(({ layer, zone }) => {
 
@@ -2322,33 +1939,21 @@ export default function DoorToDoor() {
 
       });
 
-
-
       zoneBoundsRef.current = boundsByZone;
-
-
 
       // Shtresat tani janë në hartë: zbato pragun e zoom-it.
 
       updatePropertyLabels();
 
-
-
       /* =====================================================
 
          DASHBOARD
 
-      ===================================================== */
-
-
+      \===================================================== */
 
       setRecords([...allRecords]);
 
-
-
       setLoading(false);
-
-
 
       if (failedFiles.length > 0) {
 
@@ -2364,15 +1969,11 @@ export default function DoorToDoor() {
 
       }
 
-
-
       /* =====================================================
 
          ZOOM TE PALASA NGA GEOJSON
 
-      ===================================================== */
-
-
+      \===================================================== */
 
       const initialBounds = boundsByZone.palase;
 
@@ -2390,19 +1991,13 @@ export default function DoorToDoor() {
 
       }
 
-
-
       // Sigurohu që etiketat përputhen me zoom-in përfundimtar.
 
       updatePropertyLabels();
 
-
-
       console.log("GEOJSON:", {
 
         total: allRecords.length,
-
-
 
         parcela: allRecords.filter(
 
@@ -2410,15 +2005,11 @@ export default function DoorToDoor() {
 
         ).length,
 
-
-
         ndertesa: allRecords.filter(
 
           (item) => item.type === "building"
 
         ).length,
-
-
 
         paAkses: allRecords.filter(
 
@@ -2432,21 +2023,15 @@ export default function DoorToDoor() {
 
       });
 
-
-
       map.invalidateSize();
 
     }
-
-
 
     /* =====================================================
 
        KUFIJTË E SHQIPËRISË
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     async function loadAlbania() {
 
@@ -2464,19 +2049,13 @@ export default function DoorToDoor() {
 
         );
 
-
-
         if (!response.ok) {
 
           return;
 
         }
 
-
-
         const data = await response.json();
-
-
 
         if (disposed || mapRef.current !== map) {
 
@@ -2484,17 +2063,11 @@ export default function DoorToDoor() {
 
         }
 
-
-
         L.geoJSON(data, {
 
           pane: "albaniaBorder",
 
-
-
           interactive: false,
-
-
 
           style: {
 
@@ -2528,15 +2101,11 @@ export default function DoorToDoor() {
 
     }
 
-
-
     /* =====================================================
 
        BUTONI SHQIPËRIA
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     const AlbaniaControl = L.Control.extend({
 
@@ -2545,8 +2114,6 @@ export default function DoorToDoor() {
         position: "topright",
 
       },
-
-
 
       onAdd: () => {
 
@@ -2558,8 +2125,6 @@ export default function DoorToDoor() {
 
         );
 
-
-
         const button = L.DomUtil.create(
 
           "button",
@@ -2570,23 +2135,13 @@ export default function DoorToDoor() {
 
         );
 
-
-
         button.type = "button";
-
-
 
         button.textContent = "← Shqipëria";
 
-
-
         L.DomEvent.disableClickPropagation(div);
 
-
-
         L.DomEvent.disableScrollPropagation(div);
-
-
 
         L.DomEvent.on(button, "click", () => {
 
@@ -2600,53 +2155,35 @@ export default function DoorToDoor() {
 
         });
 
-
-
         return div;
 
       },
 
     });
 
-
-
     map.addControl(new AlbaniaControl());
-
-
 
     /* =====================================================
 
        NIS NGARKIMIN
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     loadAlbania();
 
-
-
     loadGeoJSON();
-
-
 
     /* =====================================================
 
        CLEANUP
 
-    ===================================================== */
-
-
+    \===================================================== */
 
     return () => {
 
       disposed = true;
 
-
-
       controller.abort();
-
-
 
       featureLayersRef.current = {};
 
@@ -2654,19 +2191,13 @@ export default function DoorToDoor() {
 
       zoneBoundsRef.current = {};
 
-
-
       map.off("zoomend", updatePropertyLabels);
 
       map.off();
 
-
-
       try {
 
         map.stop();
-
-
 
         map.remove();
 
@@ -2682,15 +2213,11 @@ export default function DoorToDoor() {
 
       }
 
-
-
       mapRef.current = null;
 
     };
 
   }, []);
-
-
 
   // Ndërrimi i zonës: shtresat dhe kufijtë merren vetëm nga GeoJSON.
 
@@ -2699,8 +2226,6 @@ export default function DoorToDoor() {
     const map = mapRef.current;
 
     if (!map || loading) return;
-
-
 
     Object.entries(zoneLayersRef.current).forEach(([zone, entries]) => {
 
@@ -2720,8 +2245,6 @@ export default function DoorToDoor() {
 
     });
 
-
-
     const bounds = zoneBoundsRef.current[selectedZone];
 
     if (bounds?.isValid()) {
@@ -2737,8 +2260,6 @@ export default function DoorToDoor() {
       });
 
     }
-
-
 
     // Etiketat permanente të shtresave të reja respektojnë zoom-in.
 
@@ -2756,43 +2277,29 @@ export default function DoorToDoor() {
 
   }, [selectedZone, loading]);
 
-
-
   /* =======================================================
 
      HAP OBJEKTIN NGA DASHBOARD-I
 
-  ======================================================= */
-
-
+  \======================================================= */
 
   const openApplicationOnMap = (item) => {
 
     const map = mapRef.current;
 
-
-
     if (!map || item.zone !== selectedZone) return;
-
-
 
     const polygonLayer =
 
       featureLayersRef.current[item.id];
 
-
-
     setSelectedRecord(item);
-
-
 
     if (!polygonLayer) {
 
       return;
 
     }
-
-
 
     // Aktivizo shtresën nëse përdoruesi e ka fshehur.
 
@@ -2814,15 +2321,11 @@ export default function DoorToDoor() {
 
         : null;
 
-
-
     if (parentLayer && !map.hasLayer(parentLayer)) {
 
       parentLayer.addTo(map);
 
     }
-
-
 
     map.flyTo(
 
@@ -2838,8 +2341,6 @@ export default function DoorToDoor() {
 
     );
 
-
-
     map.once("moveend", () => {
 
       if (mapRef.current === map) {
@@ -2852,33 +2353,21 @@ export default function DoorToDoor() {
 
   };
 
-
-
   useEffect(() => {
 
     const map = mapRef.current;
 
-
-
     if (!map) return;
-
-
 
     const parcelPane = map.getPane("parcelPane");
 
     const buildingPane = map.getPane("buildingPane");
 
-
-
     if (!parcelPane || !buildingPane) return;
-
-
 
     parcelPane.style.pointerEvents =
 
       clickMode === "parcel" ? "auto" : "none";
-
-
 
     buildingPane.style.pointerEvents =
 
@@ -2886,39 +2375,23 @@ export default function DoorToDoor() {
 
   }, [clickMode]);
 
-
-
-
-
   /* =======================================================
 
      JSX
 
-  ======================================================= */
-
-
+  \======================================================= */
 
   return (
 
     <div className="doortodoor-page">
 
-
-
       {/* HEADER */}
-
-
 
       <header className="doortodoor-header">
 
-
-
         <div className="doortodoor-header-left">
 
-
-
           <div>
-
-
 
             <h1>
 
@@ -2926,23 +2399,15 @@ export default function DoorToDoor() {
 
             </h1>
 
-
-
             <p>
 
               Derë më Derë
 
             </p>
 
-
-
           </div>
 
-
-
         </div>
-
-
 
         <img
 
@@ -2964,27 +2429,15 @@ export default function DoorToDoor() {
 
         />
 
-
-
       </header>
-
-
 
       {/* MAIN */}
 
-
-
       <div className="doortodoor-main">
-
-
 
         {/* MAP */}
 
-
-
         <section className="doortodoor-map-section">
-
-
 
           <div
 
@@ -2996,23 +2449,15 @@ export default function DoorToDoor() {
 
           />
 
-
-
         </section>
 
-
-
         {/* DASHBOARD */}
-
-
 
         <aside className="doortodoor-dashboard">
 
           {/* ZONAT E VEÇANTA - GATI PËR DASHBOARD-IN E PËRGJITHSHËM */}
 
           {/* ZGJEDHJA E ZONËS - DROPDOWN */}
-
-
 
           <section className="dashboard-section">
 
@@ -3061,8 +2506,6 @@ export default function DoorToDoor() {
                 Zgjidh zonën
 
               </label>
-
-
 
               <div style={{ position: "relative" }}>
 
@@ -3126,8 +2569,6 @@ export default function DoorToDoor() {
 
                 </select>
 
-
-
                 <span
 
                   style={{
@@ -3160,19 +2601,11 @@ export default function DoorToDoor() {
 
           </section>
 
-
-
           {/* ZONA */}
-
-
 
           <section className="area-header">
 
-
-
             <div>
-
-
 
               <span className="area-label">
 
@@ -3180,19 +2613,13 @@ export default function DoorToDoor() {
 
               </span>
 
-
-
               <h2>
 
                 {activeZone.name}
 
               </h2>
 
-
-
               <div className="area-location">
-
-
 
                 <span>
 
@@ -3200,11 +2627,7 @@ export default function DoorToDoor() {
 
                 </span>
 
-
-
                 <span>•</span>
-
-
 
                 <span>
 
@@ -3212,15 +2635,9 @@ export default function DoorToDoor() {
 
                 </span>
 
-
-
               </div>
 
-
-
             </div>
-
-
 
             <span className="area-status">
 
@@ -3228,19 +2645,11 @@ export default function DoorToDoor() {
 
             </span>
 
-
-
           </section>
-
-
 
           {/* PERIUDHA */}
 
-
-
           <section className="period-card">
-
-
 
             <div className="period-icon">
 
@@ -3248,11 +2657,7 @@ export default function DoorToDoor() {
 
             </div>
 
-
-
             <div>
-
-
 
               <span>
 
@@ -3260,35 +2665,21 @@ export default function DoorToDoor() {
 
               </span>
 
-
-
               <strong>
 
                 {activeZone.periudha}
 
               </strong>
 
-
-
             </div>
-
-
 
           </section>
 
-
-
           {/* STATISTIKAT */}
-
-
 
           <section className="dashboard-kpis">
 
-
-
             <div className="kpi-card">
-
-
 
               <span>
 
@@ -3296,23 +2687,15 @@ export default function DoorToDoor() {
 
               </span>
 
-
-
               <strong>
 
                 {statistics.total}
 
               </strong>
 
-
-
             </div>
 
-
-
             <div className="kpi-card kpi-red">
-
-
 
               <span>
 
@@ -3320,25 +2703,15 @@ export default function DoorToDoor() {
 
               </span>
 
-
-
               <strong>
 
                 {statistics.paAkses}
 
               </strong>
 
-
-
             </div>
 
-
-
           </section>
-
-
-
-
 
           <section className="dashboard-section">
 
@@ -3347,8 +2720,6 @@ export default function DoorToDoor() {
               <h3>Zgjidh objektin në hartë</h3>
 
             </div>
-
-
 
             <div style={{ display: "flex", gap: "8px" }}>
 
@@ -3385,8 +2756,6 @@ export default function DoorToDoor() {
                 Parcelat
 
               </button>
-
-
 
               <button
 
@@ -3426,95 +2795,147 @@ export default function DoorToDoor() {
 
           </section>
 
-
-
           {/* LEGJENDA */}
 
-       
-<section className="dashboard-section">
-  <div className="dashboard-section-title">
-    <h3>Legjenda e hartës</h3>
-  </div>
+          <section className="dashboard-section">
 
-  <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "13px" }}>
-    {[
-      {
-        label: "Parcelat",
-        count: statistics.parcels,
-        color: "#f97316",
-        border: "#ea580c",
-        shape: "square",
-      },
-      {
-        label: "Ndërtesat",
-        count: statistics.buildings,
-        color: "#22c55e",
-        border: "#15803d",
-        shape: "square",
-      },
-      {
-        label: "Banesa pa akses",
-        count: statistics.paAkses,
-        color: "#ef4444",
-        border: "#b91c1c",
-        shape: "circle",
-      },
-      {
-        label: "Në afishim",
-        count: statistics.afishim ?? 0,
-        color: "#3b82f6",
-        border: "#1d4ed8",
-        shape: "circle",
-      },
-      {
-        label: "Regjistruar",
-        count: statistics.regjistruar ?? 0,
-        color: "#a855f7",
-        border: "#7e22ce",
-        shape: "circle",
-      },
-    ].map((item) => (
-      <div
-        key={item.label}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <span
-          style={{
-            width: "16px",
-            height: "16px",
-            flexShrink: 0,
-            background: item.color,
-            border: `2px solid ${item.border}`,
-            borderRadius: item.shape === "circle" ? "50%" : "3px",
-          }}
-        />
+            <div className="dashboard-section-title">
 
-        <span>
-          {item.label} ({item.count})
-        </span>
-      </div>
-    ))}
-  </div>
-</section>
+              <h3>Legjenda e hartës</h3>
 
+            </div>
 
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "13px" }}>
 
+              {[
+
+                {
+
+                  label: "Parcelat",
+
+                  count: statistics.parcels,
+
+                  color: "#f97316",
+
+                  border: "#ea580c",
+
+                  shape: "square",
+
+                },
+
+                {
+
+                  label: "Ndërtesat",
+
+                  count: statistics.buildings,
+
+                  color: "#22c55e",
+
+                  border: "#15803d",
+
+                  shape: "square",
+
+                },
+
+                {
+
+                  label: "Banesa pa akses",
+
+                  count: statistics.paAkses,
+
+                  color: "#ef4444",
+
+                  border: "#b91c1c",
+
+                  shape: "circle",
+
+                },
+
+                {
+
+                  label: "Në afishim",
+
+                  count: statistics.afishim ?? 0,
+
+                  color: "#3b82f6",
+
+                  border: "#1d4ed8",
+
+                  shape: "circle",
+
+                },
+
+                {
+
+                  label: "Regjistruar",
+
+                  count: statistics.regjistruar ?? 0,
+
+                  color: "#a855f7",
+
+                  border: "#7e22ce",
+
+                  shape: "circle",
+
+                },
+
+              ].map((item) => (
+
+                <div
+
+                  key={item.label}
+
+                  style={{
+
+                    display: "flex",
+
+                    alignItems: "center",
+
+                    gap: "10px",
+
+                  }}
+
+                >
+
+                  <span
+
+                    style={{
+
+                      width: "16px",
+
+                      height: "16px",
+
+                      flexShrink: 0,
+
+                      background: item.color,
+
+                      border: `2px solid ${item.border}`,
+
+                      borderRadius: item.shape === "circle" ? "50%" : "3px",
+
+                    }}
+
+                  />
+
+                  <span>
+
+                    {item.label} ({item.count})
+
+                  </span>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </section>
 
           {/* LOADING */}
 
-
-
           {loading && (
 
-
-
             <section className="dashboard-section">
-
-
 
               <p>
 
@@ -3522,27 +2943,15 @@ export default function DoorToDoor() {
 
               </p>
 
-
-
             </section>
-
-
 
           )}
 
-
-
           {/* GABIMET */}
-
-
 
           {error && (
 
-
-
             <section className="dashboard-section">
-
-
 
               <p
 
@@ -3560,27 +2969,15 @@ export default function DoorToDoor() {
 
               </p>
 
-
-
             </section>
-
-
 
           )}
 
-
-
           {/* KËRKIMI */}
-
-
 
           <section className="dashboard-section">
 
-
-
             <div className="dashboard-section-title">
-
-
 
               <h3>
 
@@ -3588,19 +2985,11 @@ export default function DoorToDoor() {
 
               </h3>
 
-
-
             </div>
-
-
 
             <div className="dashboard-search">
 
-
-
               <span>⌕</span>
-
-
 
               <input
 
@@ -3618,27 +3007,15 @@ export default function DoorToDoor() {
 
               />
 
-
-
             </div>
-
-
 
           </section>
 
-
-
           {/* BANESAT PA AKSES */}
-
-
 
           <section className="dashboard-section applications-section">
 
-
-
             <div className="dashboard-section-title">
-
-
 
               <h3>
 
@@ -3646,31 +3023,19 @@ export default function DoorToDoor() {
 
               </h3>
 
-
-
               <span>
 
                 {filteredRecords.length}
 
               </span>
 
-
-
             </div>
-
-
 
             <div className="applications-list">
 
-
-
               {filteredRecords.length === 0 ? (
 
-
-
                 <div className="empty-applications">
-
-
 
                   <div className="empty-icon">
 
@@ -3678,15 +3043,11 @@ export default function DoorToDoor() {
 
                   </div>
 
-
-
                   <strong>
 
                     Nuk ka banesa pa akses të regjistruara
 
                   </strong>
-
-
 
                   <p>
 
@@ -3698,19 +3059,11 @@ export default function DoorToDoor() {
 
                   </p>
 
-
-
                 </div>
-
-
 
               ) : (
 
-
-
                 filteredRecords.map((item) => (
-
-
 
                   <article
 
@@ -3732,11 +3085,7 @@ export default function DoorToDoor() {
 
                   >
 
-
-
                     <div className="application-main">
-
-
 
                       <strong>
 
@@ -3744,19 +3093,13 @@ export default function DoorToDoor() {
 
                       </strong>
 
-
-
                       <span>
 
                         {item.status}
 
                       </span>
 
-
-
                       {item.nrPasurie && (
-
-
 
                         <small>
 
@@ -3764,51 +3107,27 @@ export default function DoorToDoor() {
 
                         </small>
 
-
-
                       )}
-
-
 
                     </div>
 
-
-
                   </article>
-
-
 
                 ))
 
-
-
               )}
-
-
 
             </div>
 
-
-
           </section>
-
-
 
           {/* OBJEKTI I ZGJEDHUR */}
 
-
-
           {selectedRecord && (
-
-
 
             <section className="dashboard-section">
 
-
-
               <div className="dashboard-section-title">
-
-
 
                 <h3>
 
@@ -3819,8 +3138,6 @@ export default function DoorToDoor() {
                     : "Ndërtesa e zgjedhur"}
 
                 </h3>
-
-
 
                 <button
 
@@ -3848,15 +3165,9 @@ export default function DoorToDoor() {
 
                 </button>
 
-
-
               </div>
 
-
-
               <div className="application-card">
-
-
 
                 <strong>
 
@@ -3870,15 +3181,11 @@ export default function DoorToDoor() {
 
                 </strong>
 
-
-
                 <p>
 
                   {selectedRecord.status}
 
                 </p>
-
-
 
                 <small>
 
@@ -3886,11 +3193,7 @@ export default function DoorToDoor() {
 
                 </small>
 
-
-
                 {/* TË DHËNAT REALE NGA GEOJSON */}
-
-
 
                 <div
 
@@ -3908,15 +3211,11 @@ export default function DoorToDoor() {
 
                 >
 
-
-
                   {Object.entries(
 
                     selectedRecord.properties || {}
 
                   ).map(([key, value]) => {
-
-
 
                     if (
 
@@ -3932,11 +3231,7 @@ export default function DoorToDoor() {
 
                     }
 
-
-
                     return (
-
-
 
                       <div
 
@@ -3962,8 +3257,6 @@ export default function DoorToDoor() {
 
                       >
 
-
-
                         <span
 
                           style={{
@@ -3977,8 +3270,6 @@ export default function DoorToDoor() {
                           {key}
 
                         </span>
-
-
 
                         <strong
 
@@ -3998,53 +3289,31 @@ export default function DoorToDoor() {
 
                         </strong>
 
-
-
                       </div>
-
-
 
                     );
 
                   })}
 
-
-
                 </div>
-
-
 
               </div>
 
-
-
             </section>
-
-
 
           )}
 
-
-
         </aside>
-
-
 
       </div>
 
-
-
       {/* FOOTER */}
-
-
 
       <footer className="doortodoor-footer">
 
         © Agjencia Shtetërore e Kadastrës
 
       </footer>
-
-
 
     </div>
 
