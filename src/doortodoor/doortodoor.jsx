@@ -2,10 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import L from "leaflet";
 
+import { useSearchParams } from "react-router-dom";
+
 import "leaflet/dist/leaflet.css";
 
 import "./doortodoor.css";
 
+import zonesData from "./data/zones.json";
 /* =========================================================
 
    KONFIGURIMI
@@ -743,9 +746,35 @@ export default function DoorToDoor() {
 
   const zoneBoundsRef = useRef({});
 
-  const [selectedZone, setSelectedZone] = useState("palase");
+  const [searchParams] = useSearchParams();
+
+const zoneFromUrl = searchParams.get("zone");
+
+const [selectedZone, setSelectedZone] = useState(
+  () => zoneFromUrl || "palase"
+);
+
+useEffect(() => {
+  if (zoneFromUrl) {
+    setSelectedZone(zoneFromUrl);
+  }
+}, [zoneFromUrl]);
 
   const activeZone = ZONES[selectedZone];
+
+  const periudhaEvidentimit = useMemo(() => {
+  const applications = Array.isArray(zonesData)
+    ? zonesData.flatMap((zone) => zone.applications || [])
+    : zonesData.applications || [];
+
+  const application = applications.find(
+    (item) =>
+      normalize(item.Fshati) === normalize(selectedZone) ||
+      normalize(item["Nj. Adm"]) === normalize(selectedZone)
+  );
+
+  return application?.["Periudha e Evidentimit në Terren"] || "—";
+}, [selectedZone]);
 
   const [search, setSearch] = useState("");
 
@@ -2667,7 +2696,7 @@ export default function DoorToDoor() {
 
               <strong>
 
-                {activeZone.periudha}
+                {periudhaEvidentimit}
 
               </strong>
 
@@ -2991,28 +3020,19 @@ export default function DoorToDoor() {
 
               <span>⌕</span>
 
-              <input
-
-                type="text"
-
-                value={search}
-
-                onChange={(event) =>
-
-                  setSearch(event.target.value)
-
-                }
-
-                placeholder="NID / Nr. aplikimi..."
-
-              />
+             <input
+          type="text"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Kërko sipas emrit dhe mbiemrit..."
+        />
 
             </div>
 
           </section>
 
           {/* BANESAT PA AKSES */}
-
+          {/*
           <section className="dashboard-section applications-section">
 
             <div className="dashboard-section-title">
@@ -3120,7 +3140,7 @@ export default function DoorToDoor() {
             </div>
 
           </section>
-
+*/}
           {/* OBJEKTI I ZGJEDHUR */}
 
           {selectedRecord && (
