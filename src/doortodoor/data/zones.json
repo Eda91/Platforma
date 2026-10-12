@@ -2056,26 +2056,16 @@
     "zk": "3265",
     "dv": "Sarandë",
     "bashkia": "Himarë",
-    "fshati": "Bunec",
+    "fshati": "Bunec - Sasaj",
    
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
   },
     
+  
   {
     "id": 21,
-    "zk": "3265",
-    "dv": "Sarandë",
-    "bashkia": "Himarë",
-    "fshati": "Sasaj",
-   
-    "startDate": "10.11.2026",
-    "endDate": "20.11.2026",
-    "applications": []
-  },
-  {
-    "id": 22,
     "zk": "2518",
     "dv": "Sarandë",
     "bashkia": "Himarë",
@@ -2086,7 +2076,7 @@
     "applications": []
   },
   {
-    "id": 23,
+    "id": 22,
     "zk": "3338",
     "dv": "Sarandë",
     "bashkia": "Himarë",
@@ -2097,7 +2087,7 @@
     "applications": []
   },
   {
-    "id": 24,
+    "id": 23,
     "zk": "2806",
     "dv": "Sarandë",
     "bashkia": "Himarë",
@@ -2108,7 +2098,7 @@
     "applications": []
   },
     {
-    "id": 25,
+    "id": 24,
     "zk": "2806",
     "dv": "Sarandë",
     "bashkia": "Himarë",
