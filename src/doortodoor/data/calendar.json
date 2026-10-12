@@ -57,5 +57,17 @@
     "startDate": "-",
     "endDate": "-",
     "status": "waiting"
-  }
+  },
+
+ {
+  "id": 4,
+  "bashkia": "Tiranë",
+  "njesiaAdministrative": "Kashar",
+  "drejtoriteVendore": ["Tiranë Rurale 2"],
+  "locations": ["Kus"],
+  "startDate": "05.10.2026",
+  "endDate": "16.10.2026",
+  "status": "active"
+}
+
 ]

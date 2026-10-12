@@ -58,6 +58,26 @@ const normalize = (value = "") =>
 
 
 
+const belongsToCalendar = (zone, calendar) => {
+  if (!calendar) return false;
+
+  const sameBashkia =
+    normalize(zone.bashkia) === normalize(calendar.bashkia);
+
+  const sameNjesia =
+    !calendar.njesiaAdministrative ||
+    normalize(zone.njesiaAdministrative) ===
+      normalize(calendar.njesiaAdministrative);
+
+  const sameLocation = (calendar.locations || []).some(
+    (location) => normalize(location) === normalize(zone.fshati)
+  );
+
+  return sameBashkia && sameNjesia && sameLocation;
+};
+
+
+
 const createZoneSlug = (name = "") =>
 
 
@@ -451,32 +471,16 @@ export default function PublicDashboard() {
     if (!zone) return 0;
 
 
-
-    const calendar = municipalityAgenda.find((c) => c.zones.some((z) => z.id === zone.id));
-
-
-
-    if (calendar) setSelectedCalendar(calendar);
-
-
-
-    setStatusFilter("all");
-
-
-
-    if (getZoneStatus(zone) === "completed") {
-
-
-
-      setSelectedZone(zone);
-
-
-
-      return 1;
-
-
-
-    }
+const municipalityAgenda = useMemo(
+  () =>
+    CALENDAR.map((item) => ({
+      ...item,
+      zones: ZONES.filter((zone) => belongsToCalendar(zone, item)),
+      agendaStatus: item.status || "waiting",
+      canOpen: ["active", "completed"].includes(item.status),
+    })),
+  []
+);
 
 
 
@@ -862,163 +866,29 @@ export default function PublicDashboard() {
 
 
 
-  const filteredZones = useMemo(() => {
-
-
-
-    if (!selectedCalendar) {
-
-
-
-      return [];
-
-
-
-    }
-
-
-
-    const q = normalize(search);
-
-
-
-    const locations =
-
-
-
-      selectedCalendar.locations || [];
-
-
-
-    return ZONES.filter((zone) => {
-
-
-
-      const belongsToCalendar =
-
-
-
-        locations.some(
-
-
-
-          (location) =>
-
-
-
-            normalize(location) ===
-
-
-
-            normalize(zone.fshati)
-
-
-
-        );
-
-
-
-      const searchText = normalize(`
-
-
-
-        ${zone.zk || ""}
-
-
-
-        ${zone.fshati || ""}
-
-
-
-        ${zone.bashkia || ""}
-
-
-
-        ${zone.dv || ""}
-
-
-
-        ${zone.startDate || ""}
-
-
-
-        ${zone.endDate || ""}
-
-
-
-      `);
-
-
-
-      const matchesSearch =
-
-
-
-        !q ||
-
-
-
-        searchText.includes(q);
-
-
-
-      const zoneStatus = getZoneStatus(zone);
-
-
-
-      const matchesStatus =
-
-
-
-        statusFilter === "all" ||
-
-
-
-        zoneStatus === statusFilter;
-
-
-
-      return (
-
-
-
-        belongsToCalendar &&
-
-
-
-        matchesSearch &&
-
-
-
-        matchesStatus
-
-
-
-      );
-
-
-
-    });
-
-
-
-  }, [
-
-
-
-    selectedCalendar,
-
-
-
-    search,
-
-
-
-    statusFilter,
-
-
-
-  ]);
+const filteredZones = useMemo(() => {
+  if (!selectedCalendar) return [];
+
+  const q = normalize(search);
+
+  return selectedCalendar.zones.filter((zone) => {
+    const searchText = normalize([
+      zone.zk,
+      zone.fshati,
+      zone.bashkia,
+      zone.njesiaAdministrative,
+      zone.dv,
+      zone.startDate,
+      zone.endDate,
+    ].filter(Boolean).join(" "));
+
+    return (
+      (!q || searchText.includes(q)) &&
+      (statusFilter === "all" ||
+        getZoneStatus(zone) === statusFilter)
+    );
+  });
+}, [selectedCalendar, search, statusFilter]);
 
 
 
@@ -2392,7 +2262,11 @@ const openMap = (zone) => {
 
                     </strong>
 
-
+                {item.njesiaAdministrative && (
+                  <span>
+                    Njësia Administrative: {item.njesiaAdministrative}
+                  </span>
+                )}
 
                     <span>
 
@@ -2706,28 +2580,11 @@ const openMap = (zone) => {
 
 
 
-                <h2>
-
-
-
-                  Bashkia{" "}
-
-
-
-                  {
-
-
-
-                    selectedCalendar.bashkia
-
-
-
-                  }
-
-
-
-                </h2>
-
+             <h2>
+              Bashkia {selectedCalendar.bashkia}
+              {selectedCalendar.njesiaAdministrative &&
+                ` — Njësia Administrative ${selectedCalendar.njesiaAdministrative}`}
+            </h2>
 
 
               </div>

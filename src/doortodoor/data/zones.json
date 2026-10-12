@@ -2107,5 +2107,17 @@
     "startDate": "10.11.2026",
     "endDate": "20.11.2026",
     "applications": []
-  }
+  },
+
+{
+  "id": 25,
+  "zk": "2344",
+  "dv": "Tiranë Rurale 2",
+  "bashkia": "Tiranë",
+  "njesiaAdministrative": "Kashar",
+  "fshati": "Kus",
+  "startDate": "05.10.2026",
+  "endDate": "16.10.2026",
+  "applications": []
+}
 ]
