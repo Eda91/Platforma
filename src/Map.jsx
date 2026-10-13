@@ -207,6 +207,7 @@ const afatet= {
   1826: { start: "2026-09-24", end: "2026-11-07" },
   2504: { start: "2026-09-29", end: "2026-11-12" },
   1552: { start: "2026-10-01", end: "2026-11-14" },
+  3187: { start: "2026-10-05", end: "2026-11-18" },
 
 };
 
@@ -538,6 +539,16 @@ const cityStyle = {
 
     {
       url: import.meta.env.BASE_URL + "geojson/VL1552DR_P.geojson",
+      type: "parcel",
+    },
+
+       {
+      url: import.meta.env.BASE_URL + "geojson/PR3187RO_ND.geojson",
+      type: "building",
+    },
+
+    {
+      url: import.meta.env.BASE_URL + "geojson/PR3187RO_P.geojson",
       type: "parcel",
     },
 
