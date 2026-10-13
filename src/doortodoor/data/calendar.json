@@ -38,6 +38,38 @@
   },
   {
     "id": 2,
+    "bashkia": "Finiq",
+    "drejtoriteVendore": [
+      "Sarandë"
+    ],
+    "locations": [
+      "Finiq",
+      "Vrion",
+      "Karahaxhë",
+      "Bregas",
+      "Çlirim",
+      "Buronjë"
+    ],
+    "startDate": "12.10.2026",
+    "endDate": "16.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "bashkia": "Tiranë",
+    "njesiaAdministrative": "Kashar",
+    "drejtoriteVendore": [
+      "Tiranë Rurale 2"
+    ],
+    "locations": [
+      "Kus"
+    ],
+    "startDate": "05.10.2026",
+    "endDate": "16.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 4,
     "bashkia": "Vlorë",
     "drejtoriteVendore": [
       "Vlorë"
@@ -48,7 +80,7 @@
     "status": "waiting"
   },
   {
-    "id": 3,
+    "id": 5,
     "bashkia": "Sarandë",
     "drejtoriteVendore": [
       "Sarandë"
@@ -57,17 +89,5 @@
     "startDate": "-",
     "endDate": "-",
     "status": "waiting"
-  },
-
- {
-  "id": 4,
-  "bashkia": "Tiranë",
-  "njesiaAdministrative": "Kashar",
-  "drejtoriteVendore": ["Tiranë Rurale 2"],
-  "locations": ["Kus"],
-  "startDate": "05.10.2026",
-  "endDate": "16.10.2026",
-  "status": "active"
-}
-
+  }
 ]

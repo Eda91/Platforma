@@ -2119,5 +2119,69 @@
   "startDate": "05.10.2026",
   "endDate": "16.10.2026",
   "applications": []
-}
+},
+
+
+  {
+    "id": 26,
+    "zk": "1623",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Finiq",
+    "startDate": "12.10.2026",
+    "endDate": "14.10.2026",
+    "applications": []
+  },
+  {
+    "id": 27,
+    "zk": "3832",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Vrion",
+    "startDate": "12.10.2026",
+    "endDate": "14.10.2026",
+    "applications": []
+  },
+  {
+    "id": 28,
+    "zk": "2082",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Karahaxhë",
+    "startDate": "15.10.2026",
+    "endDate": "15.10.2026",
+    "applications": []
+  },
+  {
+    "id": 29,
+    "zk": "1269",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Bregas",
+    "startDate": "15.10.2026",
+    "endDate": "15.10.2026",
+    "applications": []
+  },
+  {
+    "id": 30,
+    "zk": "1413",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Çlirim",
+    "startDate": "16.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  },
+  {
+    "id": 31,
+    "zk": "1323",
+    "dv": "Sarandë",
+    "bashkia": "Finiq",
+    "fshati": "Buronjë",
+    "startDate": "16.10.2026",
+    "endDate": "16.10.2026",
+    "applications": []
+  }
+
+
 ]
