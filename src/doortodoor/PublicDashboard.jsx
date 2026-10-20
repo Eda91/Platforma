@@ -391,9 +391,7 @@ export default function PublicDashboard() {
         <>
           <section className="top-search">
             <div className="top-search-copy">
-              <span className="eyebrow">
-                INFORMACION PUBLIK
-              </span>
+
               <h2>
                 Gjeni zonën kadastrale
               </h2>
