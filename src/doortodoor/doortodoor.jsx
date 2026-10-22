@@ -23,11 +23,14 @@ const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 
 const POINT_GEOJSON_FILES = new Set([
 
-  "PALASE_Ndertesat_total_POINT1.geojson",
+ // "PALASE_Ndertesat_total_POINT1.geojson",
 
-  "Jugu_Ndertesat_total_POINT_PALASE.geojson",
+ // "Jugu_Ndertesat_total_POINT_PALASE.geojson",
 
-  "NE AFISHIM.geojson", // Statusi Në afishim: pika blu
+ // "NE AFISHIM.geojson", // Statusi Në afishim: pika blu
+ "NE AFISHIM_perf.geojson",
+ "PALASE_Ndertesat_total_POINT_perf.geojson",
+ "PALASE_TE_GJITHA_perf.geojson"
 
 ]);
 
@@ -45,39 +48,42 @@ const GEOJSON_FILES = [
 
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
 
-  { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
+ // { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
 
-  { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
+ // { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
 
-  { file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
+  //{ file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
 
   // { file: "palase_google_earth.geojson",  name: "Palasë – Pika", zone: "palase-pika",type: "parcel",},
 
-  { file: "Jugu_Ndertesat_total_POINT_PALASE.geojson", name: "Palasë – Ndërtesat Jugu", zone: "palase", type: "building", display: "point" },
+ // { file: "Jugu_Ndertesat_total_POINT_PALASE.geojson", name: "Palasë – Ndërtesat Jugu", zone: "palase", type: "building", display: "point" },
 
-  { file: "PALASE_MATJE_2.geojson", name: "Palasë – Matje", zone: "palase", type: "parcel" },
+ // { file: "PALASE_MATJE_2.geojson", name: "Palasë – Matje", zone: "palase", type: "parcel" },
 
-  { file: "PALASE_TE_GJITHA.geojson", name: "Palasë – Të gjitha", zone: "palase", type: "parcel" },
+ // { file: "PALASE_TE_GJITHA.geojson", name: "Palasë – Të gjitha", zone: "palase", type: "parcel" },
 
-  { file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+  //{ file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
 
-  { file: "PALASE_Ndertesat_total_POINT1.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
+ // { file: "PALASE_Ndertesat_total_POINT1.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
 
-  { file: "PALASE_TE_GJITHA1.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
+ // { file: "PALASE_TE_GJITHA1.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
 
-  { file: "ILIAS_FSHAT_krgjsh.geojson", name: "Ilias – Fshati", zone: "ilias", type: "parcel" },
+ { file: "ILIAS_FSHAT_krgjsh.geojson", name: "Ilias – Fshati", zone: "ilias", type: "parcel" },
 
   { file: "ILIAS_NDERTESAT.geojson", name: "Ilias – Ndërtesat", zone: "ilias", type: "building" },
 
-  { file: "ILIAS_Ndertesat_total_POINT.geojson", name: "Ilias – Ndërtesat POINT", zone: "ilias", type: "building", display: "point" },
+ { file: "ILIAS_Ndertesat_total_POINT.geojson", name: "Ilias – Ndërtesat POINT", zone: "ilias", type: "building", display: "point" },
 
-  { file: "ILIAS_PARCELAT.geojson", name: "Ilias – Parcelat", zone: "ilias", type: "parcel" },
+ { file: "ILIAS_PARCELAT.geojson", name: "Ilias – Parcelat", zone: "ilias", type: "parcel" },
 
-  { file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
+{ file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
 
-  { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
+ { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
 
-  { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
+ // { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
+ { file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+ { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
+ { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
 
 ];
 
@@ -316,7 +322,15 @@ function getFeatureStyle(isBuilding, properties, source = {}) {
 
   if (POINT_GEOJSON_FILES.has(source.file)) {
 
-    return { ...COLORS.point };
+   // return { ...COLORS.point };
+   // Display inaccessible buildings as red points
+if (
+  source.file === "PALASE_Ndertesat_total_POINT_perf.geojson" ||
+  source.file === "PALASE_Ndertesat_total_POINT1.geojson" ||
+  source.file === "Jugu_Ndertesat_total_POINT_PALASE.geojson"
+) {
+  return { ...COLORS.noAccess };
+}
 
   }
 
@@ -726,6 +740,16 @@ function createPolygonLabel(properties, isBuilding = false) {
 
 }
 
+// Calculate point radius based on map zoom level
+function getPointRadius(zoom) {
+  if (zoom <= 10) return 1;
+  if (zoom <= 12) return 1.5;
+  if (zoom <= 14) return 2.5;
+  if (zoom <= 16) return 4;
+  if (zoom <= 18) return 5;
+  return 6;
+}
+
 /* =========================================================
 
    KOMPONENTI KRYESOR
@@ -990,25 +1014,35 @@ useEffect(() => {
 
         const isRegistered = layer._doorToDoorRegistered === true;
 
-        const shouldShow =
-
+       const shouldShow =
           showLabels &&
+          (layer._doorToDoorType === "parcel" ||
+          layer._doorToDoorType === "building");
 
-          (isRegistered || layer._doorToDoorType === currentMode);
-
-        if (shouldShow) {
-
-          layer.openTooltip();
-
-        } else {
-
-          layer.closeTooltip();
-
-        }
-
-      });
+              });
 
     };
+
+    // Update point marker sizes based on zoom level
+const updatePointSizes = () => {
+  const zoom = map.getZoom();
+
+  Object.values(zoneLayersRef.current).forEach((entries) => {
+    entries.forEach(({ layer }) => {
+      layer.eachLayer((featureLayer) => {
+        if (featureLayer instanceof L.CircleMarker) {
+          featureLayer.setStyle({
+            radius: getPointRadius(zoom),
+            weight: zoom <= 12 ? 0.5 : 1.5,
+            fillOpacity: zoom <= 12 ? 0.55 : 0.9,
+          });
+        }
+      });
+    });
+  });
+};
+
+map.on("zoomend", updatePointSizes);
 
     map.on("zoomend", updatePropertyLabels);
 
@@ -1161,16 +1195,15 @@ useEffect(() => {
         div.innerHTML = `
 
 <strong>Legjenda</strong>
+ <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
 
-<div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
-
-<div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
+ <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
 
 <div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div>
 
-<div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div>
+ <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div> 
 
-<div><i class="legend-point" style="background:#facc15;border:2px solid #a16207"></i> Ndërtesat – pika</div>
+<!-- <div><i class="legend-point" style="background:#facc15;border:2px solid #a16207"></i> Ndërtesat – pika</div> -->
 
 <div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>`;
 
@@ -1324,25 +1357,21 @@ useEffect(() => {
 
             bubblingMouseEvents: false,
 
-            pointToLayer: (feature, latlng) => {
+          pointToLayer: (feature, latlng) => {
+          const style = getFeatureStyle(
+            isBuilding,
+            feature.properties || {},
+            source
+          );
 
-              const style = getFeatureStyle(isBuilding, feature.properties || {}, source);
-
-              return L.circleMarker(latlng, {
-
-                ...style,
-
-                radius: 6,
-
-                pane: isBuilding
-
-                  ? "buildingPane"
-
-                  : "parcelPane",
-
-              });
-
-            },
+          return L.circleMarker(latlng, {
+            ...style,
+            radius: getPointRadius(map.getZoom()),
+            weight: map.getZoom() <= 12 ? 0.5 : 1.5,
+            fillOpacity: map.getZoom() <= 12 ? 0.55 : 0.9,
+            pane: isBuilding ? "buildingPane" : "parcelPane",
+          });
+        },
 
             /* ===============================================
 
@@ -1481,7 +1510,7 @@ useEffect(() => {
                   "sip2",
 
                 ]);
-
+                { /*
               const status =
 
                 source.colorType === "afishim"
@@ -1493,6 +1522,21 @@ useEffect(() => {
                     ? "Regjistruar"
 
                     : getStatus(properties);
+
+                    */}
+
+                    // Determine the status based on the source file
+                const isNoAccessPoint =
+                  source.display === "point" &&
+                  source.type === "building";
+
+                const status = isNoAccessPoint
+                  ? NO_ACCESS_STATUS
+                  : source.colorType === "afishim"
+                    ? "Në afishim"
+                    : source.colorType === "regjistruar"
+                      ? "Regjistruar"
+                      : getStatus(properties);
 
               /* =====================================================
 
@@ -1973,6 +2017,7 @@ useEffect(() => {
       // Shtresat tani janë në hartë: zbato pragun e zoom-it.
 
       updatePropertyLabels();
+      updatePointSizes();
 
       /* =====================================================
 
@@ -2221,6 +2266,7 @@ useEffect(() => {
       zoneBoundsRef.current = {};
 
       map.off("zoomend", updatePropertyLabels);
+      map.off("zoomend", updatePointSizes);
 
       map.off();
 

@@ -79,15 +79,114 @@
     "endDate": "-",
     "status": "waiting"
   },
+ [
   {
     "id": 5,
-    "bashkia": "Sarandë",
-    "drejtoriteVendore": [
-      "Sarandë"
+    "bashkia": "Finiq",
+    "drejtoriteVendore": ["Sarandë"],
+    "locations": [
+      "Finiq",
+      "Vrion",
+      "Karahaxhë",
+      "Bregas",
+      "Çlirim",
+      "Buronjë"
     ],
-    "locations": [],
-    "startDate": "-",
-    "endDate": "-",
-    "status": "waiting"
+    "startDate": "12.10.2026",
+    "endDate": "16.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 6,
+    "bashkia": "Finiq",
+    "drejtoriteVendore": ["Sarandë"],
+    "locations": [
+      "Aliko",
+      "Neohor",
+      "Çaush",
+      "Tremul",
+      "Rahullë",
+      "Jermë",
+      "Halo",
+      "Pllakë",
+      "Qenurjo",
+      "Dritas"
+    ],
+    "startDate": "19.10.2026",
+    "endDate": "27.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 7,
+    "bashkia": "Finiq",
+    "drejtoriteVendore": ["Sarandë"],
+    "locations": [
+      "Mesopotam",
+      "Brajlat",
+      "Sirakat",
+      "Kostar",
+      "Dhrovjan",
+      "Krongj",
+      "Muzinë",
+      "Peca",
+      "Bistricë",
+      "Velahovë",
+      "Livinë",
+      "Kardhikaq",
+      "Fitore",
+      "Krane",
+      "Ardhasovë"
+    ],
+    "startDate": "28.10.2026",
+    "endDate": "02.11.2026",
+    "status": "active"
+  },
+  {
+    "id": 8,
+    "bashkia": "Finiq",
+    "drejtoriteVendore": ["Sarandë"],
+    "locations": [
+      "Dhivër",
+      "Rumanxë",
+      "Memoraq",
+      "Navaricë",
+      "Dermish",
+      "Cerkovicë",
+      "Shëndre",
+      "Malcan",
+      "Leshnicë e Sipërme",
+      "Leshnicë e Poshtme",
+      "Janicat",
+      "Llupsat"
+    ],
+    "startDate": "03.11.2026",
+    "endDate": "09.11.2026",
+    "status": "active"
+  },
+  {
+    "id": 9,
+    "bashkia": "Finiq",
+    "drejtoriteVendore": ["Sarandë"],
+    "locations": [
+      "Livadhja",
+      "Lefter Talo",
+      "Llazat",
+      "Kalcat",
+      "Kodër",
+      "Gravë",
+      "Qesarat",
+      "Komat",
+      "Karroq",
+      "Grazhdan",
+      "Zminec",
+      "Pandelejmon",
+      "Vagalat",
+      "Sopik",
+      "Kulluricë"
+    ],
+    "startDate": "10.11.2026",
+    "endDate": "17.11.2026",
+    "status": "active"
   }
+]
 ]
