@@ -48,11 +48,297 @@
       "Karahaxhë",
       "Bregas",
       "Çlirim",
-      "Buronjë"
+      "Buronjë",
+      "Aliko",
+      "Neohor",
+      "Çaush",
+      "Tremul",
+      "Rahullë",
+      "Jermë",
+      "Halo",
+      "Pllakë",
+      "Qenurjo",
+      "Dritas",
+      "Mesopotam",
+      "Brajlat",
+      "Sirakat",
+      "Kostar",
+      "Dhrovjan",
+      "Krongj",
+      "Muzinë",
+      "Peca",
+      "Bistricë",
+      "Velahovë",
+      "Livinë",
+      "Kardhikaq",
+      "Fitore",
+      "Krane",
+      "Ardhasovë",
+      "Dhivër",
+      "Rumanxë",
+      "Memoraq",
+      "Navaricë",
+      "Dermish",
+      "Cerkovicë",
+      "Shëndre",
+      "Malcan",
+      "Leshnicë e Sipërme",
+      "Leshnicë e Poshtme",
+      "Janicat",
+      "Llupsat",
+      "Livadhja",
+      "Lefter Talo",
+      "Llazat",
+      "Kalcat",
+      "Kodër",
+      "Gravë",
+      "Qesarat",
+      "Komat",
+      "Karroq",
+      "Grazhdan",
+      "Zminec",
+      "Pandelejmon",
+      "Vagalat",
+      "Sopik",
+      "Kulluricë"
     ],
     "startDate": "12.10.2026",
-    "endDate": "16.10.2026",
-    "status": "active"
+    "endDate": "17.11.2026",
+    "status": "active",
+    "locationDates": {
+      "Finiq": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Vrion": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Karahaxhë": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Bregas": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Çlirim": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Buronjë": {
+        "startDate": "12.10.2026",
+        "endDate": "16.10.2026"
+      },
+      "Aliko": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Neohor": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Çaush": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Tremul": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Rahullë": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Jermë": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Halo": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Pllakë": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Qenurjo": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Dritas": {
+        "startDate": "19.10.2026",
+        "endDate": "27.10.2026"
+      },
+      "Mesopotam": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Brajlat": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Sirakat": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Kostar": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Dhrovjan": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Krongj": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Muzinë": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Peca": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Bistricë": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Velahovë": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Livinë": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Kardhikaq": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Fitore": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Krane": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Ardhasovë": {
+        "startDate": "28.10.2026",
+        "endDate": "02.11.2026"
+      },
+      "Dhivër": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Rumanxë": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Memoraq": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Navaricë": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Dermish": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Cerkovicë": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Shëndre": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Malcan": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Leshnicë e Sipërme": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Leshnicë e Poshtme": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Janicat": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Llupsat": {
+        "startDate": "03.11.2026",
+        "endDate": "09.11.2026"
+      },
+      "Livadhja": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Lefter Talo": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Llazat": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Kalcat": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Kodër": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Gravë": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Qesarat": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Komat": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Karroq": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Grazhdan": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Zminec": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Pandelejmon": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Vagalat": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Sopik": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      },
+      "Kulluricë": {
+        "startDate": "10.11.2026",
+        "endDate": "17.11.2026"
+      }
+    }
   },
   {
     "id": 3,
@@ -78,115 +364,5 @@
     "startDate": "-",
     "endDate": "-",
     "status": "waiting"
-  },
- [
-  {
-    "id": 5,
-    "bashkia": "Finiq",
-    "drejtoriteVendore": ["Sarandë"],
-    "locations": [
-      "Finiq",
-      "Vrion",
-      "Karahaxhë",
-      "Bregas",
-      "Çlirim",
-      "Buronjë"
-    ],
-    "startDate": "12.10.2026",
-    "endDate": "16.10.2026",
-    "status": "active"
-  },
-  {
-    "id": 6,
-    "bashkia": "Finiq",
-    "drejtoriteVendore": ["Sarandë"],
-    "locations": [
-      "Aliko",
-      "Neohor",
-      "Çaush",
-      "Tremul",
-      "Rahullë",
-      "Jermë",
-      "Halo",
-      "Pllakë",
-      "Qenurjo",
-      "Dritas"
-    ],
-    "startDate": "19.10.2026",
-    "endDate": "27.10.2026",
-    "status": "active"
-  },
-  {
-    "id": 7,
-    "bashkia": "Finiq",
-    "drejtoriteVendore": ["Sarandë"],
-    "locations": [
-      "Mesopotam",
-      "Brajlat",
-      "Sirakat",
-      "Kostar",
-      "Dhrovjan",
-      "Krongj",
-      "Muzinë",
-      "Peca",
-      "Bistricë",
-      "Velahovë",
-      "Livinë",
-      "Kardhikaq",
-      "Fitore",
-      "Krane",
-      "Ardhasovë"
-    ],
-    "startDate": "28.10.2026",
-    "endDate": "02.11.2026",
-    "status": "active"
-  },
-  {
-    "id": 8,
-    "bashkia": "Finiq",
-    "drejtoriteVendore": ["Sarandë"],
-    "locations": [
-      "Dhivër",
-      "Rumanxë",
-      "Memoraq",
-      "Navaricë",
-      "Dermish",
-      "Cerkovicë",
-      "Shëndre",
-      "Malcan",
-      "Leshnicë e Sipërme",
-      "Leshnicë e Poshtme",
-      "Janicat",
-      "Llupsat"
-    ],
-    "startDate": "03.11.2026",
-    "endDate": "09.11.2026",
-    "status": "active"
-  },
-  {
-    "id": 9,
-    "bashkia": "Finiq",
-    "drejtoriteVendore": ["Sarandë"],
-    "locations": [
-      "Livadhja",
-      "Lefter Talo",
-      "Llazat",
-      "Kalcat",
-      "Kodër",
-      "Gravë",
-      "Qesarat",
-      "Komat",
-      "Karroq",
-      "Grazhdan",
-      "Zminec",
-      "Pandelejmon",
-      "Vagalat",
-      "Sopik",
-      "Kulluricë"
-    ],
-    "startDate": "10.11.2026",
-    "endDate": "17.11.2026",
-    "status": "active"
   }
-]
 ]

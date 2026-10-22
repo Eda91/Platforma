@@ -9,6 +9,7 @@ import "leaflet/dist/leaflet.css";
 import "./doortodoor.css";
 
 import zonesData from "./data/zones.json";
+import PALASE_STATUSES from "./data/Palase_Statuset_Verifikuara.json";
 /* =========================================================
 
    KONFIGURIMI
@@ -22,17 +23,24 @@ const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 // Vetëm këto dy burime lejohen të shfaqen si pika.
 
 const POINT_GEOJSON_FILES = new Set([
-
- // "PALASE_Ndertesat_total_POINT1.geojson",
-
- // "Jugu_Ndertesat_total_POINT_PALASE.geojson",
-
- // "NE AFISHIM.geojson", // Statusi Në afishim: pika blu
-// "NE AFISHIM_perf.geojson",
- "PALASE_Ndertesat_total_POINT_perf.geojson",
- "PALASE_TE_GJITHA_perf.geojson"
-
+  "NE AFISHIM_perf.geojson",
+  "PALASE_Ndertesat_total_POINT_perf.geojson",
+  "ILIAS_Ndertesat_total_POINT.geojson",
+  "PALASE_TE_GJITHA_perf.geojson",
 ]);
+
+// Build a stable geometry key to prevent the same mapped object from loading twice.
+// Keep point and polygon geometries distinct, even when they share a location.
+function getGeometryDuplicateKey(feature, zone, type) {
+  const geometry = feature?.geometry;
+  if (!geometry?.coordinates) return null;
+
+  const roundedCoordinates = JSON.stringify(geometry.coordinates, (_key, value) =>
+    typeof value === "number" ? Math.round(value * 1e7) / 1e7 : value
+  );
+
+  return `${zone}|${type}|${geometry.type}|${roundedCoordinates}`;
+}
 
 const GEOJSON_FILES = [
 
@@ -80,10 +88,10 @@ const GEOJSON_FILES = [
 
  { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
 
- // { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
- //{ file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
- { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
- //{ file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
+  { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
+  { file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+  { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Banesa pa akses", zone: "palase", type: "building", display: "point", colorType: "noAccess" },
+  { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Evidentime në terren", zone: "palase", type: "survey", display: "point" },
 
 ];
 
@@ -251,47 +259,95 @@ function getProperty(properties, keys) {
 }
 
 function getStatus(properties) {
-
   const rawStatus = getProperty(properties, [
-
     "status",
-
     "statusi",
-
     "gjendja",
-
     "tipologjia",
-
     "category",
-
     "kategori",
-
+    "shenime",
+    "shënime",
+    "pershkrimi",
+    "përshkrimi",
   ]);
 
-  const status = normalize(rawStatus);
+  const status = normalize(rawStatus)
+    .replace(/[_-]/g, " ")
+    .replace(/\s+/g, " ");
 
   if (
-
     status.includes("pa akses") ||
-
-    status.includes("pa_akses") ||
-
     status.includes("no access") ||
-
     status.includes("pin location")
-
   ) {
-
     return NO_ACCESS_STATUS;
+  }
 
+  if (
+    status.includes("mungese dokumentacioni") ||
+    status.includes("mungon dokumentacioni") ||
+    status.includes("pa dokumentacion") ||
+    status.includes("nuk ka dosje") ||
+    status.includes("s ka dosje")
+  ) {
+    return "Mungesë dokumentacioni";
+  }
+
+  if (
+    status.includes("proces gjyqesor") ||
+    status.includes("ne proces") ||
+    status.includes("tjeter") ||
+    status.includes("te tjera")
+  ) {
+    return "Të tjera";
+  }
+
+  if (status.includes("afishim")) {
+    return "Në afishim";
+  }
+
+  if (status.includes("regjistruar")) {
+    return "Regjistruar";
   }
 
   return rawStatus
-
     ? String(rawStatus)
-
     : "Status i papërcaktuar";
+}
+// Classify statuses from the actual GeoJSON attributes.
+function getStatusCategory(status) {
+  const value = normalize(status).replace(/[_-]/g, " ").replace(/\s+/g, " ");
+  if (value.includes("pa akses") || value.includes("pin location")) return "paAkses";
+  if (value.includes("munges") && (value.includes("dokument") || value.includes("dosje"))) return "mungeseDokumentacioni";
+  if (value.includes("ska dosje") || value.includes("s'ka dosje") || value.includes("nuk ka dosje")) return "mungeseDokumentacioni";
+  if (value.includes("afishim")) return "afishim";
+  if (value.includes("miratuar me vendim") || value.includes("pajisur me vendim")) return "miratuar";
+  if (value.includes("regjistruar")) return "regjistruar";
+  if (value.includes("proces gjyqesor") || value.includes("tjeter") || value.includes("te tjera")) return "teTjera";
+  if (value === "evidentuar") return "evidentuar";
+  return "papercaktuar";
+}
 
+// Survey classifications are based only on explicit status notes.
+function normalizePersonName(value) {
+  return normalize(value).replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+// Use the ASHK table only when the full name has one unambiguous category.
+function getSurveyStatus(properties) {
+  const name = getProperty(properties, ["EMER_MBIEM", "NAME"]);
+  const match = PALASE_STATUSES[normalizePersonName(name)];
+  if (!match) return "Evidentuar";
+
+  const category = normalize(match.category);
+  if (category.includes("munges") || category.includes("ska dosje")) return "Mungesë dokumentacioni";
+  if (category.includes("afishim")) return "Në afishim";
+  if (category.includes("paakses")) return NO_ACCESS_STATUS;
+  if (category.includes("shqyrtim")) return "Në shqyrtim dokumentacioni";
+  if (category.includes("pajisur me vendim")) return "Pajisur me vendim";
+  if (category.includes("tjeter")) return "Të tjera";
+  return "Evidentuar";
 }
 
 function getFeatureStyle(isBuilding, properties, source = {}) {
@@ -307,6 +363,24 @@ function getFeatureStyle(isBuilding, properties, source = {}) {
     };
 
   }
+
+  if (source.colorType === "noAccess") return { ...COLORS.noAccess };
+  if (source.type === "survey") {
+    const category = getStatusCategory(getSurveyStatus(properties));
+    if (category === "miratuar") return { color: "#0f766e", fillColor: "#14b8a6", weight: 2, fillOpacity: 0.9 };
+    if (category === "mungeseDokumentacioni") return { color: "#a16207", fillColor: "#facc15", weight: 2, fillOpacity: 0.9 };
+    if (category === "teTjera") return { color: "#475569", fillColor: "#94a3b8", weight: 2, fillOpacity: 0.9 };
+    return { color: "#92400e", fillColor: "#fb923c", weight: 2, fillOpacity: 0.9 };
+  }
+
+  const category = getStatusCategory(getStatus(properties));
+  if (category === "mungeseDokumentacioni") {
+    return { color: "#a16207", fillColor: "#facc15", weight: 2, opacity: 1, fillOpacity: 0.75 };
+  }
+  if (category === "teTjera") {
+    return { color: "#475569", fillColor: "#94a3b8", weight: 2, opacity: 1, fillOpacity: 0.7 };
+  }
+
 
   if (source.colorType === "regjistruar") {
 
@@ -329,7 +403,7 @@ if (
   source.file === "PALASE_Ndertesat_total_POINT1.geojson" ||
   source.file === "Jugu_Ndertesat_total_POINT_PALASE.geojson"
 ) {
-  return { ...COLORS.noAccess };
+  return source.colorType === "noAccess" ? { ...COLORS.noAccess } : { ...COLORS.point };
 }
 
   }
@@ -832,7 +906,7 @@ useEffect(() => {
 
       if (!tooltip || !map.hasLayer(layer)) return;
 
-      if (showLabels && layer._doorToDoorType === mode) {
+      if (showLabels) {
 
         layer.openTooltip();
 
@@ -877,40 +951,23 @@ useEffect(() => {
   );
 
   const statistics = useMemo(() => {
-
+    const byType = (type) => zoneRecords.filter((item) => item.type === type).length;
+    const byCategory = (category) => zoneRecords.filter((item) => getStatusCategory(item.status) === category).length;
     return {
-
       total: zoneRecords.length,
-
-      parcels: zoneRecords.filter(
-
-        (item) => item.type === "parcel"
-
-      ).length,
-
-      buildings: zoneRecords.filter(
-
-        (item) => item.type === "building"
-
-      ).length,
-
-      afishim: zoneRecords.filter(
-
-        (item) => normalize(item.status) === "ne afishim"
-
-      ).length,
-
-      regjistruar: zoneRecords.filter(
-
-        (item) => normalize(item.status) === "regjistruar"
-
-      ).length,
-
-      paAkses: noAccessRecords.length,
-
+      parcels: byType("parcel"),
+      buildings: byType("building"),
+      evidentime: byType("survey"),
+      afishim: byCategory("afishim"),
+      regjistruar: byCategory("regjistruar"),
+      paAkses: byCategory("paAkses"),
+      miratuar: byCategory("miratuar"),
+      mungeseDokumentacioni: byCategory("mungeseDokumentacioni"),
+      teTjera: byCategory("teTjera"),
+      paStatus: byCategory("papercaktuar"),
+      evidentimePaStatus: zoneRecords.filter((item) => item.type === "survey" && getStatusCategory(item.status) === "evidentuar").length,
     };
-
-  }, [zoneRecords, noAccessRecords]);
+  }, [zoneRecords]);
 
   const filteredRecords = useMemo(() => {
 
@@ -991,36 +1048,20 @@ useEffect(() => {
     // Kontrolli kryhet edhe pasi ngarkohen GeoJSON-et asinkronisht.
 
     const updatePropertyLabels = () => {
-
       if (disposed || mapRef.current !== map) return;
-
-      const showLabels = map.getZoom() > 12;
-
-      const fontSize = getPropertyLabelSize(map.getZoom());
-
-          map.getContainer().style.setProperty(
-
-            "--property-label-size",
-
-            `${fontSize}px`
-
-          );
-
-      const currentMode = clickModeRef.current;
-
-      Object.values(featureLayersRef.current).forEach((layer) => {
-
-        if (!layer.getTooltip?.()) return;
-
-        const isRegistered = layer._doorToDoorRegistered === true;
-
-       const shouldShow =
-          showLabels &&
-          (layer._doorToDoorType === "parcel" ||
-          layer._doorToDoorType === "building");
-
-              });
-
+      const zoom = map.getZoom();
+      map.getContainer().style.setProperty(
+        "--property-label-size", `${getPropertyLabelSize(zoom)}px`
+      );
+      Object.values(zoneLayersRef.current).forEach((entries) => {
+        entries.forEach(({ layer: group }) => {
+          group.eachLayer((featureLayer) => {
+            if (!featureLayer.getTooltip?.()) return;
+            if (zoom > 12 && map.hasLayer(group)) featureLayer.openTooltip();
+            else featureLayer.closeTooltip();
+          });
+        });
+      });
     };
 
     // Update point marker sizes based on zoom level
@@ -1082,11 +1123,11 @@ map.on("zoomend", updatePointSizes);
 
       map.getPane("parcelPane").style.pointerEvents =
 
-        mode === "parcel" ? "auto" : "none";
+        "auto";
 
       map.getPane("buildingPane").style.pointerEvents =
 
-        mode === "building" ? "auto" : "none";
+        "auto";
 
     };
 
@@ -1194,18 +1235,19 @@ map.on("zoomend", updatePointSizes);
 
         div.innerHTML = `
 
-<strong>Legjenda</strong>
-<!-- <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div> -->
+        <strong>Legjenda</strong>
+        <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
 
- <!-- <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div> -->
+        <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
 
- <!-- <div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div> -->
+        <div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div>
 
- <!-- <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div> -->
+        <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div>
 
-<!-- <div><i class="legend-point" style="background:#facc15;border:2px solid #a16207"></i> Ndërtesat – pika</div> -->
-
-<div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>`;
+        <div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>
+        <div><i style="background:#facc15;border:2px solid #a16207"></i> Mungesë dokumentacioni</div>
+        <div><i style="background:#94a3b8;border:2px solid #475569"></i> Të tjera</div>
+        <div><i class="legend-point" style="background:#100cea;border:2px solid #100cea"></i> Evidentime në terren</div>`;
 
         L.DomEvent.disableClickPropagation(div);
 
@@ -1226,6 +1268,9 @@ map.on("zoomend", updatePointSizes);
     \===================================================== */
 
     const allRecords = [];
+
+    const seenGeoJSONFeatures = new Set();
+    let skippedDuplicates = 0;
 
     const boundsByZone = {};
 
@@ -1309,11 +1354,17 @@ map.on("zoomend", updatePointSizes);
 
             : new Set(["Polygon", "MultiPolygon"]);
 
-          const features = allFeatures.filter((feature) =>
+          const features = allFeatures.filter((feature) => {
+            if (!allowedGeometries.has(feature.geometry.type)) return false;
 
-            allowedGeometries.has(feature.geometry.type)
-
-          );
+            const key = getGeometryDuplicateKey(feature, source.zone, source.type);
+            if (key && seenGeoJSONFeatures.has(key)) {
+              skippedDuplicates += 1;
+              return false;
+            }
+            if (key) seenGeoJSONFeatures.add(key);
+            return true;
+          });
 
           if (features.length === 0) {
 
@@ -1460,6 +1511,10 @@ map.on("zoomend", updatePointSizes);
                   "STRING",
 
                   "Numri_i_pa",
+                  "property_n",
+                  "label",
+                   "property_n",
+                   "label",
 
                 ]) ?? "";
 
@@ -1510,27 +1565,14 @@ map.on("zoomend", updatePointSizes);
                   "sip2",
 
                 ]);
-                { /*
-              const status =
 
-                source.colorType === "afishim"
-
-                  ? "Në afishim"
-
-                  : source.colorType === "regjistruar"
-
-                    ? "Regjistruar"
-
-                    : getStatus(properties);
-
-                    */}
 
                     // Determine the status based on the source file
-                const isNoAccessPoint =
-                  source.display === "point" &&
-                  source.type === "building";
+                const isNoAccessPoint = source.colorType === "noAccess";
 
-                const status = isNoAccessPoint
+                const status = source.type === "survey"
+                  ? getSurveyStatus(properties)
+                  : isNoAccessPoint
                   ? NO_ACCESS_STATUS
                   : source.colorType === "afishim"
                     ? "Në afishim"
@@ -1654,177 +1696,18 @@ map.on("zoomend", updatePointSizes);
 
               \===================================================== */
 
-              const popupContainer = document.createElement("div");
-
-              popupContainer.className = "doortodoor-popup";
-
-              popupContainer.style.minWidth = "280px";
-
-              popupContainer.style.maxWidth = "400px";
-
-              const popupTitle = document.createElement("strong");
-
-              popupTitle.textContent = isBuilding
-
-                ? "Informacion mbi ndërtesën"
-
-                : "Informacion mbi parcelën";
-
-              popupTitle.style.display = "block";
-
-              popupTitle.style.marginBottom = "10px";
-
-              popupTitle.style.fontSize = "14px";
-
-              popupTitle.style.color = "#0f172a";
-
-              popupContainer.appendChild(popupTitle);
-
-              /* =========================================
-
-                 TË GJITHA FUSHAT
-
-              \========================================= */
-
-              const popupFields = [
-
-                ["Tipi", isBuilding ? "Ndërtesë" : "Parcelë"],
-
-                [
-
-                  isBuilding
-
-                    ? "Nr. pasurie ndërtesë"
-
-                    : "Nr. pasurie parcelë",
-
-                  nrPasurie || "—",
-
-                ],
-
-                [
-
-                  "Sipërfaqja",
-
-                  getProperty(properties, ["SIP", "sip"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Bashkia",
-
-                  getProperty(properties, ["BASHKIA", "bashkia"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Zona kadastrale",
-
-                  getProperty(properties, ["ZK", "zk"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Adresa",
-
-                  getProperty(properties, ["ADRESA", "adresa"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Poseduesi",
-
-                  getProperty(properties, ["POSEDUESI", "poseduesi"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Nr. unik",
-
-                  getProperty(properties, ["NR_UNIK", "nr_unik"]) ?? "—",
-
-                ],
-
-                [
-
-                  "Zona",
-
-                  getProperty(properties, ["ZONA", "zona"]) ?? "—",
-
-                ],
-
-              ];
-
-              /* =========================================
-
-                 KRIJO RRESHTAT
-
-              \========================================= */
-
-              popupFields.forEach(([label, value]) => {
-
-                const row = document.createElement("div");
-
-                row.style.display = "flex";
-
-                row.style.justifyContent = "space-between";
-
-                row.style.alignItems = "flex-start";
-
-                row.style.gap = "12px";
-
-                row.style.padding = "6px 0";
-
-                row.style.borderBottom = "1px solid #e5e7eb";
-
-                row.style.fontSize = "12px";
-
-                const labelElement = document.createElement("span");
-
-                labelElement.textContent = label;
-
-                labelElement.style.color = "#64748b";
-
-                labelElement.style.flexShrink = "0";
-
-                const valueElement = document.createElement("strong");
-
-                valueElement.textContent = String(value);
-
-                valueElement.style.color = "#0f172a";
-
-                valueElement.style.textAlign = "right";
-
-                valueElement.style.overflowWrap = "anywhere";
-
-                row.append(labelElement, valueElement);
-
-                popupContainer.appendChild(row);
-
-              });
-
-              /* =========================================
-
-                 POPUP
-
-              \========================================= */
-
-              polygonLayer.bindPopup(popupContainer, {
-
-                maxWidth: 400,
-
-                autoPan: true,
-
-                closeButton: true,
-
-              });
-
-              /* =====================================================
+               const popupContainer = createPopup(
+                 properties,
+                 isBuilding ? "Informacion mbi ndërtesën" : "Informacion mbi parcelën",
+                 status
+               );
+               polygonLayer.bindPopup(popupContainer, {
+                 maxWidth: 420,
+                 autoPan: true,
+                 closeButton: true,
+               });
+
+/* =====================================================
 
                 STILI ORIGJINAL
 
@@ -2025,6 +1908,7 @@ map.on("zoomend", updatePointSizes);
 
       \===================================================== */
 
+      console.info(`[GeoJSON] Skipped ${skippedDuplicates} duplicate geometries.`);
       setRecords([...allRecords]);
 
       setLoading(false);
@@ -2442,11 +2326,11 @@ map.on("zoomend", updatePointSizes);
 
     parcelPane.style.pointerEvents =
 
-      clickMode === "parcel" ? "auto" : "none";
+      "auto";
 
     buildingPane.style.pointerEvents =
 
-      clickMode === "building" ? "auto" : "none";
+      "auto";
 
   }, [clickMode]);
 
@@ -2752,15 +2636,13 @@ map.on("zoomend", updatePointSizes);
 
           {/* STATISTIKAT */}
 
-          {/*}
-
           <section className="dashboard-kpis">
 
             <div className="kpi-card">
 
               <span>
 
-                Objekte te shqyrtuara
+                Gjeometri unike (jo domosdoshmërisht objekte të shqyrtuara)
 
               </span>
 
@@ -2789,9 +2671,6 @@ map.on("zoomend", updatePointSizes);
             </div>
 
           </section>
-          */}
-
-          {/*
 
           <section className="dashboard-section">
 
@@ -2875,10 +2754,6 @@ map.on("zoomend", updatePointSizes);
 
           </section>
 
-          */}
-
-          {/*
-
           {/* LEGJENDA */}
 
           <section className="dashboard-section">
@@ -2909,11 +2784,10 @@ map.on("zoomend", updatePointSizes);
 
                 },
 
-                /*
 
                 {
 
-                  label: "Parcelat",
+                  label: "Pika në afishim (lloji: parcelë)",
 
                   count: statistics.parcels,
 
@@ -2927,7 +2801,7 @@ map.on("zoomend", updatePointSizes);
 
                 {
 
-                  label: "Ndërtesat",
+                  label: "Ndërtesa gjithsej",
 
                   count: statistics.buildings,
 
@@ -2967,7 +2841,36 @@ map.on("zoomend", updatePointSizes);
 
                 },
 
-                */
+
+                {
+                  label: "Mungesë dokumentacioni",
+                  count: statistics.mungeseDokumentacioni,
+                  color: "#facc15",
+                  border: "#a16207",
+                  shape: "square",
+                },
+                {
+                  label: "Evidentime në terren (gjithsej)",
+                  count: statistics.evidentime,
+                  color: "#100cea", border: "#100cea", shape: "circle",
+                },
+                {
+                  label: "Evidentime – miratuar me vendim",
+                  count: statistics.miratuar,
+                  color: "#14b8a6", border: "#0f766e", shape: "circle",
+                },
+                {
+                  label: "Evidentime – status për verifikim",
+                  count: statistics.evidentimePaStatus,
+                  color: "#fb923c", border: "#92400e", shape: "circle",
+                },
+                {
+                  label: "Të tjera",
+                  count: statistics.teTjera,
+                  color: "#94a3b8",
+                  border: "#475569",
+                  shape: "square",
+                },
 
               ].map((item) => (
 

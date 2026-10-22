@@ -13,19 +13,24 @@ const normalize = (value = "") =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
+const getCalendarLocations = (calendar) => calendar.locations || [];
+
 const belongsToCalendar = (zone, calendar) => {
   if (!calendar) return false;
-  const sameBashkia =
-    normalize(zone.bashkia) === normalize(calendar.bashkia);
-  const sameNjesia =
-    !calendar.njesiaAdministrative ||
-    normalize(zone.njesiaAdministrative) ===
-    normalize(calendar.njesiaAdministrative);
-  const sameLocation = (calendar.locations || []).some(
+  const sameBashkia = normalize(zone.bashkia) === normalize(calendar.bashkia);
+  const sameNjesia = !calendar.njesiaAdministrative ||
+    normalize(zone.njesiaAdministrative) === normalize(calendar.njesiaAdministrative);
+  const sameLocation = getCalendarLocations(calendar).some(
     (location) => normalize(location) === normalize(zone.fshati)
   );
   return sameBashkia && sameNjesia && sameLocation;
 };
+
+const getCalendarDates = (calendar) => ({
+  startDate: calendar.startDate || "-",
+  endDate: calendar.endDate || "-",
+});
+
 const createZoneSlug = (name = "") =>
   normalize(name)
     .replace(/\s+/g, "-")
@@ -39,13 +44,12 @@ const parseDate = (value) => {
     Number(day)
   );
 };
-const getZoneStatus = (zone) => {
+const getZoneStatus = (zone, period = zone) => {
   if (Array.isArray(zone.applications) && zone.applications.length > 0) return "completed";
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  if (!zone.startDate || !zone.endDate) return "planned";
-  const start = parseDate(zone.startDate);
-  const end = parseDate(zone.endDate);
+  if (!period?.startDate || !period?.endDate || period.startDate === "-") return "planned";
+  const start = parseDate(period.startDate);
   if (today < start) return "planned";
   return "review";
 };
@@ -129,16 +133,14 @@ export default function PublicDashboard() {
     const zone = ZONES.find((z) => normalize(z.zk) === query) ||
       ZONES.find((z) => normalize(z.fshati) === query);
     if (!zone) return 0;
-    const municipalityAgenda = useMemo(
-      () =>
-        CALENDAR.map((item) => ({
-          ...item,
-          zones: ZONES.filter((zone) => belongsToCalendar(zone, item)),
-          agendaStatus: item.status || "waiting",
-          canOpen: ["active", "completed"].includes(item.status),
-        })),
-      []
+    const group = municipalityAgenda.find((item) =>
+      item.zones.some((candidate) => String(candidate.id) === String(zone.id))
     );
+    if (group) {
+      setSelectedCalendar(group);
+      setShowAllZonesByStatus(false);
+      setStatusFilter("all");
+    }
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const el = zoneRefs.current[String(zone.id)];
       el?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -206,33 +208,58 @@ export default function PublicDashboard() {
     }
     return "active";
   };
-  /* ======================================================
-     KALENDAR NGA calendar.json
-     Çdo rekord i calendar.json qëndron më vete.
-     Nuk grupojmë më sipas bashkisë.
-     ====================================================== */
+  /* Group municipalities while preserving village-specific dates. */
   const municipalityAgenda = useMemo(() => {
-    return [...CALENDAR].map((calendarItem) => {
-      const locations =
-        calendarItem.locations || [];
+    const groups = new Map();
+    CALENDAR.forEach((entry) => {
+      const key = normalize(entry.bashkia);
+      if (!key) return;
+      if (!groups.has(key)) {
+        groups.set(key, {
+          ...entry,
+          locations: [],
+          locationDates: {},
+          drejtoriteVendore: [],
+        });
+      }
+      const group = groups.get(key);
+      group.locations.push(...(entry.locations || []));
+      Object.assign(group.locationDates, entry.locationDates || {});
+      const offices = Array.isArray(entry.drejtoriteVendore)
+        ? entry.drejtoriteVendore
+        : [entry.drejtoriteVendore].filter(Boolean);
+      offices.forEach((office) => {
+        if (office && !group.drejtoriteVendore.includes(office)) {
+          group.drejtoriteVendore.push(office);
+        }
+      });
+    });
+
+    return [...groups.values()].map((group) => {
+      const calendarLocations = [...new Set(group.locations)];
+      const zoneNames = new Set(calendarLocations.map(normalize));
       const zones = ZONES.filter((zone) =>
-        locations.some(
-          (location) =>
-            normalize(location) ===
-            normalize(zone.fshati)
-        )
+        normalize(zone.bashkia) === normalize(group.bashkia) &&
+        zoneNames.has(normalize(zone.fshati))
       );
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const start = group.startDate && group.startDate !== "-" ? parseDate(group.startDate) : null;
+      const end = group.endDate && group.endDate !== "-" ? parseDate(group.endDate) : null;
+      if (end) end.setHours(23, 59, 59, 999);
+      const agendaStatus = !start || !end ? "waiting"
+        : today < start ? "waiting"
+        : today > end ? "completed" : "active";
       return {
-        ...calendarItem,
+        ...group,
+        locations: calendarLocations,
         zones,
-        agendaStatus:
-          calendarItem.status || "waiting",
-        canOpen:
-          calendarItem.status === "active" ||
-          calendarItem.status === "completed",
+        agendaStatus,
+        canOpen: agendaStatus !== "waiting",
       };
     });
   }, []);
+
   /* ======================================================
      FILTER ZONES
      ====================================================== */
@@ -248,6 +275,24 @@ export default function PublicDashboard() {
         (statusFilter === "all" || getZoneStatus(zone) === statusFilter);
     });
   }, [selectedCalendar, showAllZonesByStatus, search, statusFilter]);
+
+  // Display all villages in one continuous table.
+  const displayZones = filteredZones;
+
+  // Resolve dates directly from the village entry, without phases.
+  const getZonePeriod = (zone) => {
+    const calendar = selectedCalendar || municipalityAgenda.find(
+      (item) => normalize(item.bashkia) === normalize(zone.bashkia)
+    );
+    const entry = Object.entries(calendar?.locationDates || {}).find(
+      ([name]) => normalize(name) === normalize(zone.fshati)
+    );
+    const period = entry?.[1];
+    return {
+      startDate: period?.startDate || zone.startDate || calendar?.startDate || "-",
+      endDate: period?.endDate || zone.endDate || calendar?.endDate || "-",
+    };
+  };
 
   const handleStatusCardClick = (status) => {
     const isActive = showAllZonesByStatus && statusFilter === status;
@@ -361,6 +406,26 @@ export default function PublicDashboard() {
      ====================================================== */
   return (
     <div className="public-dashboard">
+      <style>{`
+/* Keep all seven columns aligned on desktop. */
+@media (min-width: 769px) {
+  .public-dashboard .zones-table {
+    overflow-x: auto;
+  }
+  .public-dashboard .zones-table .zones-table-head,
+  .public-dashboard .zones-table .zone-row {
+    display: grid;
+    grid-template-columns: minmax(65px, .65fr) minmax(120px, 1.2fr) minmax(90px, .9fr) minmax(160px, 1.5fr) minmax(120px, 1.1fr) minmax(190px, 1.7fr) 28px;
+    align-items: center;
+    min-width: 890px;
+    column-gap: 10px;
+  }
+  .public-dashboard .zones-table .zone-cell {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+      `}</style>
       {/* =================================================
           HEADER
           ================================================= */}
@@ -705,11 +770,12 @@ export default function PublicDashboard() {
                 <span>ZK</span>
                 <span>Fshati</span>
                 <span>Bashkia</span>
+                <span>Njësia Administrative</span>
                 <span>Statusi</span>
                 <span>Afati</span>
                 <span />
               </div>
-              {filteredZones.map(
+              {displayZones.map(
                 (zone) => (
                   <button
                     type="button"
@@ -717,10 +783,10 @@ export default function PublicDashboard() {
                     // className="zone-row disabled"
                     key={zone.id}
                     ref={(el) => { zoneRefs.current[String(zone.id)] = el; }}
-                    disabled={getZoneStatus(zone) !== "completed"}
+                    disabled={getZoneStatus(zone, getZonePeriod(zone)) !== "completed"}
                     // disabled
                     onClick={() => {
-                      if (getZoneStatus(zone) === "completed") {
+                      if (getZoneStatus(zone, getZonePeriod(zone)) === "completed") {
                         setSelectedZone(zone);
                       }
                     }}
@@ -751,14 +817,22 @@ export default function PublicDashboard() {
                     </div>
                     <div className="zone-cell">
                       <small>
+                        Njësia Administrative
+                      </small>
+                      <span>
+                        {zone.njesiaAdministrative || (normalize(zone.bashkia) === "finiq" && ["finiq", "vrion", "karahaxhe", "bregas", "clirim", "buronje"].includes(normalize(zone.fshati)) ? "Finiq" : "—")}
+                      </span>
+                    </div>
+                    <div className="zone-cell">
+                      <small>
                         Statusi
                       </small>
                       <span
-                        className={`zone-status ${getZoneStatus(zone)}`}
+                        className={`zone-status ${getZoneStatus(zone, getZonePeriod(zone))}`}
                       >
-                        {getZoneStatus(zone) === "completed"
+                        {getZoneStatus(zone, getZonePeriod(zone)) === "completed"
                           ? "Përfunduar"
-                          : getZoneStatus(zone) === "review"
+                          : getZoneStatus(zone, getZonePeriod(zone)) === "review"
                             ? "Në shqyrtim"
                             : "Planifikuar"}
                       </span>
@@ -768,11 +842,9 @@ export default function PublicDashboard() {
                         Afati
                       </small>
                       <span>
-                        {zone.startDate ||
-                          selectedCalendar?.startDate}
+                        {getZonePeriod(zone).startDate}
                         {" — "}
-                        {zone.endDate ||
-                          selectedCalendar?.endDate}
+                        {getZonePeriod(zone).endDate}
                       </span>
                     </div>
                     <span className="zone-arrow">
@@ -838,13 +910,9 @@ export default function PublicDashboard() {
                   evidentimit
                 </span>
                 <strong>
-                  {selectedZone.startDate ||
-                    selectedCalendar
-                      ?.startDate}
+                  {getZonePeriod(selectedZone).startDate}
                   {" — "}
-                  {selectedZone.endDate ||
-                    selectedCalendar
-                      ?.endDate}
+                  {getZonePeriod(selectedZone).endDate}
                 </strong>
               </div>
               <div>
