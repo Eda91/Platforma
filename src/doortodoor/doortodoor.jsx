@@ -28,7 +28,7 @@ const POINT_GEOJSON_FILES = new Set([
  // "Jugu_Ndertesat_total_POINT_PALASE.geojson",
 
  // "NE AFISHIM.geojson", // Statusi Në afishim: pika blu
- "NE AFISHIM_perf.geojson",
+// "NE AFISHIM_perf.geojson",
  "PALASE_Ndertesat_total_POINT_perf.geojson",
  "PALASE_TE_GJITHA_perf.geojson"
 
@@ -81,9 +81,9 @@ const GEOJSON_FILES = [
  { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
 
  // { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
- { file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+ //{ file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
  { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
- { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
+ //{ file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
 
 ];
 
@@ -1195,13 +1195,13 @@ map.on("zoomend", updatePointSizes);
         div.innerHTML = `
 
 <strong>Legjenda</strong>
- <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
+<!-- <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div> -->
 
- <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
+ <!-- <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div> -->
 
-<div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div>
+ <!-- <div><i class="legend-point" style="background:#3b82f6;border:2px solid #1d4ed8"></i> Në afishim</div> -->
 
- <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div> 
+ <!-- <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div> -->
 
 <!-- <div><i class="legend-point" style="background:#facc15;border:2px solid #a16207"></i> Ndërtesat – pika</div> -->
 
@@ -2752,6 +2752,8 @@ map.on("zoomend", updatePointSizes);
 
           {/* STATISTIKAT */}
 
+          {/*}
+
           <section className="dashboard-kpis">
 
             <div className="kpi-card">
@@ -2787,6 +2789,9 @@ map.on("zoomend", updatePointSizes);
             </div>
 
           </section>
+          */}
+
+          {/*
 
           <section className="dashboard-section">
 
@@ -2870,6 +2875,10 @@ map.on("zoomend", updatePointSizes);
 
           </section>
 
+          */}
+
+          {/*
+
           {/* LEGJENDA */}
 
           <section className="dashboard-section">
@@ -2883,6 +2892,24 @@ map.on("zoomend", updatePointSizes);
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "13px" }}>
 
               {[
+
+            
+
+                {
+
+                  label: "Banesa pa akses",
+
+                  count: statistics.paAkses,
+
+                  color: "#ef4444",
+
+                  border: "#b91c1c",
+
+                  shape: "circle",
+
+                },
+
+                /*
 
                 {
 
@@ -2914,20 +2941,6 @@ map.on("zoomend", updatePointSizes);
 
                 {
 
-                  label: "Banesa pa akses",
-
-                  count: statistics.paAkses,
-
-                  color: "#ef4444",
-
-                  border: "#b91c1c",
-
-                  shape: "circle",
-
-                },
-
-                {
-
                   label: "Në afishim",
 
                   count: statistics.afishim ?? 0,
@@ -2953,6 +2966,8 @@ map.on("zoomend", updatePointSizes);
                   shape: "circle",
 
                 },
+
+                */
 
               ].map((item) => (
 
@@ -3050,6 +3065,8 @@ map.on("zoomend", updatePointSizes);
 
           {/* KËRKIMI */}
 
+          {/*
+
           <section className="dashboard-section">
 
             <div className="dashboard-section-title">
@@ -3076,6 +3093,7 @@ map.on("zoomend", updatePointSizes);
             </div>
 
           </section>
+          */}
 
           {/* BANESAT PA AKSES */}
           {/*
