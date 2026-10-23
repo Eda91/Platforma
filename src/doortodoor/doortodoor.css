@@ -1018,7 +1018,267 @@ body {
   box-shadow: none !important;
 }
 
+/* Login overlay */
+.door-login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 
+.door-login-overlay,
+.door-login-overlay * {
+  box-sizing: border-box;
+}
+
+/* Login card */
+.door-login-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 36px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  background: #fff;
+  color: #0f172a;
+  font-family: inherit;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+}
+
+.door-login-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.door-login-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Heading */
+.door-login-heading {
+  margin-bottom: 26px;
+  text-align: center;
+}
+
+.door-login-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 66px;
+  height: 54px;
+  margin-bottom: 18px;
+  padding: 0 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.door-login-heading h2 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.door-login-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Form fields */
+.door-login-form {
+  display: grid;
+  gap: 18px;
+}
+
+.door-login-field {
+  display: grid;
+  gap: 8px;
+}
+
+.door-login-field label {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.door-login-field input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 16px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.door-login-field input::placeholder {
+  color: #94a3b8;
+}
+
+.door-login-field input:focus {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* Feedback and actions */
+.door-login-error {
+  margin: 0;
+  padding: 11px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.door-login-submit {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #1e3a8a;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.door-login-submit:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.door-login-close:focus-visible,
+.door-login-submit:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+.door-login-form input:disabled,
+.door-login-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.door-login-note {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Compact authentication action */
+.door-auth-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 8px 20px;
+}
+
+.door-auth-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #fff;
+  color: #1e3a8a;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.door-auth-icon:hover:not(:disabled) {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.door-auth-icon:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+.door-auth-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.door-auth-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+/* Mobile layout */
+@media (max-width: 480px) {
+  .door-login-overlay {
+    padding: 16px;
+  }
+
+  .door-login-card {
+    max-height: calc(100dvh - 32px);
+    padding: 32px 22px 24px;
+    border-radius: 16px;
+  }
+
+  .door-login-heading h2 {
+    font-size: 23px;
+  }
+}
 /* =========================================================
    RESPONSIVE
 ========================================================= */

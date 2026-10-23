@@ -1,0 +1,79 @@
+[
+  {
+    "file": "PARCELA1.geojson",
+    "name": "Dhërmi – Parcelat",
+    "zone": "dhermi",
+    "type": "parcel"
+  },
+  {
+    "file": "NDERTES1.geojson",
+    "name": "Dhërmi – Ndërtesat",
+    "zone": "dhermi",
+    "type": "building"
+  },
+  {
+    "file": "ILIAS_FSHAT_krgjsh.geojson",
+    "name": "Ilias – Fshati",
+    "zone": "ilias",
+    "type": "parcel"
+  },
+  {
+    "file": "ILIAS_NDERTESAT.geojson",
+    "name": "Ilias – Ndërtesat",
+    "zone": "ilias",
+    "type": "building"
+  },
+  {
+    "file": "ILIAS_Ndertesat_total_POINT.geojson",
+    "name": "Ilias – Ndërtesat POINT",
+    "zone": "ilias",
+    "type": "building"
+  },
+  {
+    "file": "ILIAS_PARCELAT.geojson",
+    "name": "Ilias – Parcelat",
+    "zone": "ilias",
+    "type": "parcel"
+  },
+  {
+    "file": "Ndertesat_Ilias_privat.geojson",
+    "name": "Ilias – Ndërtesat private",
+    "zone": "ilias",
+    "type": "building",
+    "colorType": "regjistruar"
+  },
+  {
+    "file": "Ndertesat_Dhermi_privat.geojson",
+    "name": "Dhërmi – Ndërtesat private",
+    "zone": "dhermi",
+    "type": "building",
+    "colorType": "regjistruar"
+  },
+  {
+    "file": "Ndertesat_Palase_privat.geojson",
+    "name": "Palasë – Ndërtesat private",
+    "zone": "palase",
+    "type": "building",
+    "colorType": "regjistruar"
+  },
+  {
+    "file": "NE AFISHIM_perf.geojson",
+    "name": "Palasë – Në afishim",
+    "zone": "palase",
+    "type": "parcel",
+    "colorType": "afishim"
+  },
+  {
+    "file": "PALASE_Ndertesat_total_POINT_perf.geojson",
+    "name": "Palasë – Banesa pa akses",
+    "zone": "palase",
+    "type": "building",
+    "colorType": "noAccess"
+  },
+  {
+    "file": "PALASE_TE_GJITHA_perf.geojson",
+    "name": "Palasë – Evidentime në terren",
+    "zone": "palase",
+    "type": "survey"
+  }
+]
