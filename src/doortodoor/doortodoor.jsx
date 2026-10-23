@@ -8,23 +8,34 @@ import "leaflet/dist/leaflet.css";
 
 import "./doortodoor.css";
 
-import zonesData from "./data/zones-public.json";
 import calendarData from "./data/calendar.json";
 
 
 const BASE_URL = import.meta.env.BASE_URL || "/";
-const API_URL = `${BASE_URL}api/doortodoor`;
+
+const API_URL = (
+  import.meta.env.VITE_DOOR_API_URL ||
+  `${BASE_URL}api/doortodoor`
+).replace(/\/$/, "");
+
+// Keep the access token in memory; refreshing the page requires login again.
+let accessToken = null;
+const authHeaders = () => accessToken
+  ? { Authorization: `Bearer ${accessToken}` }
+  : {};
 
 async function authRequest(action, payload) {
   const response = await fetch(`${API_URL}/${action}`, {
     method: payload ? "POST" : "GET",
-    credentials: "same-origin",
+    credentials: "omit",
     cache: "no-store",
-    headers: payload ? { "Content-Type": "application/json" } : {},
+    headers: { ...authHeaders(), ...(payload ? { "Content-Type": "application/json" } : {}) },
     body: payload ? JSON.stringify(payload) : undefined,
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || "Kërkesa dështoi.");
+  if (action === "login") accessToken = data.token;
+  if (action === "logout") accessToken = null;
   return data;
 }
 
@@ -816,9 +827,19 @@ export default function DoorToDoor() {
 
   useEffect(() => {
     let active = true;
-    const check = () => authRequest("session")
-      .then(data => { if (active) setAuth({ ready: true, user: data.user }); })
-      .catch(() => { if (active) setAuth({ ready: true, user: null }); });
+    const check = async () => {
+      const checkedToken = accessToken;
+      try {
+        const data = await authRequest("session");
+        if (!active || checkedToken !== accessToken) return;
+        if (!data.user) accessToken = null;
+        setAuth({ ready: true, user: data.user });
+      } catch {
+        if (!active || checkedToken !== accessToken) return;
+        accessToken = null;
+        setAuth({ ready: true, user: null });
+      }
+    };
     check();
     const interval = setInterval(check, 30000);
     window.addEventListener("focus", check);
@@ -827,7 +848,7 @@ export default function DoorToDoor() {
 
   useEffect(() => {
     if (!sessionVersion) return;
-    const timer = setTimeout(() => setAuth({ ready: true, user: null }), Math.max(0, sessionVersion - Date.now()));
+    const timer = setTimeout(() => { accessToken = null; setAuth({ ready: true, user: null }); }, Math.max(0, sessionVersion - Date.now()));
     return () => clearTimeout(timer);
   }, [sessionVersion]);
 
@@ -1295,12 +1316,13 @@ export default function DoorToDoor() {
           const response = await fetch(url, {
 
             signal: controller.signal,
-            credentials: "same-origin",
+            credentials: "omit",
+            headers: authHeaders(),
             cache: "no-store",
           });
 
           if (response.status === 401) {
-            if (!disposed) setAuth({ ready: true, user: null });
+            if (!disposed) { accessToken = null; setAuth({ ready: true, user: null }); }
             return;
           }
           if (!response.ok) {

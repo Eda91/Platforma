@@ -48,11 +48,10 @@ export function filterFeatures(data, source, statuses, authenticated) {
 }
 
 export function createApp({ dataDir, statuses = {}, username, passwordHash, origin, secure = true }) {
-  if (!isAbsolute(dataDir) || !username || !/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(passwordHash || '')) throw new Error('Set PRIVATE_DATA_DIR, AUTH_USERNAME and AUTH_PASSWORD_HASH.');
+  if (typeof dataDir !== 'string' || !isAbsolute(dataDir) || !username || !/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(passwordHash || '')) throw new Error('Set PRIVATE_DATA_DIR, AUTH_USERNAME and AUTH_PASSWORD_HASH.');
   const allowedOrigin = new URL(origin).origin;
   if (secure && !allowedOrigin.startsWith('https://')) throw new Error('Production requires HTTPS.');
   const [salt, hash] = passwordHash.split(':');
-  const cookieName = secure ? '__Host-door_session' : 'door_session';
   const sessions = new Map();
   const attempts = new Map();
   const TTL = 30 * 60 * 1000;
@@ -63,16 +62,31 @@ export function createApp({ dataDir, statuses = {}, username, passwordHash, orig
     for (const [key, item] of attempts) if (item.until <= now) attempts.delete(key);
   }, 60000);
   cleanup.unref();
-  const cookie = (token, maxAge) => `${cookieName}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure ? '; Secure' : ''}`;
   return http.createServer(async (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store, private');
-    res.setHeader('Vary', 'Cookie');
+    res.setHeader('Vary', 'Origin, Authorization');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     const send = (status, body) => { res.writeHead(status); res.end(JSON.stringify(body)); };
     try {
       const url = new URL(req.url, allowedOrigin);
-      const token = (req.headers.cookie || '').split(';').map(x => x.trim()).find(x => x.startsWith(`${cookieName}=`))?.slice(cookieName.length + 1);
+      const requestOrigin = req.headers.origin;
+      if (requestOrigin && requestOrigin !== allowedOrigin) return send(403, { error: 'Origjinë e palejuar.' });
+      if (requestOrigin === allowedOrigin) {
+        res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      }
+      if (req.method === 'OPTIONS') {
+        const requestedMethod = req.headers['access-control-request-method'];
+        const requestedHeaders = String(req.headers['access-control-request-headers'] || '').toLowerCase().split(',').map(value => value.trim()).filter(Boolean);
+        if (requestOrigin !== allowedOrigin || !['GET', 'POST'].includes(requestedMethod) || requestedHeaders.some(value => !['authorization', 'content-type'].includes(value))) {
+          return send(403, { error: 'Kërkesë e palejuar.' });
+        }
+        res.writeHead(204); res.end(); return;
+      }
+      if (req.method === 'GET' && url.pathname === '/healthz') return send(200, { status: 'ok' });
+      const token = /^Bearer ([a-f0-9]{64})$/.exec(req.headers.authorization || '')?.[1];
       const session = sessions.get(token);
       const user = session?.expiresAt > Date.now() ? { username: session.username, expiresAt: session.expiresAt } : null;
       if (req.method === 'GET' && url.pathname === `${prefix}/session`) return send(200, { user });
@@ -81,7 +95,6 @@ export function createApp({ dataDir, statuses = {}, username, passwordHash, orig
         if (req.headers.origin !== allowedOrigin || !/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) return send(403, { error: 'Kërkesë e palejuar.' });
         if (url.pathname.endsWith('/logout')) {
           sessions.delete(token);
-          res.setHeader('Set-Cookie', cookie('', 0));
           return send(200, { user: null });
         }
         const address = req.socket.remoteAddress;
@@ -103,8 +116,7 @@ export function createApp({ dataDir, statuses = {}, username, passwordHash, orig
         const newToken = randomBytes(32).toString('hex');
         const next = { username, expiresAt: Date.now() + TTL };
         sessions.set(newToken, next);
-        res.setHeader('Set-Cookie', cookie(newToken, TTL / 1000));
-        return send(200, { user: next });
+        return send(200, { user: next, token: newToken });
       }
       if (req.method === 'GET' && url.pathname === `${prefix}/geojson`) {
         const source = sources.find(item => item.file === url.searchParams.get('file'));
@@ -124,7 +136,9 @@ export function createApp({ dataDir, statuses = {}, username, passwordHash, orig
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const statuses = JSON.parse(await readFile(resolve(process.env.PRIVATE_DATA_DIR || '.', 'Palase_Statuset_Verifikuara.json'), 'utf8'));
-  const app = createApp({ dataDir: process.env.PRIVATE_DATA_DIR, statuses, username: process.env.AUTH_USERNAME, passwordHash: process.env.AUTH_PASSWORD_HASH, origin: process.env.APP_ORIGIN, secure: process.env.NODE_ENV !== 'development' });
-  app.listen(Number(process.env.PORT || 3001), '127.0.0.1', () => console.log('DoorToDoor API listening on loopback.'));
+  const dataDir = resolve(process.env.PRIVATE_DATA_DIR || resolve(here, 'private-data'));
+  const statuses = JSON.parse(await readFile(resolve(dataDir, 'Palase_Statuset_Verifikuara.json'), 'utf8'));
+  for (const source of sources) JSON.parse(await readFile(resolve(dataDir, source.file), 'utf8'));
+  const app = createApp({ dataDir, statuses, username: process.env.AUTH_USERNAME, passwordHash: process.env.AUTH_PASSWORD_HASH, origin: process.env.APP_ORIGIN, secure: process.env.NODE_ENV !== 'development' });
+  app.listen(Number(process.env.PORT || 3001), process.env.HOST || '0.0.0.0', () => console.log('DoorToDoor API started.'));
 }
