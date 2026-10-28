@@ -323,7 +323,9 @@ export default function PublicDashboard() {
       }
       return listModal.items.filter(
         (item) =>
-          normalize(`${item["Emër"] || ""} ${item["Atësi"] || ""} ${item["Mbiemër"] || ""} ${item.Statusi || item.status || ""} ${item.Kategoria || item.kategoria || ""}`).includes(q)
+          normalize(
+  `${item["Emër"] || ""} ${item["Atësi"] || ""} ${item["Mbiemër"] || ""} ${item["Cilësimi"] || ""}`
+).includes(q)
       );
     }, [
       listModal,
@@ -779,7 +781,7 @@ export default function PublicDashboard() {
                 (zone) => (
                   <button
                     type="button"
-                    className={`zone-row ${normalize(zone.fshati) === "palase" ? "clickable" : "disabled"}`}
+                    className={`zone-row ${normalize(zone.fshati) === "palase" ? "clickable" : "disabled"} zone-mobile-${getZoneStatus(zone, getZonePeriod(zone))}`}
                     // className="zone-row disabled"
                     key={zone.id}
                     ref={(el) => { zoneRefs.current[String(zone.id)] = el; }}
@@ -850,6 +852,29 @@ export default function PublicDashboard() {
                     <span className="zone-arrow">
                       →
                     </span>
+                    {/* Mobile-only card layout; desktop table remains unchanged. */}
+                    <div className="zone-mobile-card" aria-hidden="true">
+                      <div className="zone-mobile-main">
+                        <div className="zone-mobile-name">
+                          <strong>ZK {zone.zk || "—"}</strong>
+                          <span>{zone.fshati || "—"}</span>
+                        </div>
+                        <span className={`zone-mobile-status ${getZoneStatus(zone, getZonePeriod(zone))}`}>
+                          {getZoneStatus(zone, getZonePeriod(zone)) === "completed"
+                            ? "Përfunduar"
+                            : getZoneStatus(zone, getZonePeriod(zone)) === "review"
+                              ? "Në shqyrtim"
+                              : "Planifikuar"}
+                        </span>
+                      </div>
+                      <div className="zone-mobile-bottom">
+                        <div className="zone-mobile-period">
+                          <small>PERIUDHA E EVIDENTIMIT</small>
+                          <span>{getZonePeriod(zone).startDate} — {getZonePeriod(zone).endDate}</span>
+                        </div>
+                        <span className="zone-mobile-arrow">→</span>
+                      </div>
+                    </div>
                   </button>
                 )
               )}
@@ -1160,9 +1185,9 @@ export default function PublicDashboard() {
                     <span>{item["Emër"] || "—"}</span>
                     <span>{item["Atësi"] || "—"}</span>
                     <span>{item["Mbiemër"] || "—"}</span>
-                    <span className={`application-status ${applicationStatus}`}>
-                      {item.Statusi || item.status || item.Kategoria || "—"}
-                    </span>
+                   <span className={`application-status ${applicationStatus}`}>
+                    {item["Cilësimi"] || "—"}
+                  </span>
                   </div>
                 );
               })}

@@ -1014,6 +1014,7 @@ background 0.15s ease;
   font-weight: 800;
   line-height: 1.2;
   white-space: nowrap;
+  text-transform: none;
 }
 .application-status.approved {
   background: #ecfdf3;
@@ -1222,214 +1223,7 @@ background 0.15s ease;
         1fr);
   }
 }
-/* =========================================================
-   MOBILE
-   ========================================================= */
-@media (max-width: 700px) {
-  .dashboard-header {
-    padding: 11px 13px;
-  }
-  .dashboard-agency {
-    display: none;
-  }
-  .dashboard-content {
-    width:
-      calc(100% - 14px);
-    padding-top: 8px;
-  }
-  .top-search {
-    padding: 14px;
-  }
-  .main-search-controls {
-    grid-template-columns:
-      1fr;
-  }
-  .main-kpis {
-    grid-template-columns:
-      1fr;
-  }
-  .application-kpis {
-    grid-template-columns:
-      1fr 1fr;
-  }
-  .application-kpis>div {
-    border-right:
-      1px solid #edf0f4;
-    border-bottom:
-      1px solid #edf0f4;
-  }
-  /* =====================================================
-     AGENDA MOBILE
-     ===================================================== */
-  .agenda-header {
-    align-items: stretch;
-    flex-direction: column;
-  }
-  .agenda-reset {
-    align-self: flex-start;
-  }
-  .agenda-board {
-    overflow: visible;
-    border: 0;
-    background: transparent;
-  }
-  .agenda-table-head {
-    display: none;
-  }
-  .agenda-row {
-    margin-bottom: 9px;
-    min-height: auto;
-    padding: 14px;
-    display: grid;
-    grid-template-columns:
-      1fr auto;
-    gap: 12px;
-    border:
-      1px solid #e2e8f0;
-    border-radius: 11px;
-    background: #ffffff;
-  }
-  .agenda-row.selected {
-    box-shadow:
-      inset 4px 0 #334155;
-  }
-  .agenda-bashkia {
-    grid-column: 1;
-  }
-  .agenda-period {
-    width: 100%;
-    grid-column:
-      1 / -1;
-    grid-template-columns:
-      72px minmax(40px,
-        1fr) 72px;
-  }
-  .agenda-date strong {
-    font-size: 10px;
-  }
-  .agenda-row>div:nth-child(3) {
-    grid-column: 1;
-  }
-  .agenda-count {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-  }
-  .agenda-arrow {
-    display: none;
-  }
-  /* =====================================================
-     ZONE LIST MOBILE
-     ===================================================== */
-  .zones-table {
-    overflow: visible;
-    border: 0;
-    background: transparent;
-  }
-  .zones-table-head {
-    display: none;
-  }
-  .zone-row {
-    margin-bottom: 8px;
-    padding: 12px;
-    display: grid;
-    grid-template-columns:
-      1fr auto;
-    gap: 9px 12px;
-    border:
-      1px solid #e2e8f0;
-    border-radius: 9px;
-    background: #ffffff;
-  }
-  .zone-cell {
-    grid-column: 1;
-  }
-  .zone-cell small {
-    display: block;
-    margin-bottom: 2px;
-    font-size: 8px;
-    font-weight: 800;
-    color: #94a3b8;
-    text-transform: uppercase;
-  }
-  .zone-arrow {
-    grid-column: 2;
-    grid-row:
-      1 / 6;
-    align-self: center;
-  }
-  /* =====================================================
-     MODALS MOBILE
-     ===================================================== */
-  .modal-overlay {
-    padding: 5px;
-  }
-  .zone-modal {
-    width: 100%;
-    max-height: 96vh;
-    max-height: 96dvh;
-    padding: 20px 14px;
-    overflow-y: auto !important;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    touch-action: pan-y;
-  }
-  .zone-modal-summary {
-    grid-template-columns:
-      1fr;
-  }
-  .zone-modal-summary>div:first-child {
-    border-right: 0;
-    border-bottom:
-      1px solid #e2e8f0;
-  }
-  .applications-modal {
-    width: 100%;
-    height: 97vh;
-    padding:
-      17px 12px;
-  }
-  .applications-modal-title h2 {
-    font-size: 22px;
-  }
-  .nid-search {
-    width: 100%;
-    height: 47px;
-  }
-  .applications-meta {
-    align-items:
-      flex-start;
-    flex-direction:
-      column;
-    gap: 2px;
-  }
-  /*
-    Në mobile tabela
-    bëhet kartë.
-  */
-  .applications-list {
-    border: 0;
-    background: transparent;
-  }
-  .applications-list-head {
-    display: none;
-  }
-  .applications-list-row {
-    margin-bottom: 8px;
-    min-height: auto;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items:
-      flex-start;
-    gap: 8px;
-    border:
-      1px solid #e2e8f0;
-    border-radius: 9px;
-    background: #ffffff;
-  }
-}
+
 /* =========================================================
    DESKTOP TYPOGRAPHY – CLEAR AND CONSISTENT
    ========================================================= */
@@ -1616,69 +1410,7 @@ background 0.15s ease;
     font-size: 12px !important;
   }
 }
-/* Mobile: retain the card layout and improve readability. */
-@media (max-width: 700px) {
-  .dashboard-header {
-    min-height: 70px;
-    padding: 11px 7px;
-  }
-  .dashboard-header-main h1 {
-    font-size: 19px;
-  }
-  .dashboard-header-main p {
-    font-size: 13px;
-  }
-  .eyebrow {
-    font-size: 11px;
-    color: #52647d;
-  }
-  .agenda-header h2,
-  .zones-heading h2 {
-    font-size: 22px;
-  }
-  .agenda-header p,
-  .zones-heading p,
-  .zones-heading>span {
-    font-size: 14px;
-  }
-  .agenda-bashkia small,
-  .agenda-date small,
-  .zone-cell small {
-    font-size: 11px;
-    color: #52647d;
-  }
-  .agenda-bashkia strong {
-    font-size: 19px;
-  }
-  .agenda-bashkia span {
-    font-size: 14px;
-  }
-  .agenda-date strong {
-    font-size: 13px;
-  }
-  .agenda-status {
-    font-size: 13px;
-  }
-  .agenda-count strong {
-    font-size: 24px;
-  }
-  .agenda-count span {
-    font-size: 12px;
-  }
-  .agenda-reset {
-    font-size: 14px;
-    min-height: 44px;
-  }
-  .zone-cell strong {
-    font-size: 17px;
-  }
-  .zone-cell span {
-    font-size: 15px;
-  }
-  .zone-status {
-    font-size: 13px !important;
-  }
-}
+
 /* =========================================================
    STATUS COLORS AND RESPONSIVE KPI GRID
    ========================================================= */
@@ -1767,71 +1499,6 @@ background 0.15s ease;
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (max-width: 650px) {
-  .public-dashboard .application-kpis {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .public-dashboard .application-kpis > div {
-    padding: 14px 10px;
-  }
-}
-@media (max-width: 700px) {
-  .public-dashboard .zone-modal {
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 75dvh !important;
-    max-height: 75dvh !important;
-    min-height: 0 !important;
-    overflow-y: scroll !important;
-    overflow-x: hidden !important;
-    padding-bottom: 40px !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .public-dashboard .zone-modal .zone-options {
-    display: flex !important;
-    flex-direction: column !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-  .public-dashboard .zone-modal .zone-option {
-    flex-shrink: 0 !important;
-  }
-}
-@media (max-width: 768px) {
-  /* Keep the modal inside the mobile viewport */
-  .public-dashboard .modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    overflow: hidden;
-  }
-  /* Enable smooth vertical scrolling inside dialogs */
-  .public-dashboard .zone-modal,
-  .public-dashboard .applications-modal {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    max-height: calc(100dvh - 20px);
-    min-height: 0;
-    margin: 0;
-    overflow-y: auto !important;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    touch-action: pan-y;
-  }
-  /* Allow natural finger scrolling over modal content */
-  .public-dashboard .zone-modal *,
-  .public-dashboard .applications-modal * {
-    touch-action: pan-y;
-  }
-}
 
 /* Full-width search when the status dropdown is hidden */
 .public-dashboard .main-search-controls {
@@ -1841,4 +1508,425 @@ background 0.15s ease;
 .public-dashboard .main-search-input {
   width: 100%;
   min-width: 0;
+}
+
+
+
+
+
+
+@keyframes overlayAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* Mobile-only cadastral zone cards. Add at the END of PublicDashboard.css. */
+.public-dashboard .zone-mobile-card { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .public-dashboard .zones-table > .zone-row { transition: none !important; }
+}
+
+/* Mobile KPI cards: replace the previous application-kpis mobile rules with this block. */
+@media (max-width: 768px) {
+  .public-dashboard .application-kpis {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  .public-dashboard .application-kpis > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 96px !important;
+    height: auto !important;
+    padding: 14px 13px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 3px solid #94a3b8 !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    box-shadow: 0 2px 7px rgba(15,23,42,.035) !important;
+  }
+
+  .public-dashboard .application-kpis > .total {
+    grid-column: 1 / -1 !important;
+    min-height: 84px !important;
+    border-top-color: #334155 !important;
+  }
+  .public-dashboard .application-kpis > .approved { border-top-color: #16a34a !important; }
+  .public-dashboard .application-kpis > .public { border-top-color: #0891b2 !important; }
+  .public-dashboard .application-kpis > .missing { border-top-color: #f97316 !important; }
+  .public-dashboard .application-kpis > .noAccess { border-top-color: #dc2626 !important; }
+  .public-dashboard .application-kpis > .inProcess { border-top-color: #2563eb !important; }
+  .public-dashboard .application-kpis > .other { border-top-color: #9333ea !important; }
+
+  .public-dashboard .application-kpis strong {
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+  }
+  .public-dashboard .application-kpis span {
+    display: block !important;
+    margin-top: 6px !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+  }
+
+    .public-dashboard .application-kpis > .total {
+    padding-top: 32px !important;
+    padding-bottom: 22px !important;
+    min-height: 110px !important;
+    margin-top: 20px !important;
+  }
+
+  
+}
+
+@media screen and (max-width: 768px) {
+
+  /* Calendar section */
+  .public-dashboard .agenda-section {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-top: 30px !important;
+  }
+
+  .public-dashboard .agenda-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .public-dashboard .agenda-header h2 {
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+    margin: 5px 0 0 !important;
+  }
+
+  .public-dashboard .agenda-reset {
+    align-self: flex-end !important;
+    margin: 0 !important;
+  }
+
+  /* Remove desktop table layout */
+  .public-dashboard .agenda-board {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .public-dashboard .agenda-board > .agenda-table-head {
+    display: none !important;
+  }
+
+  /* Municipality cards */
+  .public-dashboard .agenda-board > .agenda-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-rows: auto auto auto !important;
+    gap: 14px 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 17px 16px !important;
+    margin: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: 4px solid #334155 !important;
+    border-radius: 15px !important;
+    background: #fff !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .05) !important;
+    text-align: left !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .public-dashboard .agenda-board > .agenda-row.selected {
+    border-left-color: #16a34a !important;
+  }
+
+  .public-dashboard .agenda-board > .agenda-row.locked {
+    border-left-color: #cbd5e1 !important;
+  }
+
+  /* Municipality */
+  .public-dashboard .agenda-row > .agenda-bashkia {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+  }
+
+  .public-dashboard .agenda-bashkia strong {
+    font-size: 18px !important;
+    color: #0f172a !important;
+  }
+
+  .public-dashboard .agenda-bashkia span {
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  /* Dates */
+  .public-dashboard .agenda-row > .agenda-period {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 13px 0 !important;
+    margin: 0 !important;
+    border-top: 1px solid #edf2f7 !important;
+    border-bottom: 1px solid #edf2f7 !important;
+  }
+
+  .public-dashboard .agenda-period .agenda-date {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    width: auto !important;
+    gap: 4px !important;
+  }
+
+  .public-dashboard .agenda-period .agenda-date strong {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    color: #0f172a !important;
+  }
+
+  .public-dashboard .agenda-period .agenda-date small {
+    font-size: 9px !important;
+    color: #94a3b8 !important;
+  }
+
+  .public-dashboard .agenda-period .agenda-date-end {
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
+
+  .public-dashboard .agenda-period .agenda-line {
+    display: flex !important;
+    align-items: center !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+  }
+
+  /* Status */
+  .public-dashboard .agenda-row > div:nth-child(3) {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    min-width: 0 !important;
+  }
+
+  .public-dashboard .agenda-row .agenda-status {
+    display: inline-flex !important;
+    width: auto !important;
+    white-space: nowrap !important;
+  }
+
+  /* Zone count */
+  .public-dashboard .agenda-row > .agenda-count {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    display: flex !important;
+    align-items: baseline !important;
+    justify-self: end !important;
+    gap: 5px !important;
+    width: auto !important;
+  }
+
+  .public-dashboard .agenda-row > .agenda-arrow {
+    display: none !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .public-dashboard .zones-section {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .public-dashboard .zones-table {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .public-dashboard .zones-table .zones-table-head {
+    display: none !important;
+  }
+
+  .public-dashboard .zones-table > .zone-row {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: 4px solid #f59e0b !important;
+    border-radius: 15px !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(15,23,42,.06) !important;
+    overflow: hidden !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  .public-dashboard .zones-table > .zone-row.zone-mobile-completed {
+    border-left-color: #16a34a !important;
+  }
+
+  .public-dashboard .zones-table > .zone-row.zone-mobile-planned {
+    border-left-color: #94a3b8 !important;
+  }
+
+  /* Hide desktop columns */
+  .public-dashboard .zones-table > .zone-row > .zone-cell,
+  .public-dashboard .zones-table > .zone-row > .zone-arrow {
+    display: none !important;
+  }
+
+  /* Mobile card */
+  .public-dashboard .zones-table > .zone-row > .zone-mobile-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 16px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .public-dashboard .zone-mobile-main {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  .public-dashboard .zone-mobile-name {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .public-dashboard .zone-mobile-name strong {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+  }
+
+  .public-dashboard .zone-mobile-name > span {
+    font-size: 14px !important;
+    color: #64748b !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  .public-dashboard .zone-mobile-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    padding: 7px 11px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    background: #fff3e0 !important;
+    color: #b45309 !important;
+    white-space: nowrap !important;
+  }
+
+  .public-dashboard .zone-mobile-status.completed {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+  }
+
+  .public-dashboard .zone-mobile-status.planned {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+  }
+
+  .public-dashboard .zone-mobile-bottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid #edf2f7 !important;
+  }
+
+  .public-dashboard .zone-mobile-period {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    min-width: 0 !important;
+  }
+
+  .public-dashboard .zone-mobile-period small {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #94a3b8 !important;
+    text-transform: uppercase !important;
+  }
+
+  .public-dashboard .zone-mobile-period > span {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    white-space: normal !important;
+  }
+
+  .public-dashboard .zone-mobile-arrow {
+    font-size: 22px !important;
+    color: #94a3b8 !important;
+    flex-shrink: 0 !important;
+  }
 }
