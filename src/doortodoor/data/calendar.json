@@ -356,6 +356,63 @@
   },
   {
     "id": 4,
+    "bashkia": "Kolonjë",
+    "njesiaAdministrative": "Leskovik",
+    "drejtoriteVendore": [
+      "Korçë-Devoll Kolonjë"
+    ],
+    "locations": [
+      "Leskovik"
+    ],
+    "startDate": "1.10.2026",
+    "endDate": "28.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "bashkia": "Korçë",
+    "njesiaAdministrative": "Vithkuq",
+    "drejtoriteVendore": [
+      "Korçë-Devoll Kolonjë"
+    ],
+    "locations": [
+      "Vithkuq"
+    ],
+    "startDate": "1.10.2026",
+    "endDate": "28.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "bashkia": "Berat",
+    "njesiaAdministrative": "Velabisht",
+    "drejtoriteVendore": [
+      "Berat"
+    ],
+    "locations": [
+      "Velabisht"
+    ],
+    "startDate": "23.09.2026",
+    "endDate": "29.09.2026",
+    "status": "active"
+  },
+
+  {
+    "id": 5,
+    "bashkia": "Durrës",
+    "njesiaAdministrative": "Spitallë",
+    "drejtoriteVendore": [
+      "Durrës Kavajë Krujë"
+    ],
+    "locations": [
+      "Spitallë"
+    ],
+    "startDate": "25.09.2026",
+    "endDate": "28.10.2026",
+    "status": "active"
+  },
+  {
+    "id": 7,
     "bashkia": "Vlorë",
     "drejtoriteVendore": [
       "Vlorë"
