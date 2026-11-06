@@ -283,9 +283,7 @@ export default function PublicDashboard() {
           <button type="button" className={`main-kpi total ${showAllZonesByStatus && statusFilter === "all" ? "active" : ""}`} onClick={() => handleStatusCardClick("all")}>
             <div><span>Zona gjithsej</span><small>Zona kadastrale</small></div><strong>{ZONES.length}</strong>
           </button>
-        </section>
-
-       
+        </section>  
         <section className="application-kpis">
           <div
             className="total"
@@ -326,8 +324,6 @@ export default function PublicDashboard() {
             </div>
           ))}
         </section>
-
-
         <section className="agenda-section">
           <div className="agenda-header">
             <div><span className="eyebrow">Bashkitë dhe periudhat e evidentimit</span><h2>Kalendar i evidentimit në terren</h2></div>
