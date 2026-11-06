@@ -2005,3 +2005,67 @@ background 0.15s ease;
     border-left: 4px solid #334155 !important;
   }
 }
+
+
+
+/* Restore original KPI card appearance */
+.public-dashboard .application-kpis > button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+  min-height: 110px;
+  padding: 20px 22px;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: left;
+  color: inherit;
+
+  border: none;
+  border-radius: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+
+  cursor: pointer;
+}
+
+.public-dashboard .application-kpis > button strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.public-dashboard .application-kpis > button span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.public-dashboard .application-kpis > button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .public-dashboard .application-kpis > button {
+    min-height: 100px;
+    padding: 16px;
+  }
+
+  .public-dashboard .application-kpis > button strong {
+    font-size: 26px;
+  }
+}
+.public-dashboard .application-kpis > div {
+  cursor: pointer;
+}
+
+.public-dashboard .application-kpis > div:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
