@@ -10,89 +10,156 @@ import "./doortodoor.css";
 
 import calendarData from "./data/calendar.json";
 
-
 const BASE_URL = import.meta.env.BASE_URL || "/";
 
 const API_URL = (
-  import.meta.env.VITE_DOOR_API_URL ||
-  `${BASE_URL}api/doortodoor`
+  import.meta.env.DEV
+    ? `${BASE_URL}api/doortodoor`
+    : import.meta.env.VITE_DOOR_API_URL ||
+      "https://ashk-doortodoor-api.onrender.com/api/doortodoor"
 ).replace(/\/$/, "");
 
+// These three public survey layers are served as static files by Vite/GitHub Pages.
+const PUBLIC_POINT_FILES = new Set([
+  "Gjileke_Ndertesat_total_point.geojson",
+  "Dhermi_Ndertesat_total_point.geojson",
+  "Ilias_Ndertesat_total_point.geojson",
+]);
+
 // Keep the access token in memory; refreshing the page requires login again.
+
 let accessToken = null;
+
 const authHeaders = () => accessToken
+
   ? { Authorization: `Bearer ${accessToken}` }
+
   : {};
 
 async function authRequest(action, payload) {
+
   const response = await fetch(`${API_URL}/${action}`, {
+
     method: payload ? "POST" : "GET",
+
     credentials: "omit",
+
     cache: "no-store",
+
     headers: { ...authHeaders(), ...(payload ? { "Content-Type": "application/json" } : {}) },
+
     body: payload ? JSON.stringify(payload) : undefined,
+
   });
+
   const data = await response.json();
+
   if (!response.ok) throw new Error(data.error || "Kërkesa dështoi.");
+
   if (action === "login") accessToken = data.token;
+
   if (action === "logout") accessToken = null;
+
   return data;
+
 }
 
 const NO_ACCESS_STATUS = "Banesë pa akses (PIN LOCATION)";
 
 const POINT_GEOJSON_FILES = new Set([
+
   "NE AFISHIM_perf.geojson",
+
   "PALASE_Ndertesat_total_POINT_perf.geojson",
+
   "ILIAS_Ndertesat_total_POINT.geojson",
+
   "PALASE_TE_GJITHA_perf.geojson",
+
   "Dhermi_Ndertesat_total_point.geojson",
+
   "Gjileke_Ndertesat_total_point.geojson",
+
   "Ilias_Ndertesat_total_point.geojson"
+
 ]);
 
 function getGeometryDuplicateKey(feature, zone, type) {
+
   const geometry = feature?.geometry;
+
   if (!geometry?.coordinates) return null;
 
   const roundedCoordinates = JSON.stringify(geometry.coordinates, (_key, value) =>
+
     typeof value === "number" ? Math.round(value * 1e7) / 1e7 : value
+
   );
 
   return `${zone}|${type}|${geometry.type}|${roundedCoordinates}`;
+
 }
 
 const GEOJSON_FILES = [
 
   // { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
+
   //{ file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
+
   // { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
+
   // { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
+
   { file: "PARCELA1.geojson", name: "Dhërmi – Parcelat", zone: "dhermi", type: "parcel" },
+
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
+
   // { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
+
   // { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
+
   //{ file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
+
   // { file: "palase_google_earth.geojson",  name: "Palasë – Pika", zone: "palase-pika",type: "parcel",},
+
   // { file: "Jugu_Ndertesat_total_POINT_PALASE.geojson", name: "Palasë – Ndërtesat Jugu", zone: "palase", type: "building", display: "point" },
+
   // { file: "PALASE_MATJE_2.geojson", name: "Palasë – Matje", zone: "palase", type: "parcel" },
+
   // { file: "PALASE_TE_GJITHA.geojson", name: "Palasë – Të gjitha", zone: "palase", type: "parcel" },
+
   //{ file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+
   // { file: "PALASE_Ndertesat_total_POINT1.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
+
   // { file: "PALASE_TE_GJITHA1.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
+
   { file: "ILIAS_FSHAT_krgjsh.geojson", name: "Ilias – Fshati", zone: "ilias", type: "parcel" },
+
   { file: "ILIAS_NDERTESAT.geojson", name: "Ilias – Ndërtesat", zone: "ilias", type: "building" },
+
   { file: "ILIAS_Ndertesat_total_POINT.geojson", name: "Ilias – Ndërtesat POINT", zone: "ilias", type: "building", display: "point" },
+
   { file: "ILIAS_PARCELAT.geojson", name: "Ilias – Parcelat", zone: "ilias", type: "parcel" },
+
   { file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
+
   { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
+
   { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
+
   { file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
+
   { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Banesa pa akses", zone: "palase", type: "building", display: "point", colorType: "noAccess" },
+
   { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Evidentime në terren", zone: "palase", type: "survey", display: "point" },
+
   { file: "Gjileke_Ndertesat_total_point.geojson", name: "Gjilekë – Evidentime në terren", zone: "gjileke", type: "survey", display: "point" },
+
   { file: "Dhermi_Ndertesat_total_point.geojson", name: "Dhërmi – Evidentime në terren", zone: "dhermi", type: "survey", display: "point" },
+
   { file: "Ilias_Ndertesat_total_point.geojson", name: "Ilias – Evidentime në terren", zone: "ilias", type: "survey", display: "point" },
+
 ];
 
 const ZONES = GEOJSON_FILES.reduce((zones, item) => {
@@ -122,8 +189,11 @@ const ZONES = GEOJSON_FILES.reduce((zones, item) => {
 }, {});
 
 const ALBANIA_BOUNDS = L.latLngBounds(
+
   [39.55, 19.05],
+
   [42.75, 21.15]
+
 );
 
 const COLORS = {
@@ -253,82 +323,139 @@ function getProperty(properties, keys) {
 }
 
 function getStatus(properties) {
+
   const rawStatus = getProperty(properties, [
+
     "status",
+
     "statusi",
+
     "gjendja",
+
     "tipologjia",
+
     "category",
+
     "kategori",
+
     "shenime",
+
     "shënime",
+
     "pershkrimi",
+
     "përshkrimi",
+
   ]);
 
   const status = normalize(rawStatus)
+
     .replace(/[_-]/g, " ")
+
     .replace(/\s+/g, " ");
 
   if (
+
     status.includes("pa akses") ||
+
     status.includes("no access") ||
+
     status.includes("pin location")
+
   ) {
+
     return NO_ACCESS_STATUS;
+
   }
 
   if (
+
     status.includes("mungese dokumentacioni") ||
+
     status.includes("mungon dokumentacioni") ||
+
     status.includes("pa dokumentacion") ||
+
     status.includes("nuk ka dosje") ||
+
     status.includes("s ka dosje")
+
   ) {
+
     return "Mungesë dokumentacioni";
+
   }
 
   if (
+
     status.includes("proces gjyqesor") ||
+
     status.includes("ne proces") ||
+
     status.includes("tjeter") ||
+
     status.includes("te tjera")
+
   ) {
+
     return "Të tjera";
+
   }
 
   if (status.includes("afishim")) {
+
     return "Në afishim";
+
   }
 
   if (status.includes("regjistruar")) {
+
     return "Regjistruar";
+
   }
 
   return rawStatus
+
     ? String(rawStatus)
+
     : "Status i papërcaktuar";
+
 }
 
 function getStatusCategory(status) {
+
   const value = normalize(status).replace(/[_-]/g, " ").replace(/\s+/g, " ");
+
   if (value.includes("pa akses") || value.includes("pin location")) return "paAkses";
+
   if (value.includes("munges") && (value.includes("dokument") || value.includes("dosje"))) return "mungeseDokumentacioni";
+
   if (value.includes("ska dosje") || value.includes("s'ka dosje") || value.includes("nuk ka dosje")) return "mungeseDokumentacioni";
+
   if (value.includes("afishim")) return "afishim";
+
   if (value.includes("miratuar me vendim") || value.includes("pajisur me vendim")) return "miratuar";
+
   if (value.includes("regjistruar")) return "regjistruar";
+
   if (value.includes("proces gjyqesor") || value.includes("tjeter") || value.includes("te tjera")) return "teTjera";
+
   if (value === "evidentuar") return "evidentuar";
+
   return "papercaktuar";
+
 }
 
 function normalizePersonName(value) {
+
   return normalize(value).replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+
 }
 
 function getSurveyStatus(properties) {
+
   return properties?._resolvedStatus || "Evidentuar";
+
 }
 
 function getFeatureStyle(isBuilding, properties, source = {}) {
@@ -346,21 +473,35 @@ function getFeatureStyle(isBuilding, properties, source = {}) {
   }
 
   if (source.colorType === "noAccess") return { ...COLORS.noAccess };
+
   if (source.type === "survey") {
+
     const category = getStatusCategory(getSurveyStatus(properties));
+
     if (category === "paAkses") return { ...COLORS.noAccess };
+
     if (category === "miratuar") return { color: "#0f766e", fillColor: "#14b8a6", weight: 2, fillOpacity: 0.9 };
+
     if (category === "mungeseDokumentacioni") return { color: "#a16207", fillColor: "#facc15", weight: 2, fillOpacity: 0.9 };
+
     if (category === "teTjera") return { color: "#475569", fillColor: "#94a3b8", weight: 2, fillOpacity: 0.9 };
+
     return { color: "#92400e", fillColor: "#fb923c", weight: 2, fillOpacity: 0.9 };
+
   }
 
   const category = getStatusCategory(getStatus(properties));
+
   if (category === "mungeseDokumentacioni") {
+
     return { color: "#a16207", fillColor: "#facc15", weight: 2, opacity: 1, fillOpacity: 0.75 };
+
   }
+
   if (category === "teTjera") {
+
     return { color: "#475569", fillColor: "#94a3b8", weight: 2, opacity: 1, fillOpacity: 0.7 };
+
   }
 
   if (source.colorType === "regjistruar") {
@@ -378,11 +519,17 @@ function getFeatureStyle(isBuilding, properties, source = {}) {
   if (POINT_GEOJSON_FILES.has(source.file)) {
 
     if (
+
       source.file === "PALASE_Ndertesat_total_POINT_perf.geojson" ||
+
       source.file === "PALASE_Ndertesat_total_POINT1.geojson" ||
+
       source.file === "Jugu_Ndertesat_total_POINT_PALASE.geojson"
+
     ) {
+
       return source.colorType === "noAccess" ? { ...COLORS.noAccess } : { ...COLORS.point };
+
     }
 
   }
@@ -790,69 +937,123 @@ function createPolygonLabel(properties, isBuilding = false) {
 }
 
 function getPointRadius(zoom) {
+
   if (zoom <= 10) return 1;
+
   if (zoom <= 12) return 1.5;
+
   if (zoom <= 14) return 2.5;
+
   if (zoom <= 16) return 4;
+
   if (zoom <= 18) return 5;
+
   return 6;
+
 }
 
 export default function DoorToDoor() {
+
   const [auth, setAuth] = useState({ ready: false, user: null });
+
   const [loginOpen, setLoginOpen] = useState(false);
+
   const [username, setUsername] = useState("");
+
   const [password, setPassword] = useState("");
+
   const [authError, setAuthError] = useState("");
+
   const [authBusy, setAuthBusy] = useState(false);
+
   const authenticated = Boolean(auth.user);
+
   const sessionVersion = auth.user?.expiresAt || 0;
 
   useEffect(() => {
+
     let active = true;
+
     const check = async () => {
+
       const checkedToken = accessToken;
+
       try {
+
         const data = await authRequest("session");
+
         if (!active || checkedToken !== accessToken) return;
+
         if (!data.user) accessToken = null;
+
         setAuth({ ready: true, user: data.user });
+
       } catch {
+
         if (!active || checkedToken !== accessToken) return;
+
         accessToken = null;
+
         setAuth({ ready: true, user: null });
+
       }
+
     };
+
     check();
+
     const interval = setInterval(check, 30000);
+
     window.addEventListener("focus", check);
+
     return () => { active = false; clearInterval(interval); window.removeEventListener("focus", check); };
+
   }, []);
 
   useEffect(() => {
+
     if (!sessionVersion) return;
+
     const timer = setTimeout(() => { accessToken = null; setAuth({ ready: true, user: null }); }, Math.max(0, sessionVersion - Date.now()));
+
     return () => clearTimeout(timer);
+
   }, [sessionVersion]);
 
   async function login(event) {
+
     event.preventDefault();
+
     setAuthBusy(true); setAuthError("");
+
     try {
+
       const data = await authRequest("login", { username, password });
+
       setAuth({ ready: true, user: data.user });
+
       setPassword(""); setLoginOpen(false);
+
     } catch (error) { setAuthError(error.message); }
+
     finally { setAuthBusy(false); }
+
   }
 
   async function logout() {
+
     setAuthBusy(true); setAuthError("");
+
     try {
+
       await authRequest("logout", {});
+
       setAuth({ ready: true, user: null });
+
     } catch (error) { setAuthError(error.message); }
+
     finally { setAuthBusy(false); }
+
   }
 
   const mapContainerRef = useRef(null);
@@ -870,44 +1071,63 @@ export default function DoorToDoor() {
   const zoneFromUrl = searchParams.get("zone");
 
   const [selectedZone, setSelectedZone] = useState(
+
     () => ZONES[zoneFromUrl] ? zoneFromUrl : "palase"
+
   );
 
   useEffect(() => {
+
     if (ZONES[zoneFromUrl]) {
+
       setSelectedZone(zoneFromUrl);
+
     }
+
   }, [zoneFromUrl]);
 
   const activeZone = ZONES[selectedZone];
 
   const periudhaEvidentimit = useMemo(() => {
+
     const zoneName = normalize(selectedZone);
 
     const calendarEntry = calendarData.find((item) =>
+
       item.locations?.some(
+
         (location) => normalize(location) === zoneName
+
       )
+
     );
 
     if (!calendarEntry) return "—";
 
     // Prefer village-specific dates when available.
+
     const locationDates = Object.entries(
+
       calendarEntry.locationDates || {}
+
     ).find(([location]) => normalize(location) === zoneName)?.[1];
 
     const startDate =
+
       locationDates?.startDate || calendarEntry.startDate;
 
     const endDate =
+
       locationDates?.endDate || calendarEntry.endDate;
 
     if (!startDate || !endDate || startDate === "-" || endDate === "-") {
+
       return "—";
+
     }
 
     return `${startDate} – ${endDate}`;
+
   }, [selectedZone]);
 
   const [search, setSearch] = useState("");
@@ -981,22 +1201,39 @@ export default function DoorToDoor() {
   );
 
   const statistics = useMemo(() => {
+
     const byType = (type) => zoneRecords.filter((item) => item.type === type).length;
+
     const byCategory = (category) => zoneRecords.filter((item) => getStatusCategory(item.status) === category).length;
+
     return {
+
       total: zoneRecords.length,
+
       parcels: byType("parcel"),
+
       buildings: byType("building"),
+
       evidentime: byType("survey"),
+
       afishim: byCategory("afishim"),
+
       regjistruar: byCategory("regjistruar"),
+
       paAkses: byCategory("paAkses"),
+
       miratuar: byCategory("miratuar"),
+
       mungeseDokumentacioni: byCategory("mungeseDokumentacioni"),
+
       teTjera: byCategory("teTjera"),
+
       paStatus: byCategory("papercaktuar"),
+
       evidentimePaStatus: zoneRecords.filter((item) => item.type === "survey" && getStatusCategory(item.status) === "evidentuar").length,
+
     };
+
   }, [zoneRecords]);
 
   const filteredRecords = useMemo(() => {
@@ -1042,8 +1279,11 @@ export default function DoorToDoor() {
     if (mapRef.current) return;
 
     setRecords([]);
+
     setSelectedRecord(null);
+
     setLoading(true);
+
     let disposed = false;
 
     const controller = new AbortController();
@@ -1071,38 +1311,67 @@ export default function DoorToDoor() {
     });
 
     const updatePropertyLabels = () => {
+
       if (disposed || mapRef.current !== map) return;
+
       const zoom = map.getZoom();
+
       map.getContainer().style.setProperty(
+
         "--property-label-size", `${getPropertyLabelSize(zoom)}px`
+
       );
+
       Object.values(zoneLayersRef.current).forEach((entries) => {
+
         entries.forEach(({ layer: group }) => {
+
           group.eachLayer((featureLayer) => {
+
             if (!featureLayer.getTooltip?.()) return;
+
             if (zoom > 12 && map.hasLayer(group)) featureLayer.openTooltip();
+
             else featureLayer.closeTooltip();
+
           });
+
         });
+
       });
+
     };
 
     const updatePointSizes = () => {
+
       const zoom = map.getZoom();
 
       Object.values(zoneLayersRef.current).forEach((entries) => {
+
         entries.forEach(({ layer }) => {
+
           layer.eachLayer((featureLayer) => {
+
             if (featureLayer instanceof L.CircleMarker) {
+
               featureLayer.setStyle({
+
                 radius: getPointRadius(zoom),
+
                 weight: zoom <= 12 ? 0.5 : 1.5,
+
                 fillOpacity: zoom <= 12 ? 0.55 : 0.9,
+
               });
+
             }
+
           });
+
         });
+
       });
+
     };
 
     map.on("zoomend", updatePointSizes);
@@ -1240,6 +1509,7 @@ export default function DoorToDoor() {
         div.innerHTML = authenticated ? `
 
         <strong>Legjenda</strong>
+
         <div><i style="background:#f97316;border:2px solid #ea580c"></i> Parcelat</div>
 
         <div><i style="background:#22c55e;border:2px solid #15803d"></i> Ndërtesat</div>
@@ -1249,8 +1519,11 @@ export default function DoorToDoor() {
         <div><i class="legend-point" style="background:#a855f7;border:2px solid #7e22ce"></i> Regjistruar</div>
 
         <div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>
+
         <div><i style="background:#facc15;border:2px solid #a16207"></i> Mungesë dokumentacioni</div>
+
         <div><i style="background:#94a3b8;border:2px solid #475569"></i> Të tjera</div>
+
         <div><i class="legend-point" style="background:#100cea;border:2px solid #100cea"></i> Evidentime në terren</div>` : `<strong>Legjenda</strong><div><i class="legend-point" style="background:#ef4444;border:2px solid #b91c1c"></i> Banesë pa akses</div>`;
 
         L.DomEvent.disableClickPropagation(div);
@@ -1268,6 +1541,7 @@ export default function DoorToDoor() {
     const allRecords = [];
 
     const seenGeoJSONFeatures = new Set();
+
     let skippedDuplicates = 0;
 
     const boundsByZone = {};
@@ -1292,22 +1566,31 @@ export default function DoorToDoor() {
 
         try {
 
-          const url =
-
-            `${API_URL}/geojson?file=${encodeURIComponent(source.file)}&scope=${authenticated ? "all" : "public"}`;
+        const isPublicPoint = PUBLIC_POINT_FILES.has(source.file);
+          const url = isPublicPoint
+            ? `${BASE_URL}geojson/${encodeURIComponent(source.file)}`
+            : `${API_URL}/geojson?file=${encodeURIComponent(source.file)}&scope=${authenticated ? "all" : "public"}`;
 
           const response = await fetch(url, {
 
             signal: controller.signal,
+
             credentials: "omit",
+
             headers: authHeaders(),
+
             cache: "no-store",
+
           });
 
           if (response.status === 401) {
+
             if (!disposed) { accessToken = null; setAuth({ ready: true, user: null }); }
+
             return;
+
           }
+
           if (!response.ok) {
 
             throw new Error(
@@ -1353,15 +1636,23 @@ export default function DoorToDoor() {
             : new Set(["Polygon", "MultiPolygon"]);
 
           const features = allFeatures.filter((feature) => {
+
             if (!allowedGeometries.has(feature.geometry.type)) return false;
 
             const key = getGeometryDuplicateKey(feature, source.zone, source.type);
+
             if (key && seenGeoJSONFeatures.has(key)) {
+
               skippedDuplicates += 1;
+
               return false;
+
             }
+
             if (key) seenGeoJSONFeatures.add(key);
+
             return true;
+
           });
 
           if (features.length === 0) {
@@ -1401,19 +1692,31 @@ export default function DoorToDoor() {
             bubblingMouseEvents: false,
 
             pointToLayer: (feature, latlng) => {
+
               const style = getFeatureStyle(
+
                 isBuilding,
+
                 feature.properties || {},
+
                 source
+
               );
 
               return L.circleMarker(latlng, {
+
                 ...style,
+
                 radius: getPointRadius(map.getZoom()),
+
                 weight: map.getZoom() <= 12 ? 0.5 : 1.5,
+
                 fillOpacity: map.getZoom() <= 12 ? 0.55 : 0.9,
+
                 pane: isBuilding ? "buildingPane" : "parcelPane",
+
               });
+
             },
 
             style: (feature) => {
@@ -1483,9 +1786,13 @@ export default function DoorToDoor() {
                   "STRING",
 
                   "Numri_i_pa",
+
                   "property_n",
+
                   "label",
+
                   "property_n",
+
                   "label",
 
                 ]) ?? "";
@@ -1541,13 +1848,21 @@ export default function DoorToDoor() {
               const isNoAccessPoint = source.colorType === "noAccess";
 
               const status = properties._resolvedStatus || (source.type === "survey"
+
                 ? getSurveyStatus(properties)
+
                 : isNoAccessPoint
+
                   ? NO_ACCESS_STATUS
+
                   : source.colorType === "afishim"
+
                     ? "Në afishim"
+
                     : source.colorType === "regjistruar"
+
                       ? "Regjistruar"
+
                       : getStatus(properties));
 
               const record = {
@@ -1645,14 +1960,23 @@ export default function DoorToDoor() {
               }
 
               const popupContainer = createPopup(
+
                 properties,
+
                 isBuilding ? "Informacion mbi ndërtesën" : "Informacion mbi parcelën",
+
                 status
+
               );
+
               polygonLayer.bindPopup(popupContainer, {
+
                 maxWidth: 420,
+
                 autoPan: true,
+
                 closeButton: true,
+
               });
 
               const originalStyle = getFeatureStyle(isBuilding, properties, source);
@@ -1796,9 +2120,11 @@ export default function DoorToDoor() {
       zoneBoundsRef.current = boundsByZone;
 
       updatePropertyLabels();
+
       updatePointSizes();
 
       console.info(`[GeoJSON] Skipped ${skippedDuplicates} duplicate geometries.`);
+
       setRecords([...allRecords]);
 
       setLoading(false);
@@ -2008,6 +2334,7 @@ export default function DoorToDoor() {
       zoneBoundsRef.current = {};
 
       map.off("zoomend", updatePropertyLabels);
+
       map.off("zoomend", updatePointSizes);
 
       map.off();
@@ -2183,135 +2510,251 @@ export default function DoorToDoor() {
   return (
 
     <div className="doortodoor-page">
+
       <div className="door-auth-action">
+
         <button
+
           type="button"
+
           className="door-auth-icon"
+
           disabled={!auth.ready || authBusy}
+
           title={authenticated ? "Dil nga llogaria" : "Hyr në llogari"}
+
           aria-label={authenticated ? "Dil nga llogaria" : "Hyr në llogari"}
+
           onClick={() => {
+
             if (authenticated) {
+
               logout();
+
             } else {
+
               setAuthError("");
+
               setLoginOpen(true);
+
             }
+
           }}
+
         >
+
           <svg
+
             xmlns="http://www.w3.org/2000/svg"
+
             width="21"
+
             height="21"
+
             viewBox="0 0 24 24"
+
             fill="none"
+
             stroke="currentColor"
+
             strokeWidth="1.8"
+
             strokeLinecap="round"
+
             strokeLinejoin="round"
+
             aria-hidden="true"
+
           >
+
             {authenticated ? (
+
               <>
+
                 <path d="M9 5H5v14h4" />
+
                 <path d="M9 12h12" />
+
                 <path d="m17 8 4 4-4 4" />
+
               </>
+
             ) : (
+
               <>
+
                 <circle cx="12" cy="8" r="4" />
+
                 <path d="M5 21v-2a7 7 0 0 1 14 0v2" />
+
               </>
+
             )}
+
           </svg>
+
         </button>
 
         {authError && !loginOpen && (
+
           <p className="door-auth-error" role="alert">
+
             {authError}
+
           </p>
+
         )}
+
       </div>
+
       {loginOpen && !authenticated && (
+
         <div className="door-login-overlay">
+
           <section
+
             className="door-login-card"
+
             role="dialog"
+
             aria-modal="true"
+
             aria-labelledby="door-login-title"
+
           >
+
             <button
+
               className="door-login-close"
+
               type="button"
+
               aria-label="Mbyll"
+
               disabled={authBusy}
+
               onClick={() => {
+
                 setLoginOpen(false);
+
                 setPassword("");
+
               }}
+
             >
+
               ×
+
             </button>
 
             <div className="door-login-heading">
+
               <span className="door-login-badge">ASHK</span>
+
               <h2 id="door-login-title">Hyr në platformë</h2>
+
               <p>
+
                 Identifikohu për të parë të gjitha objektet dhe të dhënat e tyre.
+
               </p>
+
             </div>
 
             <form onSubmit={login} className="door-login-form">
+
               <div className="door-login-field">
+
                 <label htmlFor="door-user">Përdoruesi</label>
+
                 <input
+
                   id="door-user"
+
                   type="text"
+
                   autoFocus
+
                   autoComplete="username"
+
                   placeholder="Shkruani përdoruesin"
+
                   required
+
                   disabled={authBusy}
+
                   value={username}
+
                   onChange={(event) => setUsername(event.target.value)}
+
                 />
+
               </div>
 
               <div className="door-login-field">
+
                 <label htmlFor="door-password">Fjalëkalimi</label>
+
                 <input
+
                   id="door-password"
+
                   type="password"
+
                   autoComplete="current-password"
+
                   placeholder="Shkruani fjalëkalimin"
+
                   required
+
                   disabled={authBusy}
+
                   value={password}
+
                   onChange={(event) => setPassword(event.target.value)}
+
                 />
+
               </div>
 
               {authError && (
+
                 <p role="alert" className="door-login-error">
+
                   {authError}
+
                 </p>
+
               )}
 
               <button
+
                 className="door-login-submit"
+
                 disabled={authBusy}
+
                 type="submit"
+
               >
+
                 {authBusy ? "Duke hyrë…" : "Hyr në llogari"}
+
               </button>
 
               <p className="door-login-note">
+
                 Banesat pa akses mund të shihen pa u identifikuar.
+
               </p>
+
             </form>
+
           </section>
+
         </div>
+
       )}
+
       { }
 
       <header className="doortodoor-header">
@@ -2811,33 +3254,61 @@ export default function DoorToDoor() {
                 },
 
                 {
+
                   label: "Mungesë dokumentacioni",
+
                   count: statistics.mungeseDokumentacioni,
+
                   color: "#facc15",
+
                   border: "#a16207",
+
                   shape: "square",
+
                 },
+
                 {
+
                   label: "Evidentime në terren (gjithsej)",
+
                   count: statistics.evidentime,
+
                   color: "#100cea", border: "#100cea", shape: "circle",
+
                 },
+
                 {
+
                   label: "Evidentime – miratuar me vendim",
+
                   count: statistics.miratuar,
+
                   color: "#14b8a6", border: "#0f766e", shape: "circle",
+
                 },
+
                 {
+
                   label: "Evidentime – status për verifikim",
+
                   count: statistics.evidentimePaStatus,
+
                   color: "#fb923c", border: "#92400e", shape: "circle",
+
                 },
+
                 {
+
                   label: "Të tjera",
+
                   count: statistics.teTjera,
+
                   color: "#94a3b8",
+
                   border: "#475569",
+
                   shape: "square",
+
                 },
 
               ].filter((item) => authenticated || item.label === "Banesa pa akses").map((item) => (
@@ -2939,7 +3410,9 @@ export default function DoorToDoor() {
           { }
 
           { }
+
           { }
+
           { }
 
           {selectedRecord && (
