@@ -46,6 +46,9 @@ const POINT_GEOJSON_FILES = new Set([
   "PALASE_Ndertesat_total_POINT_perf.geojson",
   "ILIAS_Ndertesat_total_POINT.geojson",
   "PALASE_TE_GJITHA_perf.geojson",
+  "Dhermi_Ndertesat_total_point.geojson",
+  "Gjileke_Ndertesat_total_point.geojson",
+  "Ilias_Ndertesat_total_point.geojson"
 ]);
 
 function getGeometryDuplicateKey(feature, zone, type) {
@@ -62,54 +65,34 @@ function getGeometryDuplicateKey(feature, zone, type) {
 const GEOJSON_FILES = [
 
   // { file: "palas_gjilek.geojson", name: "Palasë – Gjilek", zone: "palase", type: "parcel" },
-
   //{ file: "palas_gjilek_nd.geojson", name: "Palasë – Gjilek ND", zone: "palase", type: "building" },
-
   // { file: "palas_gjilek_shtes.geojson", name: "Palasë – Gjilek shtesë", zone: "palase", type: "parcel" },
-
   // { file: "palas_gjilek_nd_shtes.geojson", name: "Palasë – Gjilek ND shtesë", zone: "palase", type: "building" },
-
   { file: "PARCELA1.geojson", name: "Dhërmi – Parcelat", zone: "dhermi", type: "parcel" },
-
   { file: "NDERTES1.geojson", name: "Dhërmi – Ndërtesat", zone: "dhermi", type: "building" },
-
   // { file: "Palase_Parcela.geojson", name: "Palasë – Parcelat", zone: "palase", type: "parcel" },
-
   // { file: "Palase_Ndertesat.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building" },
-
   //{ file: "Jugu_Ndertesat_total.geojson", name: "Jug – Ndërtesat", zone: "jug", type: "building" },
-
   // { file: "palase_google_earth.geojson",  name: "Palasë – Pika", zone: "palase-pika",type: "parcel",},
-
   // { file: "Jugu_Ndertesat_total_POINT_PALASE.geojson", name: "Palasë – Ndërtesat Jugu", zone: "palase", type: "building", display: "point" },
-
   // { file: "PALASE_MATJE_2.geojson", name: "Palasë – Matje", zone: "palase", type: "parcel" },
-
   // { file: "PALASE_TE_GJITHA.geojson", name: "Palasë – Të gjitha", zone: "palase", type: "parcel" },
-
   //{ file: "NE AFISHIM.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
-
   // { file: "PALASE_Ndertesat_total_POINT1.geojson", name: "Palasë – Ndërtesat", zone: "palase", type: "building", display: "point" },
-
   // { file: "PALASE_TE_GJITHA1.geojson", name: "Palasë – Të gjitha 1", zone: "palase", type: "parcel" },
-
   { file: "ILIAS_FSHAT_krgjsh.geojson", name: "Ilias – Fshati", zone: "ilias", type: "parcel" },
-
   { file: "ILIAS_NDERTESAT.geojson", name: "Ilias – Ndërtesat", zone: "ilias", type: "building" },
-
   { file: "ILIAS_Ndertesat_total_POINT.geojson", name: "Ilias – Ndërtesat POINT", zone: "ilias", type: "building", display: "point" },
-
   { file: "ILIAS_PARCELAT.geojson", name: "Ilias – Parcelat", zone: "ilias", type: "parcel" },
-
   { file: "Ndertesat_Ilias_privat.geojson", name: "Ilias – Ndërtesat private", zone: "ilias", type: "building", colorType: "regjistruar" },
-
   { file: "Ndertesat_Dhermi_privat.geojson", name: "Dhërmi – Ndërtesat private", zone: "dhermi", type: "building", colorType: "regjistruar" },
-
   { file: "Ndertesat_Palase_privat.geojson", name: "Palasë – Ndërtesat private", zone: "palase", type: "building", colorType: "regjistruar" },
   { file: "NE AFISHIM_perf.geojson", name: "Palasë – Në afishim", zone: "palase", type: "parcel", display: "point", colorType: "afishim" },
   { file: "PALASE_Ndertesat_total_POINT_perf.geojson", name: "Palasë – Banesa pa akses", zone: "palase", type: "building", display: "point", colorType: "noAccess" },
   { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Evidentime në terren", zone: "palase", type: "survey", display: "point" },
-
+  { file: "Gjileke_Ndertesat_total_point.geojson", name: "Gjilekë – Evidentime në terren", zone: "gjileke", type: "survey", display: "point" },
+  { file: "Dhermi_Ndertesat_total_point.geojson", name: "Dhërmi – Evidentime në terren", zone: "dhermi", type: "survey", display: "point" },
+  { file: "Ilias_Ndertesat_total_point.geojson", name: "Ilias – Evidentime në terren", zone: "ilias", type: "survey", display: "point" },
 ];
 
 const ZONES = GEOJSON_FILES.reduce((zones, item) => {
@@ -898,34 +881,34 @@ export default function DoorToDoor() {
 
   const activeZone = ZONES[selectedZone];
 
- const periudhaEvidentimit = useMemo(() => {
-  const zoneName = normalize(selectedZone);
+  const periudhaEvidentimit = useMemo(() => {
+    const zoneName = normalize(selectedZone);
 
-  const calendarEntry = calendarData.find((item) =>
-    item.locations?.some(
-      (location) => normalize(location) === zoneName
-    )
-  );
+    const calendarEntry = calendarData.find((item) =>
+      item.locations?.some(
+        (location) => normalize(location) === zoneName
+      )
+    );
 
-  if (!calendarEntry) return "—";
+    if (!calendarEntry) return "—";
 
-  // Prefer village-specific dates when available.
-  const locationDates = Object.entries(
-    calendarEntry.locationDates || {}
-  ).find(([location]) => normalize(location) === zoneName)?.[1];
+    // Prefer village-specific dates when available.
+    const locationDates = Object.entries(
+      calendarEntry.locationDates || {}
+    ).find(([location]) => normalize(location) === zoneName)?.[1];
 
-  const startDate =
-    locationDates?.startDate || calendarEntry.startDate;
+    const startDate =
+      locationDates?.startDate || calendarEntry.startDate;
 
-  const endDate =
-    locationDates?.endDate || calendarEntry.endDate;
+    const endDate =
+      locationDates?.endDate || calendarEntry.endDate;
 
-  if (!startDate || !endDate || startDate === "-" || endDate === "-") {
-    return "—";
-  }
+    if (!startDate || !endDate || startDate === "-" || endDate === "-") {
+      return "—";
+    }
 
-  return `${startDate} – ${endDate}`;
-}, [selectedZone]);
+    return `${startDate} – ${endDate}`;
+  }, [selectedZone]);
 
   const [search, setSearch] = useState("");
 
