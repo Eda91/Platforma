@@ -154,11 +154,11 @@ const GEOJSON_FILES = [
 
   { file: "PALASE_TE_GJITHA_perf.geojson", name: "Palasë – Evidentime në terren", zone: "palase", type: "survey", display: "point" },
 
-  { file: "Gjileke_Ndertesat_total_point.geojson", name: "Gjilekë – Evidentime në terren", zone: "gjileke", type: "survey", display: "point" },
+  { file: "Gjileke_Ndertesat_total_point.geojson", name: "Gjilekë – Evidentime në terren", zone: "gjileke", type: "survey", display: "point" , colorType: "noAccess"},
 
-  { file: "Dhermi_Ndertesat_total_point.geojson", name: "Dhërmi – Evidentime në terren", zone: "dhermi", type: "survey", display: "point" },
+  { file: "Dhermi_Ndertesat_total_point.geojson", name: "Dhërmi – Evidentime në terren", zone: "dhermi", type: "survey", display: "point",colorType: "noAccess"},
 
-  { file: "Ilias_Ndertesat_total_point.geojson", name: "Ilias – Evidentime në terren", zone: "ilias", type: "survey", display: "point" },
+  { file: "Ilias_Ndertesat_total_point.geojson", name: "Ilias – Evidentime në terren", zone: "ilias", type: "survey", display: "point",colorType: "noAccess" },
 
 ];
 
@@ -1847,23 +1847,19 @@ export default function DoorToDoor() {
 
               const isNoAccessPoint = source.colorType === "noAccess";
 
-              const status = properties._resolvedStatus || (source.type === "survey"
-
-                ? getSurveyStatus(properties)
-
-                : isNoAccessPoint
-
+             
+            const status =
+                source.colorType === "noAccess"
                   ? NO_ACCESS_STATUS
-
                   : source.colorType === "afishim"
-
                     ? "Në afishim"
-
                     : source.colorType === "regjistruar"
-
                       ? "Regjistruar"
+                      : properties._resolvedStatus ||
+                        (source.type === "survey"
+                          ? getSurveyStatus(properties)
+                          : getStatus(properties));
 
-                      : getStatus(properties));
 
               const record = {
 
