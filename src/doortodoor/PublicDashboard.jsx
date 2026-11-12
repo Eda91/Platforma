@@ -343,7 +343,7 @@ export default function PublicDashboard() {
                   <div className="agenda-line"><i /><span /><i /></div>
                   <div className="agenda-date agenda-date-end"><small>PËRFUNDIMI</small><strong>{item.endDate || "—"}</strong></div>
                 </div>
-                <div><span className={`agenda-status ${item.agendaStatus}`}>{item.agendaStatus === "completed" ? "Përfunduar" : item.agendaStatus === "active" ? "Në terren" : "Në pritje"}</span></div>
+                <div><span className={`agenda-status ${item.agendaStatus}`}>{item.agendaStatus === "completed" ? "Përfunduar Terreni" : item.agendaStatus === "active" ? "Në terren" : "Në pritje"}</span></div>
                 <div className="agenda-count"><strong>{item.zones.length}</strong><span>ZK</span></div>
                 <span className="agenda-arrow">{item.canOpen ? "↓" : "🔒"}</span>
               </button>
@@ -362,7 +362,7 @@ export default function PublicDashboard() {
               {filteredZones.map((zone) => {
                 const period = getZonePeriod(zone);
                 const status = getZoneStatus(zone, period);
-                const statusLabel = status === "completed" ? "Përfunduar" : status === "review" ? "Në shqyrtim" : "Planifikuar";
+                const statusLabel = status === "completed" ? "Përfunduar Terreni" : status === "review" ? "Në shqyrtim" : "Planifikuar";
                 return (
                   <button type="button" className={`zone-row ${status === "completed" ? "clickable" : "disabled"} zone-mobile-${status}`} key={zone.id} ref={(el) => { zoneRefs.current[String(zone.id)] = el; }} disabled={status !== "completed"} onClick={() => setSelectedZone(zone)}>
                     <div className="zone-cell"><small>ZK</small><strong>{zone.zk || "—"}</strong></div>
