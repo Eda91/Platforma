@@ -7065,6 +7065,8 @@ background 0.15s ease;
   line-height: 1.45 !important; padding: 5px 8px;
   border-radius: 10px; font-size: 13px !important;
 }
+
+
 @media (max-width: 900px) {
   .public-dashboard .modal-overlay { padding: 6px; }
   .public-dashboard .applications-modal {

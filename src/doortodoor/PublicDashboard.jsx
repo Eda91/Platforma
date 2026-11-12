@@ -1123,7 +1123,6 @@ const municipalityAgenda = useMemo(() => {
                 </div>
 
               ))}
-
               {filteredGlobalItems.length === 0 && <div className="applications-empty"><strong>Nuk u gjet asnjë banesë</strong><span>Provoni një kërkim tjetër.</span></div>}
 
             </div>
