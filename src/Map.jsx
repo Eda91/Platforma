@@ -184,7 +184,7 @@ function getFeatureCenter(feature) {
   }
 }
 
-const afatet= {
+const afatet = {
 
   3131: { start: "2026-04-27", end: "2026-06-11" },
   2239: { start: "2026-04-27", end: "2026-06-11" },
@@ -208,6 +208,15 @@ const afatet= {
   2504: { start: "2026-09-29", end: "2026-11-12" },
   1552: { start: "2026-10-01", end: "2026-11-14" },
   3187: { start: "2026-10-05", end: "2026-11-18" },
+  1418: { start: "2026-11-06", end: "2026-12-20" },
+  2563: { start: "2026-11-17", end: "2027-01-01" },
+  2619: { start: "2026-11-17", end: "2026-12-31" },
+  2427: { start: "2026-10-30", end: "2026-12-14" },
+  3109: { start: "2026-10-26", end: "2026-12-09" },
+  2471: { start: "2026-11-17", end: "2027-01-01" },
+  1177: { start: "2026-11-17", end: "2027-01-01" },
+  2455: { start: "2026-10-19", end: "2026-12-02" },
+
 
 };
 
@@ -233,10 +242,10 @@ function normalizeText(text = "") {
 export default function MapView() {
 
 
-const params = new URLSearchParams(window.location.search);
-const urlZk = params.get("zk") || "";
+  const params = new URLSearchParams(window.location.search);
+  const urlZk = params.get("zk") || "";
 
- console.log("URL ZK:", urlZk);
+  console.log("URL ZK:", urlZk);
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
@@ -255,7 +264,7 @@ const urlZk = params.get("zk") || "";
   const zkIndexRef = useRef({});
   const [dataLoaded, setDataLoaded] = useState(false);
   const [afatetZKState, setAfatetZKState] = useState({});
-   const trackLockRef = useRef(new Set());
+  const trackLockRef = useRef(new Set());
 
   const [sidebarVisible, setSidebarVisible] = useState(() => {
     return window.innerWidth >= 768;
@@ -287,77 +296,77 @@ const urlZk = params.get("zk") || "";
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
 
-   
 
 
-const map = L.map(mapContainer, {
-  preferCanvas: true,
-  renderer: L.canvas(),
 
-  // smooth movement
-  zoomAnimation: true,
-  fadeAnimation: true,
-  markerZoomAnimation: true,
+    const map = L.map(mapContainer, {
+      preferCanvas: true,
+      renderer: L.canvas(),
 
-  // smoother wheel zoom
-  scrollWheelZoom: true,
-  wheelDebounceTime: 20,
-  wheelPxPerZoomLevel: 80,
+      // smooth movement
+      zoomAnimation: true,
+      fadeAnimation: true,
+      markerZoomAnimation: true,
 
-  // zoom behavior
-  zoomSnap: 0.05,
-  zoomDelta: 0.1,
+      // smoother wheel zoom
+      scrollWheelZoom: true,
+      wheelDebounceTime: 20,
+      wheelPxPerZoomLevel: 80,
 
-  // limits
-  maxBounds: ALBANIA_BOUNDS,
-  maxBoundsViscosity: 1.0,
-  minZoom: 7.7,
-  maxZoom: 18.3,
+      // zoom behavior
+      zoomSnap: 0.05,
+      zoomDelta: 0.1,
 
-}).setView([41.1, 20.1], 7.8);
+      // limits
+      maxBounds: ALBANIA_BOUNDS,
+      maxBoundsViscosity: 1.0,
+      minZoom: 7.7,
+      maxZoom: 18.3,
+
+    }).setView([41.1, 20.1], 7.8);
 
     mapRef.current = map;
     labelLayerRef.current = L.layerGroup().addTo(map);
 
     /* ================= BUILDING GREEN MARKERS ================= */
 
-const buildingMarkersLayer = L.layerGroup().addTo(map);
+    const buildingMarkersLayer = L.layerGroup().addTo(map);
 
 
 
-  L.tileLayer(
-"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-{
-  maxZoom: 19,
-  detectRetina: true,
-  keepBuffer: 4
-}
-).addTo(map);
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        maxZoom: 19,
+        detectRetina: true,
+        keepBuffer: 4
+      }
+    ).addTo(map);
 
-  L.control.zoom({
-  position:"bottomright"
-}).addTo(map);
+    L.control.zoom({
+      position: "bottomright"
+    }).addTo(map);
 
-   const parcelStyle = {
-  color: "#ff9800",
-  weight: 1.2,
-  fillColor: "#ff9800",
-  fillOpacity: 0.3
-};
+    const parcelStyle = {
+      color: "#ff9800",
+      weight: 1.2,
+      fillColor: "#ff9800",
+      fillOpacity: 0.3
+    };
 
-const buildingStyle = {
-  color: "#008000",
-  weight: 1,
-  fillColor: "#008000",
-  fillOpacity: 0.3
-};
+    const buildingStyle = {
+      color: "#008000",
+      weight: 1,
+      fillColor: "#008000",
+      fillOpacity: 0.3
+    };
 
-const cityStyle = {
-  color: "#c2410c",
-  weight: 2,
-  fillOpacity: 0,
-  fillColor: "transparent",
-};
+    const cityStyle = {
+      color: "#c2410c",
+      weight: 2,
+      fillOpacity: 0,
+      fillColor: "transparent",
+    };
 
 
 
@@ -384,26 +393,26 @@ const cityStyle = {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_P.geojson",
         type: "parcel",
       },
-      
-       {
+
+      {
         url: import.meta.env.BASE_URL + "geojson/SR2806NI_N.geojson",
         type: "building",
       },
-  
-        {
+
+      {
         url: import.meta.env.BASE_URL + "geojson/PR3067PS_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/PR3067PS_P.geojson",
         type: "parcel",
       },
 
-        {
+      {
         url: import.meta.env.BASE_URL + "geojson/VL2955PI_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/VL2955PI_P.geojson",
         type: "parcel",
       },
@@ -412,156 +421,276 @@ const cityStyle = {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_N.geojson",
         type: "building",
       },
-       {
+      {
         url: import.meta.env.BASE_URL + "geojson/MK2350KU_P.geojson",
         type: "parcel",
       },
 
       {
-      url: import.meta.env.BASE_URL + "geojson/EL3376SH_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/EL3376SH_P.geojson",
-      type: "parcel",
-    },
-
-       {
-      url: import.meta.env.BASE_URL + "geojson/PE1361CA_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PE1361CA_P.geojson",
-      type: "parcel",
-    },
-       {
-      url: import.meta.env.BASE_URL + "geojson/PE1084BA_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PE1084BA_P.geojson",
-      type: "parcel",
-    },
-         {
-      url: import.meta.env.BASE_URL + "geojson/EL1885GU_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/EL1885GU_P.geojson",
-      type: "parcel",
-    },
-     {
-      url: import.meta.env.BASE_URL + "geojson/LU2238KS_P.geojson",
-      type: "parcel",
-    },
-
-          {
-      url: import.meta.env.BASE_URL + "geojson/PR2216KO_N.geojson",
-      type: "building",
-    },
-    {
-      url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
-      type: "parcel",
-    },
+        url: import.meta.env.BASE_URL + "geojson/EL3376SH_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL3376SH_P.geojson",
+        type: "parcel",
+      },
 
       {
-      url: import.meta.env.BASE_URL + "geojson/LU8573LU_N.geojson",
-      type: "building",
-    },
+        url: import.meta.env.BASE_URL + "geojson/PE1361CA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1361CA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1084BA_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1084BA_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL1885GU_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL1885GU_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/LU2238KS_P.geojson",
+        type: "parcel",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/LU8573LU_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2216KO_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2216KO_P.geojson",
+        type: "parcel",
+      },
 
-        {
-      url: import.meta.env.BASE_URL + "geojson/DL1074BA_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/LU8573LU_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/DL1074BA_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/LU8573LU_P.geojson",
+        type: "parcel",
+      },
 
-       {
-      url: import.meta.env.BASE_URL + "geojson/PR2618MA_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/DL1074BA_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/PR2618MA_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/DL1074BA_P.geojson",
+        type: "parcel",
+      },
 
-   {
-      url: import.meta.env.BASE_URL + "geojson/EL2654ME_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2618MA_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/EL2654ME_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2618MA_P.geojson",
+        type: "parcel",
+      },
 
-   {
-      url: import.meta.env.BASE_URL + "geojson/KO2494LO_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL2654ME_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/KO2494LO_P.geojson",
-      type: "parcel",
-    },
-       {
-      url: import.meta.env.BASE_URL + "geojson/VL1826GR_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/EL2654ME_P.geojson",
+        type: "parcel",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/VL1826GR_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/KO2494LO_N.geojson",
+        type: "building",
+      },
 
-   {
-      url: import.meta.env.BASE_URL + "geojson/VL2504LU_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/KO2494LO_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL1826GR_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/VL2504LU_P.geojson",
-      type: "parcel",
-    },
-     {
-      url: import.meta.env.BASE_URL + "geojson/VL1552DR_N.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL1826GR_P.geojson",
+        type: "parcel",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/VL1552DR_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL2504LU_N.geojson",
+        type: "building",
+      },
 
-       {
-      url: import.meta.env.BASE_URL + "geojson/PR3187RO_ND.geojson",
-      type: "building",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL2504LU_P.geojson",
+        type: "parcel",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL1552DR_N.geojson",
+        type: "building",
+      },
 
-    {
-      url: import.meta.env.BASE_URL + "geojson/PR3187RO_P.geojson",
-      type: "parcel",
-    },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL1552DR_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR3187RO_ND.geojson",
+        type: "building",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR3187RO_P.geojson",
+        type: "parcel",
+      },
+
+      // GEOJSON - 18.11.2026
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE2471LI_N.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE2471LI_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1177BI_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE1177BI_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE2427LE_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PE2427LE_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/KO3109QE_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/KO3109QE_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2455LI_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2455LI_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL2619MA_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/VL2619MA_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2563MA_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR2563MA_P.geojson",
+        type: "parcel",
+      },
+
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR1418CO_ND.geojson",
+        type: "building",
+      },
+      {
+        url: import.meta.env.BASE_URL + "geojson/PR1418CO_P.geojson",
+        type: "parcel",
+      },
+
+
+
 
     ];
 
-    async function loadLayersSequentially() {
-       console.log("BASE URL:", import.meta.env.BASE_URL);
-      const allFeatures = [];
+    // Identifikon çiftet _P / _N / _ND sipas prefiksit të skedarit.
+    const getZoneFileKey = (url) =>
+      url.split("/").pop().replace(/_(?:P|N|ND)\.geojson$/i, "");
 
-      for (const f of files) {
+    const bboxOverlaps = (a, b) =>
+      a[0] <= b[2] && a[2] >= b[0] &&
+      a[1] <= b[3] && a[3] >= b[1];
+
+    async function loadLayersSequentially() {
+      console.log("BASE URL:", import.meta.env.BASE_URL);
+      const allFeatures = [];
+      const geojsonCache = new Map();
+      const parcelIndex = new Map();
+      const uniqueFiles = files.filter((f, i, arr) =>
+        arr.findIndex((other) => other.url === f.url) === i
+      );
+
+      // Lexojmë fillimisht parcelat, që ndërtesat të kontrollohen
+      // edhe kur skedari i ndërtesave vjen para atij të parcelave.
+      for (const f of uniqueFiles.filter((item) => item.type === "parcel")) {
         try {
           const res = await fetch(f.url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const data = await res.json();
+          geojsonCache.set(f.url, data);
+          const key = getZoneFileKey(f.url);
+          const polygons = (data.features || [])
+            .filter((feature) => isValidPolygonGeometry(feature?.geometry))
+            .filter((feature) => isWithinDateRange(getZkValue(feature.properties || {})))
+            .map((feature) => {
+              try {
+                return { feature, bbox: turf.bbox(feature) };
+              } catch {
+                return null;
+              }
+            })
+            .filter(Boolean);
+          parcelIndex.set(key, polygons);
+        } catch (error) {
+          console.error("Nuk u ngarkuan parcelat:", f.url, error);
+        }
+      }
+
+      for (const f of uniqueFiles) {
+        try {
+          let data = geojsonCache.get(f.url);
+          if (!data) {
+            const res = await fetch(f.url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            data = await res.json();
+          }
 
           const validFeatures = (data.features || []).filter((feature) => {
             if (!feature || !feature.geometry) return false;
@@ -586,65 +715,104 @@ const cityStyle = {
             }
 
             const props = feature.properties || {};
-             const zk = getZkValue(props);
+            const zk = getZkValue(props);
 
-            return isWithinDateRange(zk);
+            if (!isWithinDateRange(zk)) return false;
+
+            if (f.type === "building") {
+              const key = getZoneFileKey(f.url);
+              const parcels = parcelIndex.get(key);
+              // Pa parcelat referencë nuk e paraqesim ndërtesën si të verifikuar.
+              if (!parcels?.length) return false;
+
+              try {
+                const buildingBBox = turf.bbox(feature);
+                return parcels.some(({ feature: parcel, bbox }) =>
+                  bboxOverlaps(buildingBBox, bbox) &&
+                  turf.booleanIntersects(feature, parcel)
+                );
+              } catch (error) {
+                console.warn("Gjeometri ndërtese e pavlefshme:", f.url, error);
+                return false;
+              }
+            }
+
+            return true;
           });
+
+          if (f.type === "building") {
+            console.info("Kontroll ndërtesash:", f.url, {
+              total: data.features?.length || 0,
+              shfaqen: validFeatures.length,
+              perjashtuar: (data.features?.length || 0) - validFeatures.length,
+            });
+          }
 
           try {
             L.geoJSON(validFeatures, {
-            style: () => {
-                  if (f.type === "city") {
-                    return cityStyle;
-                  }
+              style: () => {
+                if (f.type === "city") {
+                  return cityStyle;
+                }
 
-                 if (f.type === "building") {
-                    return {
-                      color: "#00a83b",
-                      weight: 2.5,
+                if (f.type === "building") {
+                  return {
+                    color: "#00a83b",
+                    weight: 2.5,
 
-                      fillColor: "#00e64d",
-                      fillOpacity: 0.85,
+                    fillColor: "#00e64d",
+                    fillOpacity: 0.85,
 
-                      opacity: 1,
-                    };
-                  }
+                    opacity: 1,
+                  };
+                }
 
-                  if (f.type === "parcel") {
-                    return {
-                      color: "#ff9800",
-                      weight: 1.2,
-                      fillColor: "#ff9800",
-                      fillOpacity: 0.7,
-                    };
-                  }
+                if (f.type === "parcel") {
+                  return {
+                    color: "#ff9800",
+                    weight: 1.2,
+                    fillColor: "#ff9800",
+                    fillOpacity: 0.7,
+                  };
+                }
 
-                  return {};
-                },
+                return {};
+              },
 
               onEachFeature: (feature, layer) => {
                 try {
                   feature._layer = layer;
                   layer.feature = feature;
                   feature.type = f.type;
+                  if (f.type === "building") {
+                  layer.on("click", () => {
+                    console.log("NDERTESA E KLIKUAR:", {
+                      file: f.url,
+                      zk: getZkValue(feature.properties),
+                      properties: feature.properties,
+                      coordinates: feature.geometry.coordinates,
+                      bounds: layer.getBounds().toBBoxString()
+                    });
+                  });
+                }
 
                   /* =========================================
                     CREATE GREEN MARKER FOR BUILDINGS
                   ========================================= */
 
-              if (f.type === "building") {
-                  try {
-                    const bounds = layer.getBounds();
+                  if (f.type === "building") {
+                    try {
+                      const bounds = layer.getBounds();
 
-                    if (bounds && bounds.isValid()) {
-                      const center = bounds.getCenter();
+                      if (bounds && bounds.isValid()) {
+                        const center = bounds.getCenter();
 
-                    
+
+                      }
+                    } catch (e) {
+                      console.warn("Building marker error:", e);
                     }
-                  } catch (e) {
-                    console.warn("Building marker error:", e);
                   }
-                }
 
                   const props = feature.properties || {};
 
@@ -672,22 +840,22 @@ const cityStyle = {
 
                   feature.zk = getZkValue(props) || "-";
 
-                      if (feature.zk === "-" || feature.zk === "0") {
-                          feature.isValidZk = false;
-                        } else {
-                          feature.isValidZk = true;
-                        }
+                  if (feature.zk === "-" || feature.zk === "0") {
+                    feature.isValidZk = false;
+                  } else {
+                    feature.isValidZk = true;
+                  }
 
-                     const zkKey = normalizeText(feature.zk);
+                  const zkKey = normalizeText(feature.zk);
 
-                      if (zkKey && zkKey !== "-" && zkKey !== "0") {
+                  if (zkKey && zkKey !== "-" && zkKey !== "0") {
 
-                        if (!zkIndexRef.current[zkKey]) {
-                          zkIndexRef.current[zkKey] = [];
-                        }
+                    if (!zkIndexRef.current[zkKey]) {
+                      zkIndexRef.current[zkKey] = [];
+                    }
 
-                        zkIndexRef.current[zkKey].push(layer);
-                      }
+                    zkIndexRef.current[zkKey].push(layer);
+                  }
 
                   feature.isActive = isWithinDateRange(feature.zk);
                   feature.nrPas = getFieldValue(props, fieldMap.Nr_Pas) || "-";
@@ -700,7 +868,7 @@ const cityStyle = {
                   try {
                     center = getFeatureCenter(feature);
                     feature._center = center;
-                  } catch (e) {}
+                  } catch (e) { }
 
                   if (
                     center &&
@@ -715,77 +883,60 @@ const cityStyle = {
                     });
                   }
 
-                    if (center && f.type === "parcel") {
 
-                      let offsetLat = 0;
-                      let offsetLng = 0;
+                  if (center && f.type === "parcel") {
 
-                     
-                      if (feature.zk === "1088") {
-                        offsetLng = -0.031; // adjust this value if needed
-                      }
-                        if (feature.zk === "3067") {
-                        offsetLng = -0.005; // adjust this value if needed
-                      }
+                    const zk = String(feature.zk ?? "").trim();
 
-                        if (feature.zk === "2806") {
-                        offsetLng = -0.04; // adjust this value if needed
-                        offsetLat = +0.02; 
-                      }
+                    if (!zk || zk === "-" || zk === "0") return;
 
-                        if (feature.zk === "2955") {
-                        offsetLng = -0.02; // adjust this value if needed
-                      
-                      }
-                      
-                        if (feature.zk === "1084") {
-                        offsetLat = +0.02; 
-                      }
-                        if (feature.zk === "1361") {
-                        offsetLng = -0.005; // adjust this value if needed
-                      }
+                    // Korrigjimet ekzistuese
+                    const labelOffsets = {
+                      "1088": { lat: 0, lng: -0.031 },
+                      "3067": { lat: 0, lng: -0.005 },
+                      "2806": { lat: 0.02, lng: -0.04 },
+                      "2955": { lat: 0, lng: -0.02 },
+                      "1084": { lat: 0.01, lng: 0.01 },
+                      "1361": { lat: 0, lng: -0.005 },
+                      "3367": { lat: 0.02, lng: -0.04 },
+                      "2216": { lat: 0, lng: -0.01 },
+                      "2618": { lat: -0.01, lng: 0.03 },
 
-                        if (feature.zk === "3367") {
-                        offsetLng = -0.04; // adjust this value if needed
-                        offsetLat = +0.02; 
-                      }
-                       
-                        if (feature.zk === "1084") {
-                             offsetLat = +0.01;
-                             offsetLng = +0.01;
-                      }
-                        if (feature.zk === "2216") {
-                     
-                           offsetLng = +0.00001;
-                           offsetLng = -0.01;
-                      }
+                      // Zonat e reja - fillimisht pa zhvendosje
+                      "2471": { lat: 0, lng: 0 },
+                      "1177": { lat: 0, lng: 0 },
+                      "1418": { lat: 0, lng: 0 },
+                      "2455": { lat: 0, lng: 0 },
+                      "2563": { lat: 0, lng: 0 },
+                      "2427": { lat: 0, lng: 0 },
+                      "2619": { lat: 0, lng: 0 },
+                      "3109": { lat: 0, lng: 0 },
+                      "2494": { lat: 0, lng: 0 },
+                    };
 
-                        if (feature.zk === "2618") {
-                           offsetLat = -0.01;   // pak poshtë
-                           offsetLng = +0.03;
-                      }
-                          if (!feature.zk || feature.zk === "-" || feature.zk === "0") return;
-                     
+                    const offset = labelOffsets[zk] || { lat: 0, lng: 0 };
 
-                      const shiftedCenter = L.latLng(
-                        center.lat + offsetLat,
-                        center.lng + offsetLng
-                      );
+                    const shiftedCenter = L.latLng(
+                      center.lat + offset.lat,
+                      center.lng + offset.lng
+                    );
 
-                      feature._zkLabel = L.marker(shiftedCenter, {
-                        interactive: false,
-                        icon: L.divIcon({
-                          className: "zk-label",
-                          iconSize: [0, 0],
-                          iconAnchor: [0, 0],
-                          html: `
-                            <div class="zk-text">
-                              ${feature.zk}
-                            </div>
-                          `,
-                        }),
-                      });
-                    }
+                    feature._zkLabel = L.marker(shiftedCenter, {
+                      interactive: false,
+                      icon: L.divIcon({
+                        className: "zk-label",
+                        iconSize: [0, 0],
+                        iconAnchor: [0, 0],
+                        html: `
+        <div class="zk-text"
+             style="transform:translate(-50%, -50%);">
+          ${zk}
+        </div>
+      `,
+                      }),
+                    });
+                  }
+
 
                   if (center && f.type === "city") {
                     const cityName =
@@ -812,12 +963,12 @@ const cityStyle = {
 
                   allFeatures.push(feature);
                 } catch (e) {
-                 // console.warn("⚠️ skip feature");
+                  // console.warn("⚠️ skip feature");
                 }
               },
             }).addTo(map);
           } catch (e) {
-           // console.warn("⛔ skip file:", f.url);
+            // console.warn("⛔ skip file:", f.url);
           }
 
           // ⏱ prevents freezing
@@ -832,19 +983,19 @@ const cityStyle = {
 
 
       if (urlZk) {
-          zoomToZK(urlZk);
+        zoomToZK(urlZk);
       }
 
     }
     let renderedZK = new Set();
-   let timeout;
+    let timeout;
 
     function updateLabels() {
       if (!labelLayerRef.current) return;
 
       if (!mapRef.current) return;
-        if (!mapRef.current._container) return;
-        if (!mapRef.current._loaded) return;
+      if (!mapRef.current._container) return;
+      if (!mapRef.current._loaded) return;
 
       if (timeout) return;
 
@@ -854,8 +1005,8 @@ const cityStyle = {
 
         buildingMarkersLayer.clearLayers();
 
-     // const bounds = map.getBounds();
-            const map = mapRef.current;
+        // const bounds = map.getBounds();
+        const map = mapRef.current;
 
         // 🔒 HARD GUARD
         if (!map || !map._container || !map._loaded) return;
@@ -870,84 +1021,84 @@ const cityStyle = {
 
         const zoom = map.getZoom();
 
-       featuresRef.current.forEach((f) => {
-  if (!f._layer || !f._center) return;
+        featuresRef.current.forEach((f) => {
+          if (!f._layer || !f._center) return;
 
-  const center = f._center;
+          const center = f._center;
 
-  // mos rendero jashtë ekranit
-  if (!bounds.contains(center)) return;
+          // mos rendero jashtë ekranit
+          if (!bounds.contains(center)) return;
 
-  // CITY LABELS
-  if (f.type === "city" && zoom >= 6) {
-    if (f._label) {
-      labelLayerRef.current.addLayer(f._label);
-    }
-  }
+          // CITY LABELS
+          if (f.type === "city" && zoom >= 6) {
+            if (f._label) {
+              labelLayerRef.current.addLayer(f._label);
+            }
+          }
 
-  // ZK LABEL
-  if (
-    f.type === "parcel" &&
-    zoom >= 10 &&
-    zoom <= 14
-  ) {
-    if (!renderedZK.has(f.zk)) {
-      renderedZK.add(f.zk);
+          // ZK LABEL
+          if (
+            f.type === "parcel" &&
+            zoom >= 10 &&
+            zoom <= 14
+          ) {
+            if (!renderedZK.has(f.zk)) {
+              renderedZK.add(f.zk);
 
-      if (f._zkLabel) {
-        labelLayerRef.current.addLayer(
-          f._zkLabel
-        );
-      }
-    }
-  }
+              if (f._zkLabel) {
+                labelLayerRef.current.addLayer(
+                  f._zkLabel
+                );
+              }
+            }
+          }
 
-  /* =========================================
-     NDERTESAT - JESHILe ME E DUKSHME
-  ========================================= */
+          /* =========================================
+             NDERTESAT - JESHILe ME E DUKSHME
+          ========================================= */
 
-  if (f.type === "building") {
-    if (zoom >= 12) {
-      f._layer.setStyle({
-        color: "#00a83b",
-        weight: 2.5,
+          if (f.type === "building") {
+            if (zoom >= 12) {
+              f._layer.setStyle({
+                color: "#00a83b",
+                weight: 2.5,
 
-        fillColor: "#00e64d",
-        fillOpacity: 0.9,
+                fillColor: "#00e64d",
+                fillOpacity: 0.9,
 
-        opacity: 1,
-      });
-    } else {
-      f._layer.setStyle({
-        color: "#008000",
-        weight: 1,
+                opacity: 1,
+              });
+            } else {
+              f._layer.setStyle({
+                color: "#008000",
+                weight: 1,
 
-        fillColor: "#008000",
-        fillOpacity: 0.3,
+                fillColor: "#008000",
+                fillOpacity: 0.3,
 
-        opacity: 1,
-      });
-    }
-  }
+                opacity: 1,
+              });
+            }
+          }
 
-  /* =========================================
-     NR PASURIE
-  ========================================= */
+          /* =========================================
+             NR PASURIE
+          ========================================= */
 
-  if (
-    (f.type === "parcel" ||
-      f.type === "building") &&
-    zoom >= 12
-  ) {
-    if (f._label) {
-      labelLayerRef.current.addLayer(
-        f._label
-      );
-    }
-  }
-});
+          if (
+            (f.type === "parcel" ||
+              f.type === "building") &&
+            zoom >= 12
+          ) {
+            if (f._label) {
+              labelLayerRef.current.addLayer(
+                f._label
+              );
+            }
+          }
+        });
 
-    timeout = null;
+        timeout = null;
       }, 80); // pak më i butë → më smooth
     }
 
@@ -962,197 +1113,197 @@ const cityStyle = {
       map.off();
       map.remove();
       mapRef.current = null;
-      
+
     };
   }, []);
 
 
-useEffect(() => {
-  if (urlZk) {
-    setZk(urlZk);
-  }
-}, [urlZk]);
+  useEffect(() => {
+    if (urlZk) {
+      setZk(urlZk);
+    }
+  }, [urlZk]);
 
 
-const zoomToZK = (zkValue) => {
+  const zoomToZK = (zkValue) => {
 
-  if (!mapRef.current) return;
+    if (!mapRef.current) return;
 
-  const key = normalizeText(zkValue);
+    const key = normalizeText(zkValue);
 
-  const layers = zkIndexRef.current[key];
+    const layers = zkIndexRef.current[key];
 
-  if (!layers || layers.length === 0) return;
-
-
-  const validLayers = layers.filter(
-    l => l && typeof l.getBounds === "function"
-  );
+    if (!layers || layers.length === 0) return;
 
 
-  if (!validLayers.length) return;
+    const validLayers = layers.filter(
+      l => l && typeof l.getBounds === "function"
+    );
 
 
-  const group = L.featureGroup(validLayers);
-
-  const bounds = group.getBounds();
+    if (!validLayers.length) return;
 
 
-  mapRef.current.flyToBounds(bounds, {
+    const group = L.featureGroup(validLayers);
 
-    padding: [60,60],
-
-    maxZoom: 17,
-
-    duration: 2.5,
-
-    easeLinearity: 0.25
-
-  });
+    const bounds = group.getBounds();
 
 
+    mapRef.current.flyToBounds(bounds, {
 
-  validLayers.forEach(layer => {
+      padding: [60, 60],
 
-    layer.setStyle({
+      maxZoom: 17,
 
-      color:"#ff0000",
+      duration: 2.5,
 
-      weight:3,
-
-      fillOpacity:0.55
+      easeLinearity: 0.25
 
     });
 
-  });
-
-};
 
 
-const afatetIndex = Object.entries(afatetZK || {}).reduce((acc, [zk, val]) => {
-  if (val?.name) {
-    acc[normalizeText(val.name)] = zk;
-  }
-  return acc;
-}, {});
+    validLayers.forEach(layer => {
 
-const findZkByFshati = (fshati) => {
-  const input = normalizeText(fshati);
-  return afatetIndex[input] || null;
-};
+      layer.setStyle({
 
+        color: "#ff0000",
 
-const trackSearch = async ({ zk, owner, fshati }) => {
-  if (!zk || zk === "-" || zk === "0") return;
+        weight: 3,
 
-  try {
-    await uploadStats(zk);
+        fillOpacity: 0.55
 
-    await trackZkSearch({
-      zk,
-      owner,
-      fshati,
-      timestamp: new Date().toISOString(),
+      });
+
     });
-  } catch (err) {
-    console.error(err);
-  }
-};
+
+  };
+
+
+  const afatetIndex = Object.entries(afatetZK || {}).reduce((acc, [zk, val]) => {
+    if (val?.name) {
+      acc[normalizeText(val.name)] = zk;
+    }
+    return acc;
+  }, {});
+
+  const findZkByFshati = (fshati) => {
+    const input = normalizeText(fshati);
+    return afatetIndex[input] || null;
+  };
+
+
+  const trackSearch = async ({ zk, owner, fshati }) => {
+    if (!zk || zk === "-" || zk === "0") return;
+
+    try {
+      await uploadStats(zk);
+
+      await trackZkSearch({
+        zk,
+        owner,
+        fshati,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   /* ================= SEARCH ================= */
-const handleSearch = async () => {
-  const zkVal = normalizeText(zk);
-  const ownerVal = normalizeText(owner);
-  const fshatiVal = normalizeText(fshati);
+  const handleSearch = async () => {
+    const zkVal = normalizeText(zk);
+    const ownerVal = normalizeText(owner);
+    const fshatiVal = normalizeText(fshati);
 
-  if (!zkVal && !ownerVal && !fshatiVal) {
-    setMessage("Vendos të paktën një kriter kërkimi");
-    setResults([]);
-    setShowResultsModal(false);
-    return;
-  }
-
-  if (zkVal) {
-    zoomToZK(zkVal.trim());
-  }
-
-  const matches = featuresRef.current.filter((f) => {
-    const zkName = normalizeText(f.normalized?.Zk_Emer);
-    const owner = normalizeText((f.owners || []).join(" "));
-    const zk = normalizeText(f.zk);
-
-    return (
-      (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
-      (ownerVal && owner.includes(ownerVal)) ||
-      (fshatiVal && zkName.includes(fshatiVal))
-    );
-  });
-
-  const zkFromFshati = findZkByFshati(fshatiVal);
-
-  // 🔥 FIX: dedup key për tracking
-  const trackKey = `${zkVal}-${ownerVal}-${fshatiVal}`;
-
-
-  // ❗ TRACK vetëm nëse ka kërkim valid
-  await trackSearch({
-    zk: zkVal || zkFromFshati || null,
-    owner: ownerVal || null,
-    fshati: fshatiVal || null,
-    resultCount: zk || zkFromFshati
-  });
-
-  console.log("TRACK SEARCH CALLED:", {
-    zk: zkVal || zkFromFshati || null,
-    owner: ownerVal,
-    fshati: fshatiVal,
-    resultCount: zkVal ||zkFromFshati
-  });
-
-  if (!matches.length) {
-    setMessage("Nuk u gjet asnjë rezultat.");
-    setResults([]);
-    setShowResultsModal(false);
-    return;
-  }
-
-  setMessage("");
-
-  const shouldShowTable = ownerVal.length > 0;
-
-  if (shouldShowTable) {
-    setResults(matches.map((f) => f.normalized));
-    setShowResultsModal(true);
-  } else {
-    setResults([]);
-    setShowResultsModal(false);
-  }
-
-  const group = L.featureGroup(
-    matches.map((f) => f._layer).filter(Boolean)
-  );
-
-  if (group.getLayers().length) {
-  mapRef.current.flyToBounds(
-  group.getBounds(),
-  {
-    padding:[50,50],
-    maxZoom:18,
-    duration:2
-  }
-);
-  }
-
-  matches.forEach((f) => {
-    if (f._layer) {
-      f._layer.setStyle({
-        color: "red",
-        weight: 3,
-        fillOpacity: 0.5,
-      });
+    if (!zkVal && !ownerVal && !fshatiVal) {
+      setMessage("Vendos të paktën një kriter kërkimi");
+      setResults([]);
+      setShowResultsModal(false);
+      return;
     }
-  });
-};
+
+    if (zkVal) {
+      zoomToZK(zkVal.trim());
+    }
+
+    const matches = featuresRef.current.filter((f) => {
+      const zkName = normalizeText(f.normalized?.Zk_Emer);
+      const owner = normalizeText((f.owners || []).join(" "));
+      const zk = normalizeText(f.zk);
+
+      return (
+        (zkVal && (zk.includes(zkVal) || zkName.includes(zkVal))) ||
+        (ownerVal && owner.includes(ownerVal)) ||
+        (fshatiVal && zkName.includes(fshatiVal))
+      );
+    });
+
+    const zkFromFshati = findZkByFshati(fshatiVal);
+
+    // 🔥 FIX: dedup key për tracking
+    const trackKey = `${zkVal}-${ownerVal}-${fshatiVal}`;
+
+
+    // ❗ TRACK vetëm nëse ka kërkim valid
+    await trackSearch({
+      zk: zkVal || zkFromFshati || null,
+      owner: ownerVal || null,
+      fshati: fshatiVal || null,
+      resultCount: zk || zkFromFshati
+    });
+
+    console.log("TRACK SEARCH CALLED:", {
+      zk: zkVal || zkFromFshati || null,
+      owner: ownerVal,
+      fshati: fshatiVal,
+      resultCount: zkVal || zkFromFshati
+    });
+
+    if (!matches.length) {
+      setMessage("Nuk u gjet asnjë rezultat.");
+      setResults([]);
+      setShowResultsModal(false);
+      return;
+    }
+
+    setMessage("");
+
+    const shouldShowTable = ownerVal.length > 0;
+
+    if (shouldShowTable) {
+      setResults(matches.map((f) => f.normalized));
+      setShowResultsModal(true);
+    } else {
+      setResults([]);
+      setShowResultsModal(false);
+    }
+
+    const group = L.featureGroup(
+      matches.map((f) => f._layer).filter(Boolean)
+    );
+
+    if (group.getLayers().length) {
+      mapRef.current.flyToBounds(
+        group.getBounds(),
+        {
+          padding: [50, 50],
+          maxZoom: 18,
+          duration: 2
+        }
+      );
+    }
+
+    matches.forEach((f) => {
+      if (f._layer) {
+        f._layer.setStyle({
+          color: "red",
+          weight: 3,
+          fillOpacity: 0.5,
+        });
+      }
+    });
+  };
 
 
 
@@ -1259,20 +1410,20 @@ const handleSearch = async () => {
               )}
 
               <input
-                  placeholder="Fshati (Emri i Zonës Kadastrale)"
-                  value={fshati}
-                  onChange={(e) => setFshati(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    marginBottom: "4px",
-                    borderRadius: "6px",
-                    border: "1px solid #ccc",
-                    fontSize: "14px",
-                  }}
-                />
+                placeholder="Fshati (Emri i Zonës Kadastrale)"
+                value={fshati}
+                onChange={(e) => setFshati(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "4px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
+              />
 
-                   {!fshati&&(
+              {!fshati && (
                 <div
                   style={{
                     color: "red",
@@ -1312,7 +1463,7 @@ const handleSearch = async () => {
               <div style={{ textAlign: "center" }}>
                 <button
                   onClick={handleSearch}
-           
+
                   style={{
                     width: "140px",
                     padding: "10px",
@@ -1322,7 +1473,7 @@ const handleSearch = async () => {
                     borderRadius: "6px",
                     fontSize: "14px",
                     fontWeight: 500,
-                  
+
                   }}
                 >
                   🔍 Kërko

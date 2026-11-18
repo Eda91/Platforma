@@ -61,6 +61,14 @@ const afatetZK = {
   2504: { start: "2026-09-29", end: "2026-11-12" },
   1552: { start: "2026-10-01", end: "2026-11-14" },
   3187: { start: "2026-10-05", end: "2026-11-18" },
+  1418: { start: "2026-11-06", end: "2026-12-20" },
+  2563: { start: "2026-11-17", end: "2027-01-01" },
+  2619: { start: "2026-11-17", end: "2026-12-31" },
+  2427: { start: "2026-10-30", end: "2026-12-14" },
+  3109: { start: "2026-10-26", end: "2026-12-09" },
+  2471: { start: "2026-11-17", end: "2027-01-01" },
+  1177: { start: "2026-11-17", end: "2027-01-01" },
+  2455: { start: "2026-10-19", end: "2026-12-02" },
 };
 
 function isWithinDateRange(zkNumer) {
@@ -72,14 +80,14 @@ function isWithinDateRange(zkNumer) {
 
 /* ===================== FLEXIBLE FIELD MAP ===================== */
 const fieldMap = {
-  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK","NR_ZK","ZK_NUMRI","NUMRI_ZK"],
-  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK","EMRI_I_ZK","EMRI_ZK","ZK_EMRI"],
-  Nr_Pas: ["Nr_Pas","NR_PAS","NR_PASS","NR_PASURIE","NrPas","nr_pas","Numri_i_Pa","NR__PAS","NR__PASURI"],
-  Vol: ["Vol", "VOL", "vol" , "Vol"],
-  Faqe: ["Faqe", "FAQE", "faqe", "FQ","Faqe"],
-  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro","PRONESIA","Pronaret"],
-  Kufizimet: ["Kufizimet","KUFIZIMET","kufizimet","KUFIZIM_E","KUFIZIM_D","TR_PERSH1","SHENIME_NE","Kufizimet"],
-  Siperfaqe: ["Siperfaqe","SIPERFAQE","siperfaqe","AREA","SIPERFAQJA"],
+  Zk_Numer: ["Zk_Numer", "ZK_NUMER", "zk_numer", "ZK", "Nr_Zk", "Nr_ZK", "NR_ZK", "ZK_NUMRI", "NUMRI_ZK"],
+  Zk_Emer: ["Zk_Emer", "ZK_EMER", "zk_emer", "ZONA_EMER", "Emri_ZK", "EMRI_I_ZK", "EMRI_ZK", "ZK_EMRI"],
+  Nr_Pas: ["Nr_Pas", "NR_PAS", "NR_PASS", "NR_PASURIE", "NrPas", "nr_pas", "Numri_i_Pa", "NR__PAS", "NR__PASURI"],
+  Vol: ["Vol", "VOL", "vol", "Vol"],
+  Faqe: ["Faqe", "FAQE", "faqe", "FQ", "Faqe"],
+  Pronaret: ["Pronaret", "PRONARET", "pronaret", "EMER_PRONA", "Emri_i_Pro", "PRONESIA", "Pronaret"],
+  Kufizimet: ["Kufizimet", "KUFIZIMET", "kufizimet", "KUFIZIM_E", "KUFIZIM_D", "TR_PERSH1", "SHENIME_NE", "Kufizimet"],
+  Siperfaqe: ["Siperfaqe", "SIPERFAQE", "siperfaqe", "AREA", "SIPERFAQJA"],
 };
 
 function getFieldValue(props, keys) {
@@ -135,17 +143,21 @@ export default function Lista() {
 
   useEffect(() => {
     const files = [
-       "PE2239KO_P.geojson","PR1088BA_P.geojson",  "PR3131RA_P.geojson","SR2806NI_N.geojson",
-       "PR3067PS_N.geojson", "PR3067PS_P.geojson","VL2955PI_N.geojson","VL2955PI_P.geojson",
-        "MK2350KU_N.geojson","MK2350KU_P.geojson","EL3376SH_N.geojson","EL3376SH_P.geojson",
-        "PE1361CA_N.geojson","PE1361CA_P.geojson","PE1084BA_N.geojson", "PE1084BA_P.geojson",
-        "LU2238KS_P.geojson","EL1885GU_N.geojson","EL1885GU_P.geojson","PR2216KO_N.geojson",
-        "PR2216KO_P.geojson", "LU8573LU_N.geojson","LU8573LU_P.geojson","DL1074BA_N.geojson",
-        "DL1074BA_P.geojson","PR2618MA_N.geojson","PR2618MA_P.geojson","EL2654ME_N.geojson",
-        "EL2654ME_P.geojson","KO2494LO_N.geojson","KO2494LO_P.geojson","VL1826GR_N.geojson",
-        "VL1826GR_P.geojson","VL2504LU_N.geojson","VL2504LU_P.geojson", "VL1552DR_N.geojson",
-        "VL1552DR_P.geojson","PR3187RO_ND.geojson","PR3187RO_P.geojson"
-     
+      "PE2239KO_P.geojson", "PR1088BA_P.geojson", "PR3131RA_P.geojson", "SR2806NI_N.geojson",
+      "PR3067PS_N.geojson", "PR3067PS_P.geojson", "VL2955PI_N.geojson", "VL2955PI_P.geojson",
+      "MK2350KU_N.geojson", "MK2350KU_P.geojson", "EL3376SH_N.geojson", "EL3376SH_P.geojson",
+      "PE1361CA_N.geojson", "PE1361CA_P.geojson", "PE1084BA_N.geojson", "PE1084BA_P.geojson",
+      "LU2238KS_P.geojson", "EL1885GU_N.geojson", "EL1885GU_P.geojson", "PR2216KO_N.geojson",
+      "PR2216KO_P.geojson", "LU8573LU_N.geojson", "LU8573LU_P.geojson", "DL1074BA_N.geojson",
+      "DL1074BA_P.geojson", "PR2618MA_N.geojson", "PR2618MA_P.geojson", "EL2654ME_N.geojson",
+      "EL2654ME_P.geojson", "KO2494LO_N.geojson", "KO2494LO_P.geojson", "VL1826GR_N.geojson",
+      "VL1826GR_P.geojson", "VL2504LU_N.geojson", "VL2504LU_P.geojson", "VL1552DR_N.geojson",
+      "VL1552DR_P.geojson", "PR3187RO_ND.geojson", "PR3187RO_P.geojson", "PE2471LI_N.geojson",
+      "PE2471LI_P.geojson", "PE1177BI_ND.geojson", "PE1177BI_P.geojson", "PE2427LE_ND.geojson",
+      "PE2427LE_P.geojson", "KO3109QE_ND.geojson", "KO3109QE_P.geojson", "PR2455LI_ND.geojson",
+      "PR2455LI_P.geojson", "VL2619MA_ND.geojson", "VL2619MA_P.geojson", "PR2563MA_ND.geojson",
+      "PR2563MA_P.geojson", "PR1418CO_ND.geojson", "PR1418CO_P.geojson", 
+
 
     ].map(f => import.meta.env.BASE_URL + "geojson/" + f);
 
