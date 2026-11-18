@@ -785,16 +785,16 @@ export default function MapView() {
                   layer.feature = feature;
                   feature.type = f.type;
                   if (f.type === "building") {
-                  layer.on("click", () => {
-                    console.log("NDERTESA E KLIKUAR:", {
-                      file: f.url,
-                      zk: getZkValue(feature.properties),
-                      properties: feature.properties,
-                      coordinates: feature.geometry.coordinates,
-                      bounds: layer.getBounds().toBBoxString()
+                    layer.on("click", () => {
+                      console.log("NDERTESA E KLIKUAR:", {
+                        file: f.url,
+                        zk: getZkValue(feature.properties),
+                        properties: feature.properties,
+                        coordinates: feature.geometry.coordinates,
+                        bounds: layer.getBounds().toBBoxString()
+                      });
                     });
-                  });
-                }
+                  }
 
                   /* =========================================
                     CREATE GREEN MARKER FOR BUILDINGS
@@ -902,16 +902,18 @@ export default function MapView() {
                       "2216": { lat: 0, lng: -0.01 },
                       "2618": { lat: -0.01, lng: 0.03 },
 
-                      // Zonat e reja - fillimisht pa zhvendosje
+
+                      // Zonat e reja
                       "2471": { lat: 0, lng: 0 },
                       "1177": { lat: 0, lng: 0 },
                       "1418": { lat: 0, lng: 0 },
-                      "2455": { lat: 0, lng: 0 },
-                      "2563": { lat: 0, lng: 0 },
-                      "2427": { lat: 0, lng: 0 },
+                      "2455": { lat: 0.004, lng: 0.005 },
+                      "2563": { lat: 0, lng: 0.008 },
+                      "2427": { lat: -0.004, lng: 0.003 },
                       "2619": { lat: 0, lng: 0 },
                       "3109": { lat: 0, lng: 0 },
                       "2494": { lat: 0, lng: 0 },
+
                     };
 
                     const offset = labelOffsets[zk] || { lat: 0, lng: 0 };
