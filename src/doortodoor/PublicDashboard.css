@@ -1262,6 +1262,14 @@ button.main-kpi:hover {
   border-bottom: 3px solid #7e22ce;
 }
 
+.public-dashboard .application-kpis .total {
+  border-bottom: 3px solid #475569;
+}
+
+.public-dashboard .application-kpis .measured {
+  border-bottom: 3px solid #0d9488;
+}
+
 /* Dizajn uniform për të gjitha kategoritë */
 .public-dashboard .zone-options .zone-option {
   --status-color: #64748b;
@@ -7541,8 +7549,6 @@ button.main-kpi:hover {
 }
 
 
-
-
 /* BORDER MË TË THEKSUAR PËR KATEGORITË */
 
 .public-dashboard .applications-modal
@@ -7581,3 +7587,5 @@ button.main-kpi:hover {
 .public-dashboard .application-status.other {
   border-color: #64748b !important;
 }
+
+
