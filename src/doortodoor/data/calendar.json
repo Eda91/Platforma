@@ -399,7 +399,7 @@
   },
 
   {
-    "id": 5,
+    "id": 6,
     "bashkia": "Durrës",
     "njesiaAdministrative": "Spitallë",
     "drejtoriteVendore": [
@@ -412,8 +412,23 @@
     "endDate": "28.10.2026",
     "status": "active"
   },
-  {
+
+    {
     "id": 7,
+    "bashkia": "Dibër",
+    "njesiaAdministrative": "Dibër",
+    "drejtoriteVendore": [
+      "Dibër"
+    ],
+    "locations": [
+      "Kishavec"
+    ],
+    "startDate": "02.11.2026",
+    "endDate": "",
+    "status": "active"
+  },
+  {
+    "id": 8,
     "bashkia": "Vlorë",
     "drejtoriteVendore": [
       "Vlorë"
@@ -423,4 +438,7 @@
     "endDate": "-",
     "status": "waiting"
   }
+
+  
+
 ]

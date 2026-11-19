@@ -49,83 +49,93 @@ const getPershkrimi = (item) => {
 // Shfaq pronarin e pare; pronaret e tjere hapen vetem kur kerkohen.
 
 const OwnerCell = ({ value }) => {
+
   const [expanded, setExpanded] = useState(false);
+
   const names = String(value ?? "")
+
     .split(/\r?\n|;/)
+
     .map((name) => name.trim())
+
     .filter(Boolean);
 
   if (!names.length) return <span className="owner-cell">—</span>;
 
   return (
+
     <div className="owner-cell">
+
       <div className="owner-primary">
+
         <span className="owner-first">{names[0]}</span>
+
         {names.length > 1 && (
+
           <button type="button" className="owner-toggle"
+
             aria-expanded={expanded}
+
             onClick={() => setExpanded((previous) => !previous)}>
+
             {expanded ? "Shfaq më pak" : `+${names.length - 1} të tjerë`}
+
           </button>
+
         )}
+
       </div>
+
       {expanded && (
+
         <div className="owner-more">
+
           {names.slice(1).map((name, index) => <div key={index}>{name}</div>)}
+
         </div>
+
       )}
+
     </div>
+
   );
+
 };
 
 const parseDate = (value) => {
-
   if (!value || value === "-") return null;
-
-  const match = String(value).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-
+  const match = String(value).trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if (!match) return null;
-
-  const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
-
-  return Number.isNaN(date.getTime()) ? null : date;
-
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
 };
 
 const STATUS_OPTIONS = [
-
   { key: "approved", label: "Pajisur me vendim" },
-
   { key: "public", label: "Afishim publik" },
-
   { key: "missing", label: "Mungesë dokumentacioni" },
-
   { key: "noAccess", label: "I paaksesueshëm" },
-
-  { key: "inProcess", label: "Në shqyrtim dokumentacioni" },
-
+  { key: "measured", label: "Matur gjatë evidentimit" },
   { key: "other", label: "Tjetër" },
-
 ];
 
 const getApplicationStatus = (item) => {
-
-  const values = [field(item, "Kategoria", "kategoria", "category"), field(item, "Statusi", "status"), field(item, "Cilësimi", "Cilesimi")].map(normalize);
-
-  const matches = (terms) => values.some((value) => terms.some((term) => value.includes(term)));
-
-  if (matches(["pajisur me vendim", "me vendim", "vkm"])) return "approved";
-
-  if (matches(["afishim publik", "ne afishim"])) return "public";
-
-  if (matches(["mungese dokumentacioni", "mungon", "ska dosje", "s'ka dosje", "pa dosje"])) return "missing";
-
-  if (matches(["paaksesueshem", "i paaksesueshem", "pa akses", "nuk ka qen ne objekt"])) return "noAccess";
-
-  if (matches(["ne proces", "ne shqyrtim", "shqyrtim dokumentacioni", "pa matje"])) return "inProcess";
-
-  return "other";
-
+  const category = normalize(field(item, "Kategoria", "kategoria", "category"));
+  const status = normalize(field(item, "Statusi", "status", "Cilësimi", "Cilesimi"));
+  const classify = (value) => {
+    if (!value) return null;
+    if (value.includes("matur gjate evidentimit")) return "measured";
+    if (value.includes("pajisur me vendim") || value.includes("pajisur me urdher") || value.includes("me vendim") || value.includes("vkm")) return "approved";
+    if (value.includes("afishim publik") || value.includes("ne afishim")) return "public";
+    if (value.includes("mungese dokumentacioni") || value.includes("mungon") || value.includes("pa dokumentacion") || value.includes("pa dosje")) return "missing";
+    if (value.includes("paaksesueshem") || value.includes("pa akses") || value.includes("nuk ka qen ne objekt")) return "noAccess";
+    if (value === "tjeter") return "other";
+    return null;
+  };
+  return classify(category) || classify(status) || "other";
 };
 
 const getApplicationStatusLabel = (item) => {
@@ -230,7 +240,7 @@ export default function PublicDashboard() {
 
   const totals = useMemo(() => {
 
-    const result = { applications: 0, approved: 0, publicDisplay: 0, missing: 0, noAccess: 0, inProcess: 0, other: 0, completedZones: 0, reviewZones: 0, plannedZones: 0 };
+    const result = { applications: 0, approved: 0, publicDisplay: 0, missing: 0, noAccess: 0, measured: 0, other: 0, completedZones: 0, reviewZones: 0, plannedZones: 0 };
 
     ZONES.forEach((zone) => {
 
@@ -298,7 +308,8 @@ const municipalityAgenda = useMemo(() => {
 
       const today = new Date(); today.setHours(0, 0, 0, 0);
 
-      const agendaStatus = !start || !end ? "waiting" : today < start ? "waiting" : today > end ? "completed" : "active";
+     // const agendaStatus = !start || !end ? "waiting" : today < start ? "waiting" : today > end ? "completed" : "active";
+      const agendaStatus = !start ? "waiting" :today <start ? "waiting" : end && today > end ? "completed" : "active";
 
       return { ...group, locations, zones, agendaStatus, canOpen: agendaStatus !== "waiting" };
 
@@ -622,74 +633,268 @@ const municipalityAgenda = useMemo(() => {
 
       }
 
-  
       /* Rreshtat zgjerohen kur hapen emrat e tjere */
+
       .public-dashboard .compact-app-table .applications-list-row {
+
         align-items: start !important;
+
         height: auto !important;
+
         max-height: none !important;
+
         overflow: visible !important;
+
         font-size: 13px;
+
         line-height: 1.5;
+
       }
+
       .public-dashboard .compact-app-table .applications-list-row > * {
+
         min-width: 0;
+
         max-height: none !important;
+
         overflow: visible !important;
+
         font-size: 13px;
+
         white-space: normal;
+
         overflow-wrap: anywhere;
+
       }
+
       .public-dashboard .compact-app-table .owner-cell {
+
         display: block;
+
         width: 100%;
+
         max-height: none !important;
+
         overflow: visible !important;
+
         line-height: 1.5;
+
       }
+
       .public-dashboard .compact-app-table .owner-primary {
+
         display: flex;
+
         align-items: center;
+
         flex-wrap: wrap;
+
         gap: 5px;
+
       }
+
       .public-dashboard .compact-app-table .owner-first { overflow-wrap: anywhere; }
+
       .public-dashboard .compact-app-table .owner-toggle {
+
         border: 0;
+
         border-radius: 20px;
+
         background: #e8f0ff;
+
         color: #1d4ed8;
+
         font-size: 11px;
+
         font-weight: 700;
+
         line-height: 1.4;
+
         padding: 3px 7px;
+
         cursor: pointer;
+
       }
+
       .public-dashboard .compact-app-table .owner-more {
+
         display: block;
+
         position: static;
+
         max-height: none !important;
+
         overflow: visible !important;
+
         margin-top: 7px;
+
         padding-top: 7px;
+
         border-top: 1px solid #e2e8f0;
+
         font-size: 13px;
+
       }
+
       .public-dashboard .compact-app-table .application-category {
+
         font-size: 13px;
+
         line-height: 1.5;
+
         color: #334155;
+
       }
+
       .public-dashboard .applications-modal-wide .compact-app-table .applications-list-head,
+
       .public-dashboard .applications-modal-wide .compact-app-table .applications-list-row {
+
         grid-template-columns: minmax(145px,1.5fr) minmax(100px,.85fr) minmax(115px,1fr) minmax(95px,.8fr) 55px minmax(160px,1.4fr) minmax(160px,1.35fr) minmax(180px,1.6fr);
+
         min-width: 1150px;
+
       }
+
       .public-dashboard .applications-modal:not(.applications-modal-wide) .compact-app-table .applications-list-head,
+
       .public-dashboard .applications-modal:not(.applications-modal-wide) .compact-app-table .applications-list-row {
+
         grid-template-columns: minmax(160px,1.5fr) minmax(110px,1fr) minmax(130px,1fr) minmax(170px,1.5fr) minmax(170px,1.4fr) minmax(180px,1.6fr);
+
         min-width: 850px;
+
       }
+
+    
+
+      /* Layout unik për header dhe rreshta: 5 kolona / 7 kolona */
+      .public-dashboard .applications-modal .applications-list.compact-app-table {
+        width: 100% !important; min-height: 0 !important;
+        overflow: auto !important; max-height: 60vh !important;
+        border: 1px solid #e2e8f0; border-radius: 10px;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head,
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+        display: grid !important; box-sizing: border-box !important;
+        width: 100% !important; max-width: none !important;
+        grid-template-rows: auto !important;
+        grid-auto-flow: row !important; grid-auto-rows: auto !important;
+        column-gap: 12px !important; row-gap: 0 !important;
+        padding: 10px 14px !important; margin: 0 !important;
+        height: auto !important; max-height: none !important;
+        align-items: center !important;
+        font-size: 13px !important; line-height: 1.45 !important;
+      }
+      .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list.compact-app-table .applications-list-head,
+      .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list.compact-app-table .applications-list-row {
+        grid-template-columns: minmax(135px,1.15fr) minmax(110px,.85fr) minmax(140px,1.1fr) minmax(175px,1.3fr) minmax(220px,1.8fr) !important;
+        min-width: 850px !important;
+      }
+      .public-dashboard .applications-modal-wide .applications-list.compact-app-table .applications-list-head,
+      .public-dashboard .applications-modal-wide .applications-list.compact-app-table .applications-list-row {
+        grid-template-columns: minmax(135px,1.15fr) minmax(110px,.85fr) minmax(140px,1.1fr) minmax(90px,.7fr) 55px minmax(175px,1.3fr) minmax(220px,1.8fr) !important;
+        min-width: 1020px !important;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head {
+        position: sticky !important; top: 0 !important; z-index: 8 !important;
+        min-height: 44px !important; background: #f1f5f9 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        font-weight: 800 !important;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+        min-height: 46px !important; border-bottom: 1px solid #e2e8f0 !important;
+        overflow: visible !important;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row > *,
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head > * {
+        grid-column: auto !important; grid-row: auto !important;
+        min-width: 0 !important; max-width: 100% !important;
+        min-height: 0 !important; height: auto !important;
+        margin: 0 !important; align-self: center !important;
+        white-space: normal !important; overflow-wrap: anywhere !important;
+        line-height: 1.45 !important; font-size: 13px !important;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status {
+        display: inline-flex !important; align-items: center !important;
+        width: fit-content !important; max-width: 100% !important;
+        padding: 5px 9px !important; border-radius: 7px !important;
+        font-size: 12px !important; font-weight: 700 !important;
+        line-height: 1.35 !important; white-space: normal !important;
+      }
+      .public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status-text {
+        display: block !important; color: #334155 !important;
+        font-weight: 400 !important; padding: 0 !important;
+      }
+      .public-dashboard .applications-list.compact-app-table .application-status.measured { background:#ccfbf1 !important; color:#0f766e !important; }
+      .public-dashboard .applications-list.compact-app-table .application-status.other { background:#f3e8ff !important; color:#7e22ce !important; }
+      .public-dashboard .applications-list.compact-app-table .applications-list-row:nth-child(even) { background: #f8fafc !important; }
+      .public-dashboard .applications-list.compact-app-table .applications-list-row:nth-child(odd) { background: #fff !important; }
+      .public-dashboard .applications-list.compact-app-table .applications-list-row:hover { background: #eff6ff !important; }
+      @media (max-width: 768px) {
+        .public-dashboard .applications-modal .applications-list.compact-app-table { max-height: 65dvh !important; }
+      }
+
+/* FIX FINAL: lartësi reale për çdo rekord, pa prerje/mbivendosje */
+.public-dashboard .applications-modal .applications-list.compact-app-table {
+  display: block !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  scroll-padding-top: 54px;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head {
+  min-height: 52px !important;
+  padding: 14px 16px !important;
+  align-items: center !important;
+  line-height: 1.35 !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+  min-height: 64px !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 13px 16px !important;
+  grid-template-rows: minmax(36px,auto) !important;
+  align-items: center !important;
+  overflow: visible !important;
+  position: relative !important;
+  clear: both !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row > * {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-self: center !important;
+  position: static !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-cell,
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-primary,
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-more {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  position: static !important;
+  line-height: 1.5 !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-primary {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-more {
+  display: block !important;
+  margin-top: 6px !important;
+}
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status {
+  min-height: 28px !important;
+  height: auto !important;
+  padding: 6px 9px !important;
+  line-height: 1.45 !important;
+}
+
     `}</style>
 
       <header className="dashboard-header">
@@ -793,6 +998,7 @@ const municipalityAgenda = useMemo(() => {
         </section>
 
         <section className="application-kpis">
+          
 
           <div
 
@@ -883,12 +1089,13 @@ const municipalityAgenda = useMemo(() => {
           <div className="agenda-board">
 
             <div className="agenda-table-head"><span>Bashkia</span><span>Periudha e evidentimit</span><span>Statusi</span><span>Zona</span><span /></div>
+           
+              {municipalityAgenda.map((item, index) => (
+                <button
+                  type="button"
+                  key={`${normalize(item.bashkia)}-${item.id ?? "no-id"}-${index}`} disabled={!item.canOpen} className={`agenda-row ${selectedCalendar?.bashkia === item.bashkia ? "selected" : ""} ${!item.canOpen ? "locked" : ""}`} onClick={() => handleAgendaClick(item)}>
 
-            {municipalityAgenda.map((item) => (
-
-              <button type="button" key={item.id ?? normalize(item.bashkia)} disabled={!item.canOpen} className={`agenda-row ${selectedCalendar?.bashkia === item.bashkia ? "selected" : ""} ${!item.canOpen ? "locked" : ""}`} onClick={() => handleAgendaClick(item)}>
-
-                <div className="agenda-bashkia">
+                              <div className="agenda-bashkia">
 
                   <small>BASHKIA</small><strong>{item.bashkia}</strong>
 
@@ -1052,7 +1259,7 @@ const municipalityAgenda = useMemo(() => {
 
             <div className="applications-list compact-app-table">
 
-              <div className="applications-list-head"><span>Emër</span><span>Atësi</span><span>Mbiemër</span><span>Statusi</span><span>Kategoria</span><span>Përshkrimi</span></div>
+              <div className="applications-list-head"><span>Emër</span><span>Atësi</span><span>Mbiemër</span><span>Kategoria</span><span>Statusi</span></div>
 
               {filteredListItems.map((item, index) => (
 
@@ -1064,10 +1271,9 @@ const municipalityAgenda = useMemo(() => {
 
                   <OwnerCell value={field(item, "Mbiemër", "Mbiemer", "mbiemer", "mbiemri")} />
 
-                  <span className={`application-status ${getApplicationStatus(item)}`}>{field(item, "Cilësimi", "Cilesimi") || getApplicationStatusLabel(item)}</span>
-                <span className="application-category">{field(item, "Kategoria", "kategoria", "category") || "—"}</span>
+                  <span className={`application-status ${getApplicationStatus(item)}`}>{field(item, "Kategoria", "kategoria", "category") || getApplicationStatusLabel(item)}</span>
 
-                  <span className="measurement-description">{getPershkrimi(item)}</span>
+                  <span className="application-status-text">{field(item, "Statusi", "status", "Cilësimi", "Cilesimi") || getApplicationStatusLabel(item)}</span>
 
                 </div>
 
@@ -1101,7 +1307,7 @@ const municipalityAgenda = useMemo(() => {
 
             <div className="applications-list compact-app-table">
 
-              <div className="applications-list-head"><span>Emër</span><span>Atësi</span><span>Mbiemër</span><span>Fshati</span><span>ZK</span><span>Statusi / Cilësimi</span><span>Kategoria</span><span>Përshkrimi</span></div>
+              <div className="applications-list-head"><span>Emër</span><span>Atësi</span><span>Mbiemër</span><span>Fshati</span><span>ZK</span><span>Kategoria</span><span>Statusi</span></div>
 
               {filteredGlobalItems.map((item, index) => (
 
@@ -1115,14 +1321,14 @@ const municipalityAgenda = useMemo(() => {
 
                   <span>{item.fshati || "—"}</span><span>{item.zk || "—"}</span>
 
-                  <span className={`application-status ${getApplicationStatus(item)}`}>{field(item, "Cilësimi", "Cilesimi") || getApplicationStatusLabel(item)}</span>
-                <span className="application-category">{field(item, "Kategoria", "kategoria", "category") || "—"}</span>
+                  <span className={`application-status ${getApplicationStatus(item)}`}>{field(item, "Kategoria", "kategoria", "category") || getApplicationStatusLabel(item)}</span>
 
-                <span className="measurement-description">{getPershkrimi(item)}</span>
+                  <span className="application-status-text">{field(item, "Statusi", "status", "Cilësimi", "Cilesimi") || getApplicationStatusLabel(item)}</span>
 
                 </div>
 
               ))}
+
               {filteredGlobalItems.length === 0 && <div className="applications-empty"><strong>Nuk u gjet asnjë banesë</strong><span>Provoni një kërkim tjetër.</span></div>}
 
             </div>

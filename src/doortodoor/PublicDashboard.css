@@ -3130,7 +3130,7 @@ button.main-kpi:hover {
 
   transition:
 
-background 0.15s ease,
+    background 0.15s ease,
 
     box-shadow 0.15s ease;
 
@@ -3554,7 +3554,7 @@ background 0.15s ease,
 
   transition:
 
-background 0.15s ease;
+    background 0.15s ease;
 
 }
 
@@ -6522,31 +6522,15 @@ background 0.15s ease;
 
   /* Tabela e përgjithshme - 7 kolona */
 
-  .public-dashboard .applications-modal-wide
+  .public-dashboard .applications-modal-wide .applications-list-head,
 
-  .applications-list-head,
-
-  .public-dashboard .applications-modal-wide
-
-  .applications-list-row {
+  .public-dashboard .applications-modal-wide .applications-list-row {
 
     display: grid !important;
 
     grid-template-columns:
 
-      170px
-
-      110px
-
-      130px
-
-      110px
-
-      55px
-
-      175px
-
-      190px !important;
+      170px 110px 130px 110px 55px 175px 190px !important;
 
     column-gap: 8px !important;
 
@@ -6562,31 +6546,15 @@ background 0.15s ease;
 
      Emër, Atësi, Mbiemër, Statusi, Përshkrimi */
 
-  .public-dashboard
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head,
 
-  .applications-modal:not(.applications-modal-wide)
-
-  .applications-list-head,
-
-  .public-dashboard
-
-  .applications-modal:not(.applications-modal-wide)
-
-  .applications-list-row {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
 
     display: grid !important;
 
     grid-template-columns:
 
-      170px
-
-      110px
-
-      130px
-
-      175px
-
-      190px !important;
+      170px 110px 130px 175px 190px !important;
 
     column-gap: 8px !important;
 
@@ -6638,7 +6606,7 @@ background 0.15s ease;
 
   /* Emra të gjatë ose shumë pronarë */
 
-  .public-dashboard .applications-list-row > span,
+  .public-dashboard .applications-list-row>span,
 
   .public-dashboard .app-name,
 
@@ -6660,9 +6628,7 @@ background 0.15s ease;
 
   /* Statuset */
 
-  .public-dashboard .applications-list-row
-
-  .application-status {
+  .public-dashboard .applications-list-row .application-status {
 
     display: inline-block;
 
@@ -6816,9 +6782,7 @@ background 0.15s ease;
 
    \========================================== */
 
-.public-dashboard .applications-modal
-
-.compact-app-table .applications-list-row {
+.public-dashboard .applications-modal .compact-app-table .applications-list-row {
 
   display: grid !important;
 
@@ -6844,9 +6808,7 @@ background 0.15s ease;
 
 /* Qelizat zgjerohen sipas përmbajtjes */
 
-.public-dashboard .compact-app-table
-
-.applications-list-row > * {
+.public-dashboard .compact-app-table .applications-list-row>* {
 
   min-width: 0 !important;
 
@@ -6890,9 +6852,7 @@ background 0.15s ease;
 
 /* Butoni +1 të tjerë */
 
-.public-dashboard .compact-app-table
-
-.owner-details summary {
+.public-dashboard .compact-app-table .owner-details summary {
 
   display: flex !important;
 
@@ -6934,9 +6894,7 @@ background 0.15s ease;
 
 }
 
-.public-dashboard .compact-app-table
-
-.owner-more > div {
+.public-dashboard .compact-app-table .owner-more>div {
 
   display: block;
 
@@ -6950,9 +6908,7 @@ background 0.15s ease;
 
 /* Çdo regjistrim ndahet qartë nga tjetri */
 
-.public-dashboard .compact-app-table
-
-.applications-list-row {
+.public-dashboard .compact-app-table .applications-list-row {
 
   border-bottom: 1px solid #e2e8f0;
 
@@ -6960,9 +6916,7 @@ background 0.15s ease;
 
 /* Scroll i tabelës */
 
-.public-dashboard .applications-modal
-
-.applications-list.compact-app-table {
+.public-dashboard .applications-modal .applications-list.compact-app-table {
 
   max-height: 55vh;
 
@@ -6976,13 +6930,9 @@ background 0.15s ease;
 
 @media (max-width: 900px) {
 
-  .public-dashboard .applications-modal-wide
+  .public-dashboard .applications-modal-wide .compact-app-table .applications-list-row,
 
-  .compact-app-table .applications-list-row,
-
-  .public-dashboard .applications-modal-wide
-
-  .compact-app-table .applications-list-head {
+  .public-dashboard .applications-modal-wide .compact-app-table .applications-list-head {
 
     min-width: 1050px;
 
@@ -6991,110 +6941,169 @@ background 0.15s ease;
 }
 
 /* ===== FIX FINAL: MODAL + TABELA 8 KOLONA ===== */
-.public-dashboard .modal-overlay { padding: 12px; }
-.public-dashboard .applications-modal {
-  width: min(1500px, 98vw); max-width: none;
-  height: min(850px, 94dvh); max-height: 94dvh;
-  padding: 22px 24px; min-width: 0;
-  overflow: hidden; display: flex; flex-direction: column;
+.public-dashboard .modal-overlay {
+  padding: 12px;
 }
+
+.public-dashboard .applications-modal {
+  width: min(1500px, 98vw);
+  max-width: none;
+  height: min(850px, 94dvh);
+  max-height: 94dvh;
+  padding: 22px 24px;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .public-dashboard .applications-modal-title,
 .public-dashboard .nid-search,
-.public-dashboard .applications-meta { flex-shrink: 0; }
-.public-dashboard .applications-modal .applications-list {
-  flex: 1 1 auto; min-height: 0; width: 100%;
-  overflow: auto !important; overscroll-behavior: contain;
-  scrollbar-gutter: stable; border-radius: 9px;
+.public-dashboard .applications-meta {
+  flex-shrink: 0;
 }
+
+.public-dashboard .applications-modal .applications-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  overflow: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  border-radius: 9px;
+}
+
 /* Identical grid on header and every record. Eight columns incl. Kategoria. */
 .public-dashboard .applications-modal .applications-list-head,
 .public-dashboard .applications-modal .applications-list-row {
   display: grid !important;
-  grid-template-columns: minmax(150px,1.2fr) minmax(105px,.85fr)
-    minmax(125px,1fr) minmax(95px,.75fr) 55px
-    minmax(170px,1.3fr) minmax(135px,1fr) minmax(190px,1.5fr) !important;
+  grid-template-columns: minmax(150px, 1.2fr) minmax(105px, .85fr) minmax(125px, 1fr) minmax(95px, .75fr) 55px minmax(170px, 1.3fr) minmax(135px, 1fr) minmax(190px, 1.5fr) !important;
   column-gap: 10px !important;
-  width: 100% !important; min-width: 1100px !important;
-  box-sizing: border-box; padding: 10px 12px !important;
+  width: 100% !important;
+  min-width: 1100px !important;
+  box-sizing: border-box;
+  padding: 10px 12px !important;
 }
+
 .public-dashboard .applications-modal .applications-list-head {
-  position: sticky; top: 0; z-index: 5;
-  align-items: center !important; min-height: 42px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  align-items: center !important;
+  min-height: 42px;
   background: #f8fafc;
 }
+
 .public-dashboard .applications-modal .applications-list-row {
-  height: auto !important; min-height: 48px !important;
-  max-height: none !important; grid-auto-rows: auto !important;
-  align-items: start !important; overflow: visible !important;
+  height: auto !important;
+  min-height: 48px !important;
+  max-height: none !important;
+  grid-auto-rows: auto !important;
+  align-items: start !important;
+  overflow: visible !important;
   border-bottom: 1px solid #e2e8f0;
 }
-.public-dashboard .applications-modal .applications-list-row > *,
-.public-dashboard .applications-modal .applications-list-head > * {
-  min-width: 0 !important; max-height: none !important;
-  height: auto !important; align-self: start;
-  overflow: visible !important; white-space: normal !important;
-  overflow-wrap: anywhere; line-height: 1.45 !important;
+
+.public-dashboard .applications-modal .applications-list-row>*,
+.public-dashboard .applications-modal .applications-list-head>* {
+  min-width: 0 !important;
+  max-height: none !important;
+  height: auto !important;
+  align-self: start;
+  overflow: visible !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  line-height: 1.45 !important;
   font-size: 13px !important;
 }
+
 .public-dashboard .applications-modal .owner-cell,
 .public-dashboard .applications-modal .owner-details,
 .public-dashboard .applications-modal .owner-primary,
 .public-dashboard .applications-modal .owner-more {
-  position: static !important; min-height: 0; height: auto !important;
-  max-height: none !important; overflow: visible !important;
-  white-space: normal !important; box-sizing: border-box;
+  position: static !important;
+  min-height: 0;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  box-sizing: border-box;
 }
+
 .public-dashboard .applications-modal .owner-primary,
 .public-dashboard .applications-modal .owner-details summary {
-  display: flex !important; flex-wrap: wrap; align-items: flex-start;
-  gap: 4px; cursor: pointer;
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px;
+  cursor: pointer;
 }
+
 .public-dashboard .applications-modal .owner-more {
-  display: block; margin-top: 6px; padding-top: 6px;
+  display: block;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px solid #e2e8f0;
 }
-.public-dashboard .applications-modal .owner-more > * {
-  display: block; padding: 3px 0; overflow-wrap: anywhere;
+
+.public-dashboard .applications-modal .owner-more>* {
+  display: block;
+  padding: 3px 0;
+  overflow-wrap: anywhere;
 }
+
 .public-dashboard .applications-modal .owner-toggle {
-  flex: 0 0 auto; cursor: pointer;
+  flex: 0 0 auto;
+  cursor: pointer;
 }
+
 .public-dashboard .applications-modal .application-status {
-  display: inline-block; width: fit-content; max-width: 100%;
-  white-space: normal !important; overflow-wrap: anywhere;
-  line-height: 1.45 !important; padding: 5px 8px;
-  border-radius: 10px; font-size: 13px !important;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  line-height: 1.45 !important;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 13px !important;
 }
 
 
 @media (max-width: 900px) {
-  .public-dashboard .modal-overlay { padding: 6px; }
-  .public-dashboard .applications-modal {
-    width: 100%; height: min(96dvh, 900px); max-height: 96dvh;
-    padding: 16px 10px; border-radius: 12px;
+  .public-dashboard .modal-overlay {
+    padding: 6px;
   }
+
+  .public-dashboard .applications-modal {
+    width: 100%;
+    height: min(96dvh, 900px);
+    max-height: 96dvh;
+    padding: 16px 10px;
+    border-radius: 12px;
+  }
+
   .public-dashboard .applications-modal .applications-list-head,
   .public-dashboard .applications-modal .applications-list-row {
     min-width: 1100px !important;
   }
-  .public-dashboard .applications-modal-title h2 { font-size: 21px; }
-  .public-dashboard .nid-search { width: 100%; }
+
+  .public-dashboard .applications-modal-title h2 {
+    font-size: 21px;
+  }
+
+  .public-dashboard .nid-search {
+    width: 100%;
+  }
 }
 
 /* TABELA E KATEGORIVE - 6 KOLONA, PA NR. */
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list-head,
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list-row {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head,
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
   display: grid !important;
   grid-template-columns:
-    minmax(150px, 1.2fr)
-    minmax(120px, 1fr)
-    minmax(150px, 1.1fr)
-    minmax(180px, 1.3fr)
-    minmax(150px, 1.1fr)
-    minmax(240px, 2fr) !important;
+    minmax(150px, 1.2fr) minmax(120px, 1fr) minmax(150px, 1.1fr) minmax(180px, 1.3fr) minmax(150px, 1.1fr) minmax(240px, 2fr) !important;
 
   column-gap: 12px !important;
   min-width: 1050px;
@@ -7104,8 +7113,7 @@ background 0.15s ease;
   box-sizing: border-box;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list-head {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head {
   min-height: 46px;
   padding: 12px 14px !important;
   position: sticky;
@@ -7117,8 +7125,7 @@ background 0.15s ease;
   font-weight: 700;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list-row {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
   min-height: 55px !important;
   padding: 12px 14px !important;
   border-bottom: 1px solid #e2e8f0;
@@ -7126,8 +7133,7 @@ background 0.15s ease;
   overflow: visible !important;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list-row > * {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row>* {
   min-width: 0 !important;
   height: auto !important;
   max-height: none !important;
@@ -7139,27 +7145,22 @@ background 0.15s ease;
   line-height: 1.5 !important;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.owner-cell,
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.owner-details,
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.owner-more {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .owner-cell,
+.public-dashboard .applications-modal:not(.applications-modal-wide) .owner-details,
+.public-dashboard .applications-modal:not(.applications-modal-wide) .owner-more {
   height: auto !important;
   max-height: none !important;
   overflow: visible !important;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.owner-more {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .owner-more {
   position: static !important;
   margin-top: 8px;
   padding-top: 6px;
   border-top: 1px solid #e2e8f0;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.application-status {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .application-status {
   display: inline-block;
   width: fit-content;
   max-width: 100%;
@@ -7169,28 +7170,26 @@ background 0.15s ease;
   line-height: 1.4;
 }
 
-.public-dashboard .applications-modal:not(.applications-modal-wide)
-.applications-list {
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list {
   min-height: 0;
   overflow-x: auto !important;
   overflow-y: auto !important;
 }
 
 @media (max-width: 768px) {
-  .public-dashboard .applications-modal:not(.applications-modal-wide)
-  .applications-list-head,
-  .public-dashboard .applications-modal:not(.applications-modal-wide)
-  .applications-list-row {
+
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head,
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
     min-width: 1050px;
   }
 }
+
 /* MOBILE - TABELA E KATEGORIVE ME SCROLL */
 
 @media (max-width: 768px) {
 
   /* Modali */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide) {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) {
     width: calc(100vw - 12px) !important;
     max-width: calc(100vw - 12px) !important;
     height: 92dvh !important;
@@ -7199,9 +7198,7 @@ background 0.15s ease;
   }
 
   /* Kontejneri i tabelës */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list {
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -7220,28 +7217,17 @@ background 0.15s ease;
   }
 
   /* Rikthe header-in */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-head {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head {
     display: grid !important;
   }
 
   /* Header dhe rreshtat - 6 kolona */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-head,
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-row {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head,
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
     display: grid !important;
 
     grid-template-columns:
-      145px
-      125px
-      145px
-      170px
-      155px
-      230px !important;
+      145px 125px 145px 170px 155px 230px !important;
 
     width: 970px !important;
     min-width: 970px !important;
@@ -7257,9 +7243,7 @@ background 0.15s ease;
   }
 
   /* Header */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-head {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-head {
     position: sticky !important;
     top: 0;
     z-index: 5;
@@ -7272,9 +7256,7 @@ background 0.15s ease;
   }
 
   /* Rreshtat */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-row {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row {
     min-height: 52px !important;
     padding: 10px 12px !important;
 
@@ -7286,9 +7268,7 @@ background 0.15s ease;
   }
 
   /* Rikthe qelizat normale */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-row > * {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row>* {
     grid-column: auto !important;
     grid-row: auto !important;
 
@@ -7310,17 +7290,13 @@ background 0.15s ease;
   }
 
   /* Hiq etiketat e cards */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list-row > *::before {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list-row>*::before {
     content: none !important;
     display: none !important;
   }
 
   /* Statusi */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .application-status {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .application-status {
     display: inline-flex !important;
     width: fit-content !important;
     max-width: 100% !important;
@@ -7330,29 +7306,278 @@ background 0.15s ease;
   }
 
   /* Emrat shtesë */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .owner-cell,
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .owner-more {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .owner-cell,
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .owner-more {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
   }
 
   /* Shiriti horizontal */
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list::-webkit-scrollbar {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list::-webkit-scrollbar {
     width: 6px;
     height: 7px;
   }
 
-  .public-dashboard
-  .applications-modal:not(.applications-modal-wide)
-  .applications-list::-webkit-scrollbar-thumb {
+  .public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list::-webkit-scrollbar-thumb {
     background: #94a3b8;
     border-radius: 10px;
   }
+}
+
+/* Layout unik për header dhe rreshta: 5 kolona / 7 kolona */
+.public-dashboard .applications-modal .applications-list.compact-app-table {
+  width: 100% !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  max-height: 60vh !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head,
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+  display: grid !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  grid-template-rows: auto !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: auto !important;
+  column-gap: 12px !important;
+  row-gap: 0 !important;
+  padding: 10px 14px !important;
+  margin: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  align-items: center !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list.compact-app-table .applications-list-head,
+.public-dashboard .applications-modal:not(.applications-modal-wide) .applications-list.compact-app-table .applications-list-row {
+  grid-template-columns: minmax(135px, 1.15fr) minmax(110px, .85fr) minmax(140px, 1.1fr) minmax(175px, 1.3fr) minmax(220px, 1.8fr) !important;
+  min-width: 850px !important;
+}
+
+.public-dashboard .applications-modal-wide .applications-list.compact-app-table .applications-list-head,
+.public-dashboard .applications-modal-wide .applications-list.compact-app-table .applications-list-row {
+  grid-template-columns: minmax(135px, 1.15fr) minmax(110px, .85fr) minmax(140px, 1.1fr) minmax(90px, .7fr) 55px minmax(175px, 1.3fr) minmax(220px, 1.8fr) !important;
+  min-width: 1020px !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 8 !important;
+  min-height: 44px !important;
+  background: #f1f5f9 !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+  font-weight: 800 !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+  min-height: 46px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  overflow: visible !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row>*,
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head>* {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  align-self: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.45 !important;
+  font-size: 13px !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  padding: 5px 9px !important;
+  border-radius: 7px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status-text {
+  display: block !important;
+  color: #334155 !important;
+  font-weight: 400 !important;
+  padding: 0 !important;
+}
+
+.public-dashboard .applications-list.compact-app-table .application-status.measured {
+  background: #ccfbf1 !important;
+  color: #0f766e !important;
+}
+
+.public-dashboard .applications-list.compact-app-table .application-status.other {
+  background: #f3e8ff !important;
+  color: #7e22ce !important;
+}
+
+.public-dashboard .applications-list.compact-app-table .applications-list-row:nth-child(even) {
+  background: #f8fafc !important;
+}
+
+.public-dashboard .applications-list.compact-app-table .applications-list-row:nth-child(odd) {
+  background: #fff !important;
+}
+
+.public-dashboard .applications-list.compact-app-table .applications-list-row:hover {
+  background: #eff6ff !important;
+}
+
+@media (max-width: 768px) {
+  .public-dashboard .applications-modal .applications-list.compact-app-table {
+    max-height: 65dvh !important;
+  }
+}
+
+
+/* FIX FINAL: lartësi reale për çdo rekord, pa prerje/mbivendosje */
+.public-dashboard .applications-modal .applications-list.compact-app-table {
+  display: block !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  scroll-padding-top: 54px;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-head {
+  min-height: 52px !important;
+  padding: 14px 16px !important;
+  align-items: center !important;
+  line-height: 1.35 !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row {
+  min-height: 64px !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 13px 16px !important;
+  grid-template-rows: minmax(36px, auto) !important;
+  align-items: center !important;
+  overflow: visible !important;
+  position: relative !important;
+  clear: both !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row>* {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-self: center !important;
+  position: static !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-cell,
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-primary,
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-more {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  position: static !important;
+  line-height: 1.5 !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-primary {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .owner-more {
+  display: block !important;
+  margin-top: 6px !important;
+}
+
+.public-dashboard .applications-modal .applications-list.compact-app-table .applications-list-row .application-status {
+  min-height: 28px !important;
+  height: auto !important;
+  padding: 6px 9px !important;
+  line-height: 1.45 !important;
+}
+
+/* MATUR GJATË EVIDENTIMIT – TURKEZE */
+
+.public-dashboard .application-status.measured,
+.public-dashboard .application-status.inProcess {
+  background-color: #ccfbf1 !important;
+  color: #0f766e !important;
+  border: 1px solid #99f6e4 !important;
+  border-radius: 7px;
+  font-weight: 700;
+}
+
+/* Kategoria në dritaren e zonës */
+.public-dashboard .zone-option.measured,
+.public-dashboard .zone-option.inProcess {
+  --status-color: #0f766e;
+  --status-bg: #ccfbf1;
+  border-left-color: #0f766e !important;
+}
+
+/* Numri i kategorisë */
+.public-dashboard .zone-option.measured>b,
+.public-dashboard .zone-option.inProcess>b {
+  background-color: #ccfbf1 !important;
+  color: #0f766e !important;
+}
+
+
+
+
+/* BORDER MË TË THEKSUAR PËR KATEGORITË */
+
+.public-dashboard .applications-modal
+.application-status {
+  border: 2px solid !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+
+/* Matur gjatë evidentimit */
+.public-dashboard .application-status.measured {
+  border-color: #0d9488 !important;
+}
+
+/* Pajisur me vendim */
+.public-dashboard .application-status.registered {
+  border-color: #2563eb !important;
+}
+
+/* Afishim publik */
+.public-dashboard .application-status.public {
+  border-color: #2563EB !important;
+}
+
+/* Mungesë dokumentacioni */
+.public-dashboard .application-status.missing {
+  border-color: #dc2626 !important;
+}
+
+/* I paaksesueshëm */
+.public-dashboard .application-status.noAccess {
+  border-color: #DC2626!important;
+}
+
+/* Tjetër */
+.public-dashboard .application-status.other {
+  border-color: #64748b !important;
 }
