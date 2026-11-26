@@ -397,7 +397,6 @@
     "endDate": "29.09.2026",
     "status": "active"
   },
-
   {
     "id": 6,
     "bashkia": "Durrës",
@@ -412,8 +411,7 @@
     "endDate": "28.10.2026",
     "status": "active"
   },
-
-    {
+  {
     "id": 7,
     "bashkia": "Dibër",
     "njesiaAdministrative": "Dibër",
@@ -429,6 +427,39 @@
   },
   {
     "id": 8,
+    "bashkia": "Dropull",
+    "drejtoriteVendore": [
+      "Gjirokastër"
+    ],
+    "locations": [
+      {
+        "id": 1,
+        "name": "Dropull i Poshtëm",
+        "startDate": "2026-12-07",
+        "endDate": "2026-12-13",
+        "status": "waiting"
+      },
+      {
+        "id": 2,
+        "name": "Dropull i Sipërm",
+        "startDate": "2026-12-14",
+        "endDate": "2026-12-20",
+        "status": "waiting"
+      },
+      {
+        "id": 3,
+        "name": "Pogon",
+        "startDate": "2026-12-21",
+        "endDate": "2026-12-24",
+        "status": "waiting"
+      }
+    ],
+    "startDate": "2026-12-07",
+    "endDate": "2026-12-24",
+    "status": "waiting"
+  },
+  {
+    "id": 9,
     "bashkia": "Vlorë",
     "drejtoriteVendore": [
       "Vlorë"
@@ -438,7 +469,4 @@
     "endDate": "-",
     "status": "waiting"
   }
-
-  
-
 ]
